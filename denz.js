@@ -1,5 +1,6 @@
 // Welcome
 // Ga pahan coding jangan otak atik error nanti
+// Yang ga subrek sc nya ke enc sendiri
 
 const
 	{
@@ -22,56 +23,57 @@ const
 		prepareMessageFromContent, 
 		relayWAMessage
 	} = require("@adiwajshing/baileys")
-let simple = require('./lib/simple.js')
-let WAConnection = simple.WAConnection(_WAConnection)
-let qrcode = require('qrcode-terminal')
-let qrkode = require("qrcode")
-let imageToBase64 = require('image-to-base64')
-let moment = require("moment-timezone")
-let fs = require("fs")
-let axios = require("axios")
-let ffmpeg = require('fluent-ffmpeg')
-let request = require('request')
-let util = require('util')
-let base64Img = require('base64-img')
-let ms = require('parse-ms')
-let figlet = require('figlet')
-let ytsd = require('ytsr')
-let cheerio = require('cheerio')
-let fromData = require('form-data')
-let hx = require("hxz-api");
-let os = require('os')
-let ggs = require('google-it')
-let googleImage = require('g-i-s')
-let toMs = require('ms')
-let crypto = require('crypto')
-let fetch = require('node-fetch')
-let imgbb = require('imgbb-uploader')
-let Math_js = require('mathjs')
-let { EmojiAPI } = require("emoji-api")
-let emoji = new EmojiAPI()
-let { ind } = require('./help/')
-let { msgFilter } = require('./lib/antispam')
-let speed = require('performance-now')
-let { color, bgcolor } = require('./lib/color')
-let { exec, spawn } = require('child_process')
-let { fetchJson } = require('./lib/fetcher')
-let { uploadimg, upload } = require('./lib/uploadimg')
-let { webp2mp4File } = require('./lib/webp2mp4')
-let { lirikLagu } = require('./lib/lirik.js')
-let { wikiSearch } = require('./lib/wiki.js')
-let { herolist } = require('./lib/herolist.js')
-let { herodetails } = require('./lib/herodetail.js')
-let { mediafireDl } = require('./lib/mediafire.js')
-let { pinterest } = require('./lib/pinterest')
-let ig = require("insta-fetcher");
-let yts = require( 'yt-search')
-let brainly = require('brainly-scraper')
-let { addCommands, checkCommands, deleteCommands } = require('./lib/autoresp')
-let { yta, ytv, buffer2Stream, ytsr, baseURI, stream2Buffer, noop } = require('./lib/ytdl')
-let game = require("./lib/game");
-let { getBuffer, getGroupAdmins, getRandom, start, info, success, close } = require('./lib/functions')
-let client = new WAConnection()
+const simple = require('./lib/simple.js')
+const WAConnection = simple.WAConnection(_WAConnection)
+const qrcode = require('qrcode-terminal')
+const qrkode = require("qrcode")
+const imageToBase64 = require('image-to-base64')
+const moment = require("moment-timezone")
+const fs = require("fs")
+const axios = require("axios")
+const ffmpeg = require('fluent-ffmpeg')
+const request = require('request')
+const util = require('util')
+const base64Img = require('base64-img')
+const ms = require('parse-ms')
+const figlet = require('figlet')
+const ytsd = require('ytsr')
+const cheerio = require('cheerio')
+const fromData = require('form-data')
+const hx = require("hxz-api");
+const os = require('os')
+const ggs = require('google-it')
+const googleImage = require('g-i-s')
+const toMs = require('ms')
+const crypto = require('crypto')
+const fetch = require('node-fetch')
+const imgbb = require('imgbb-uploader')
+const Math_js = require('mathjs')
+const { EmojiAPI } = require("emoji-api")
+const emoji = new EmojiAPI()
+const { isLimit, limitAdd, getLimit, giveLimit, addBalance, kurangBalance, getBalance, isGame, gameAdd, givegame, cekGLimit } = require("./lib/limit.js");
+const { ind } = require('./help/')
+const { msgFilter } = require('./lib/antispam')
+const speed = require('performance-now')
+const { color, bgcolor } = require('./lib/color')
+const { exec, spawn } = require('child_process')
+const { fetchJson } = require('./lib/fetcher')
+const { uploadimg, upload } = require('./lib/uploadimg')
+const { webp2mp4File } = require('./lib/webp2mp4')
+const { lirikLagu } = require('./lib/lirik.js')
+const { wikiSearch } = require('./lib/wiki.js')
+const { herolist } = require('./lib/herolist.js')
+const { herodetails } = require('./lib/herodetail.js')
+const { mediafireDl } = require('./lib/mediafire.js')
+const { pinterest } = require('./lib/pinterest')
+const ig = require("insta-fetcher");
+const yts = require( 'yt-search')
+const brainly = require('brainly-scraper')
+const { addCommands, checkCommands, deleteCommands } = require('./lib/autoresp')
+const { yta, ytv, buffer2Stream, ytsr, baseURI, stream2Buffer, noop } = require('./lib/ytdl')
+const game = require("./lib/game");
+const { getBuffer, getGroupAdmins, getRandom, start, info, success, close } = require('./lib/functions')
+const client = new WAConnection()
 
 // STICKER WM
 //let exect = require('await-exec')
@@ -81,33 +83,36 @@ let Exif = require('./lib/exif')
 let exif = new Exif()
 
 // DATABASE
-let afk = JSON.parse(fs.readFileSync('./database/afk.json'))
-let setik = JSON.parse(fs.readFileSync('./database/setik.json'))
-let vien = JSON.parse(fs.readFileSync('./database/vien.json'))
-let imagi = JSON.parse(fs.readFileSync('./database/imagi.json'))
-let bad = JSON.parse(fs.readFileSync('./database/bad.json'))
-let commandsDB = JSON.parse(fs.readFileSync('./database/commands.json'))
-let tictactoe = JSON.parse(fs.readFileSync("./database/tictactoe.json"))
-let antilink = JSON.parse(fs.readFileSync('./database/antilink.json'))
-let welkom = JSON.parse(fs.readFileSync('./database/welkom.json'))
-let nsfw = JSON.parse(fs.readFileSync('./database/nsfw.json'))
-let _user = JSON.parse(fs.readFileSync('./database/user.json'))
-let del = JSON.parse(fs.readFileSync('./database/antidel.json'))
-let mute = JSON.parse(fs.readFileSync('./database/mute.json'))
-let settings = JSON.parse(fs.readFileSync('./settings.json'))
-let kickarea = JSON.parse(fs.readFileSync('./database/kickarea.json'))
-let scommand = JSON.parse(fs.readFileSync('./database/scommand.json'))
-let autosticker = JSON.parse(fs.readFileSync('./database/autosticker.json'))
-let _registered = JSON.parse(fs.readFileSync('./database/registered.json'))
-let _limit = JSON.parse(fs.readFileSync('./database/limit.json'))
-let uang = JSON.parse(fs.readFileSync('./database/uang.json'))
-let ban = JSON.parse(fs.readFileSync('./database/banned.json'))
-let prem = JSON.parse(fs.readFileSync('./database/premium.json'))
+const afk = JSON.parse(fs.readFileSync('./database/afk.json'))
+const setik = JSON.parse(fs.readFileSync('./database/setik.json'))
+const vien = JSON.parse(fs.readFileSync('./database/vien.json'))
+const imagi = JSON.parse(fs.readFileSync('./database/imagi.json'))
+const bad = JSON.parse(fs.readFileSync('./database/bad.json'))
+const commandsDB = JSON.parse(fs.readFileSync('./database/commands.json'))
+const tictactoe = JSON.parse(fs.readFileSync("./database/tictactoe.json"))
+const antilink = JSON.parse(fs.readFileSync('./database/antilink.json'))
+const welkom = JSON.parse(fs.readFileSync('./database/welkom.json'))
+const nsfw = JSON.parse(fs.readFileSync('./database/nsfw.json'))
+const _user = JSON.parse(fs.readFileSync('./database/user.json'))
+const del = JSON.parse(fs.readFileSync('./database/antidel.json'))
+const mute = JSON.parse(fs.readFileSync('./database/mute.json'))
+const settings = JSON.parse(fs.readFileSync('./settings.json'))
+const kickarea = JSON.parse(fs.readFileSync('./database/kickarea.json'))
+const scommand = JSON.parse(fs.readFileSync('./database/scommand.json'))
+const autosticker = JSON.parse(fs.readFileSync('./database/autosticker.json'))
+const _registered = JSON.parse(fs.readFileSync('./database/registered.json'))
+const uang = JSON.parse(fs.readFileSync('./database/uang.json'))
+const ban = JSON.parse(fs.readFileSync('./database/banned.json'))
+const prem = JSON.parse(fs.readFileSync('./database/premium.json'))
+
+//DATABASE LIMIT
+const glimit = JSON.parse(fs.readFileSync('./database/glimit.json'))
+const limit = JSON.parse(fs.readFileSync('./database/limit.json'))
+const balance = JSON.parse(fs.readFileSync('./database/balance.json'));
 
 ky_ttt = []
 tttawal= ["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣"]
 cmhit = []
-limitawal = 10
 autorespon = false
 playmusic = false
 baterai = {
@@ -118,25 +123,46 @@ offline = false
 publik = true
 waktuafk = 'Nothing'
 alasanafk = 'Nothing'
-NomorBot = 'Nothing'
+NomorBot = '1'
 NamaBot = settings.NamaBot
 NomorOwner = settings.NomorOwner
 NamaOwner = settings.NamaOwner
 multi = true
 nopref = false
 menuall = false
-
-//menu > editz.json
+limitawal = "10"
+gcountiprem = "30" 
+gcountiuser = "20" 
 
 //Game
 let tebakgambar = [];
 let family100 = [];
-let tebakanime = []
+let tebakanime = [];
 let caklontong = [];
 let susunkata = [];
+let siapaku = [];
+let tebaklirik = [];
+let asahotak = [];
+let tebakkata = [];
+let tebakkalimat = [];
 let setGelud = require('./lib/gameGelud.js')
-gamewaktu = settings.gamewaktu
+gamewaktu = '60'
 
+//phototoxy
+const { pShadow,
+  pRomantic,
+  pSmoke,
+  pBurnPapper,
+  pNaruto,
+  pLoveMsg,
+  pMsgGrass,
+  pGlitch,
+  pDoubleHeart,
+  pCoffeCup,
+  pLoveText,
+  pButterfly,
+  pCoffeCup2 } = require('./lib/photooxy')
+  
 //Official Bot by @Whatsapp
 wadev = "0@s.whatsapp.net"
 
@@ -145,7 +171,7 @@ HunterApi = settings.HunterApi
 ZeksApi = settings.ZeksApi
 Dapuy = settings.Dapuy
 BagusKey = "bagusgans" // biarin
-Ramlan = "YTRAMLANID"
+Ramlan = "YTRAMLANID" // kalo ada ya ganti
 
 let time = moment().tz('Asia/Jakarta').format("HH:mm:ss")
 
@@ -287,7 +313,7 @@ try {
 		let dana = fs.readFileSync('./img/dana.jpg')
 		cmhit.push(command)
         mess = {
-			wait: '*Loading...*\n\nJika Bot Tidak Merespon, Ulangi Command!',
+			wait: 'Procesing...',
 			success: 'Success',
 			noregis: 'Kamu Belum Verifikasi',
 			banned: 'Akun kamu di banned, silahkan hubungi owner',
@@ -341,31 +367,6 @@ try {
              res = denz.prepareMessageFromContent(from,{ "orderMessage": { "itemCount": 321, "message": teks, "footerText": "BAGUS ID", "thumbnail": ofrply, "surface": 'CATALOG' }}, {quoted:mek})
              denz.relayWAMessage(res)
         }
-        //funclimit
-        
-        const isLimit = (sender) =>{ 
-		      let position = false
-              for (let i of _limit) {
-              if (i.id === sender) {
-              	let limits = i.limit
-              if (limits >= limitawal ) {
-              	  position = true
-                    denz.sendMessage(from, ind.limitend(pushname), text, {quoted: mek})
-                    return true
-              } else {
-              	_limit
-                  position = true
-                  return false
-               }
-             }
-           }
-           if (position === false) {
-           	const obj = { id: sender, limit: 0 }
-                _limit.push(obj)
-                fs.writeFileSync('./database/limit.json',JSON.stringify(_limit))
-           return false
-       }
-     }
 				
         let katalogg = (teks) => {
              res = denz.prepareMessageFromContent(from,{ "orderMessage": { "itemCount": 321, "message": teks, "footerText": "*_© Dcode Denpa_*", "thumbnail": gpy, "surface": 'CATALOG' }}, {quoted:mek})
@@ -378,6 +379,15 @@ try {
         let grupinv = (teks) => {
         	grup = denz.prepareMessageFromContent(from, { "groupInviteMessage": { "groupJid": '6288213840883-1616169743@g.us', "inviteCode": 'https://chat.whatsapp.com/Dgt6JhzTvlmEor8Zz23fHx', "groupName": `${NamaBot}`, "footerText": "*_© Dcode Denpa_*", "jpegThumbnail": ofrply, "caption": teks}}, {quoted:finv})
             denz.relayWAMessage(grup)
+        }
+        function randomNomor(angka){
+         return Math.floor(Math.random() * angka) + 1
+        }
+           function pickRandom(arr) {
+            return arr[Math.floor(Math.random() * arr.length)]
+        }
+        const nebal = (angka) => {
+            return Math.floor(angka)
         }
 		idttt = []
 	    players1 = []
@@ -400,7 +410,8 @@ try {
 		      }
 		let ofrply = await getBuffer(pporang)
 		let sekarang = new Date().getTime();
-			
+		
+        const gcount = isPremium ? gcountiprem : gcountiuser
 			//WAKTU
 			var ase = new Date();
                         var jamss = ase.getHours();
@@ -545,6 +556,23 @@ let finv = {
 		}
 	}
 }
+
+let finv2 = {
+	"key": {
+		"fromMe": false,
+		"participant": "0@s.whatsapp.net",
+		"remoteJid": "0@s.whatsapp.net"
+	},
+	"message": {
+		"groupInviteMessage": {
+			"groupJid": "6288213840883-1616169743@g.us",
+			"inviteCode": `Bagus Bot`,
+			"groupName": `Bagus Bot`, 
+            "caption": `Bagus Bot`, 
+            'jpegThumbnail': dfrply
+		}
+	}
+}
 // STICKER
 let fstick = {
 "key": {
@@ -625,160 +653,7 @@ let sendBug = async (target) => {
           {}
         ),{ waitForAck: true }) 
     }
-    
-    const getLevelingXp = (sender) => {
-            let position = false
-            Object.keys(_level).forEach((i) => {
-                if (_level[i].id === sender) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                return _level[position].xp
-            }
-        }
-
-        const getLevelingLevel = (sender) => {
-            let position = false
-            Object.keys(_level).forEach((i) => {
-                if (_level[i].id === sender) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                return _level[position].level
-            }
-        }
-
-        const getLevelingId = (sender) => {
-            let position = false
-            Object.keys(_level).forEach((i) => {
-                if (_level[i].id === sender) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                return _level[position].id
-            }
-        }
-
-        const addLevelingXp = (sender, amount) => {
-            let position = false
-            Object.keys(_level).forEach((i) => {
-                if (_level[i].id === sender) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                _level[position].xp += amount
-                fs.writeFileSync('./database/level.json', JSON.stringify(_level))
-            }
-        }
-
-        const addLevelingLevel = (sender, amount) => {
-            let position = false
-            Object.keys(_level).forEach((i) => {
-                if (_level[i].id === sender) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                _level[position].level += amount
-                fs.writeFileSync('./database/level.json', JSON.stringify(_level))
-            }
-        }
-
-        const addLevelingId = (sender) => {
-            const obj = {id: sender, xp: 1, level: 1}
-            _level.push(obj)
-            fs.writeFileSync('./database/level.json', JSON.stringify(_level))
-        }
-        
-    const addATM = (sender) => {
-        	const obj = {id: sender, uang : 0}
-            uang.push(obj)
-            fs.writeFileSync('./database/uang.json', JSON.stringify(uang))
-        }
-        
-        const addKoinUser = (sender, amount) => {
-            let position = false
-            Object.keys(uang).forEach((i) => {
-                if (uang[i].id === sender) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                uang[position].uang += amount
-                fs.writeFileSync('./database/uang.json', JSON.stringify(uang))
-            }
-        }
-        
-    const checkATMuser = (sender) => {
-        	let position = false
-            Object.keys(uang).forEach((i) => {
-                if (uang[i].id === sender) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                return uang[position].uang
-            }
-        }
-        
-    const confirmATM = (sender, amount) => {
-        	let position = false
-            Object.keys(uang).forEach((i) => {
-                if (uang[i].id === sender) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                uang[position].uang -= amount
-                fs.writeFileSync('./database/uang.json', JSON.stringify(uang))
-            }
-        }
-        
-    const bayarLimit = (sender, amount) => {
-        	let position = false
-            Object.keys(_limit).forEach((i) => {
-                if (_limit[i].id === sender) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                _limit[position].limit -= amount
-                fs.writeFileSync('./database/limit.json', JSON.stringify(_limit))
-            }
-        }
-        
-        const checkLimit = (sender) => {
-          	let found = false
-                    for (let lmt of _limit) {
-                        if (lmt.id === sender) {
-                            let limitLu = limitawal - lmt.limit
-                            if (limitLu <= 0) return client.sendMessage(from,`Limit request anda sudah habis\n\n_Note : limit bisa di dapatkan dengan cara ${prefix}buylimit dan dengan naik level_`, text,{ quoted: mek})
-                            found = true
-                        }
-                    }
-                    if (found === false) {
-                        let obj = { id: sender, limit: 0 }
-                        _limit.push(obj)
-                        fs.writeFileSync('./database/limit.json', JSON.stringify(_limit))
-                    }
-				}
-				
-         const limitAdd = (sender) => {
-             let position = false
-            Object.keys(_limit).forEach((i) => {
-                if (_limit[i].id == sender) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                _limit[position].limit += 1
-                fs.writeFileSync('./database/limit.json', JSON.stringify(_limit))
-            }
-        }
+ 
     let getRegisteredRandomId = () => {
 return _registered[Math.floor(Math.random() * _registered.length)].id
 }
@@ -823,8 +698,8 @@ return crypto.randomBytes(size).toString('hex').slice(0, size)
 }
 
 ///Button Text
-let sendButMessage = (id, text1, desc1, but = [], options = {}) => {
-let buttonMessage = {
+const sendButMessage = (id, text1, desc1, but = [], options = {}) => {
+const buttonMessage = {
 contentText: text1,
 footerText: desc1,
 buttons: but,
@@ -833,10 +708,10 @@ headerType: 1
 denz.sendMessage(id, buttonMessage, MessageType.buttonsMessage, options)
 }
 ///Button Image
-let sendButImage = async(id, text1, desc1, gam1, but = [], options = {}) => {
+const sendButImage = async(id, text1, desc1, gam1, but = [], options = {}) => {
 kma = gam1
 mhan = await denz.prepareMessage(from, kma, image)
-let buttonMessages = {
+const buttonMessages = {
 imageMessage: mhan.message.imageMessage,
 contentText: text1,
 footerText: desc1,
@@ -846,10 +721,10 @@ headerType: 4
 denz.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
 }
 ///Button Video
-let sendButVideo = async(id, text1, desc1, vid1, but = [], options = {}) => {
+const sendButVideo = async(id, text1, desc1, vid1, but = [], options = {}) => {
 kma = vid1
 mhan = await denz.prepareMessage(from, kma, video)
-let buttonMessages = {
+const buttonMessages = {
 videoMessage: mhan.message.videoMessage,
 contentText: text1,
 footerText: desc1,
@@ -859,10 +734,10 @@ headerType: 5
 denz.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
 }
 ///Button Location
-let sendButLocation = async (id, text1, desc1, gam1, but = [], options = {}) => {
+const sendButLocation = async (id, text1, desc1, gam1, but = [], options = {}) => {
 kma = gam1
 mhan = await denz.prepareMessage(from, kma, location)
-let buttonMessages = {
+const buttonMessages = {
 locationMessage: mhan.message.locationMessage,
 contentText: text1,
 footerText: desc1,
@@ -871,17 +746,7 @@ headerType: 6
 }
 denz.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
 }
-//Balance
-if (isRegistered ) {
-            const checkATM = checkATMuser(sender)
-            try {
-                if (checkATM === undefined) addATM(sender)
-                const uangsaku = Math.floor(Math.random() * 10) + 90
-                addKoinUser(sender, uangsaku)
-            } catch (err) {
-                console.error(err)
-            }
-        }
+
  if (!mek.key.remoteJid.endsWith('@g.us') && offline){
 			if (!mek.key.fromMe){
             if (isAfk(mek.key.remoteJid)) return
@@ -908,7 +773,7 @@ if (isRegistered ) {
 				}
 			}
 		}
-		let sendStickerUrl = async(to, url) => {
+		const sendStickerUrl = async(to, url) => {
 			console.log(color(time, 'magenta'), color(moment.tz('Asia/Jakarta').format('HH:mm:ss'), "gold"), color('Downloading sticker'))
 				var names = getRandom('.webp')
 				var namea = getRandom('.png')
@@ -930,7 +795,7 @@ if (isRegistered ) {
 					});
 				});
 			}
-        let sendWebp = async(from, url) => {
+        const sendWebp = async(from, url) => {
                 var names = Date.now() / 10000;
                 var download = function (uri, filename, callback) {
                     request.head(uri, function (err, res, body) {
@@ -972,6 +837,9 @@ if (isRegistered ) {
 		let textreply = (teks) => {
 			denz.sendMessage(from, teks, text, {quoted:mek})
 		}
+		let noreply = (teks) => {
+			denz.sendMessage(from, teks, text)
+		}
 		let simir = (teks) => {
 			denz.sendMessage(from, teks, text, { quoted:ftrol })
 		}
@@ -985,55 +853,626 @@ if (isRegistered ) {
 			(id == null || id == undefined || id == false) ? denz.sendMessage(from, teks.trim(), extendedText, { contextInfo: { "mentionedJid": memberr } }) : denz.sendMessage(from, teks.trim(), extendedText, { quoted: mek, contextInfo: { "mentionedJid": memberr } })
 		}
 		
+		// Auto Regis
+		const isUser = _registered.includes(sender)
+		
+			if (isCmd && !isUser){
+			_registered.push(sender)
+			fs.writeFileSync('./database/registered.json', JSON.stringify(_registered))
+        } 
+        
 		//GAME
-			const isUser = _registered.includes(sender)
-			game.cekWaktuFam(denz, family100)
-            game.cekWaktuTG(denz, tebakgambar)
-            game.cekWaktuSK(denz, susunkata)
-            game.cekWaktuCL(denz, caklontong)
-            game.cekWaktuTA(denz, tebakanime)
+		
+		//TEBAKKATA
+		const addtebakkata = (chatId, jawaban, expired, _db) => {
+    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
+    _db.push(obi)
+}
+const getjawabanTK = (chatId, _db) => {
+    let found = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            found = i
+        }
+    })
+    if (found !== false) {
+        return _db[found].jawaban
+    }
+}
+const isTebakKata = (chatId, _db) => {
+    let status = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            status = true
+        }
+    })
+    return status
+}
+const cekWaktuTK = (denz, _dir) => {
+    setInterval(() => {
+        let position = null
+        Object.keys(_dir).forEach((i) => {
+            if (Date.now() >= _dir[i].expired) {
+                position = i
+            }
+        })
+        if (position !== null) {
+            sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'tebakkata',buttonText: {displayText: 'Tebak Kata'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+            _dir.splice(position, 1)
+        }
+    }, 1000)
+}
+const getKataPosi = (chatId, _db) => {
+    let position = null
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return position
+    }
+}
+//LIRIK
+		const addtebaklirik = (chatId, jawaban, expired, _db) => {
+    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
+    _db.push(obi)
+}
+const getJawabanTL = (chatId, _db) => {
+    let found = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            found = i
+        }
+    })
+    if (found !== false) {
+        return _db[found].jawaban
+    }
+}
+const isTebakLirik = (chatId, _db) => {
+    let status = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            status = true
+        }
+    })
+    return status
+}
+const cekWaktuTL = (denz, _dir) => {
+    setInterval(() => {
+        let position = null
+        Object.keys(_dir).forEach((i) => {
+            if (Date.now() >= _dir[i].expired) {
+                position = i
+            }
+        })
+        if (position !== null) {
+            sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'tebaklirik',buttonText: {displayText: 'Tebak Lirik'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+            _dir.splice(position, 1)
+        }
+    }, 1000)
+}
+const getLirikPosi = (chatId, _db) => {
+    let position = null
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return position
+    }
+}
+
+// ASAH OTAK
+const addasahotak = (chatId, jawaban, expired, _db) => {
+    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
+    _db.push(obi)
+}
+const getJawabanAO = (chatId, _db) => {
+    let found = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            found = i
+        }
+    })
+    if (found !== false) {
+        return _db[found].jawaban
+    }
+}
+const isAsahOtak= (chatId, _db) => {
+    let status = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            status = true
+        }
+    })
+    return status
+}
+const cekWaktuAO = (denz, _dir) => {
+    setInterval(() => {
+        let position = null
+        Object.keys(_dir).forEach((i) => {
+            if (Date.now() >= _dir[i].expired) {
+                position = i
+            }
+        })
+        if (position !== null) {
+            sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'asahotak',buttonText: {displayText: 'Asah Otak'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+            _dir.splice(position, 1)
+        }
+    }, 1000)
+}
+const getOtakPosi = (chatId, _db) => {
+    let position = null
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return position
+    }
+}
+
+		// TEBAK GAMBAR
+const addgambar = (chatId, jawaban, expired, _db) => {
+    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
+    _db.push(obi)
+}
+const getJawabanTG = (chatId, _db) => {
+    let found = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            found = i
+        }
+    })
+    if (found !== false) {
+        return _db[found].jawaban
+    }
+}
+const isTebakGambar = (chatId, _db) => {
+    let status = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            status = true
+        }
+    })
+    return status
+}
+const cekWaktuTG = (denz, _dir) => {
+    setInterval(() => {
+        let position = null
+        Object.keys(_dir).forEach((i) => {
+            if (Date.now() >= _dir[i].expired) {
+                position = i
+            }
+        })
+        if (position !== null) {
+            sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'tebakgambar',buttonText: {displayText: 'Tebak Gambar'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+            _dir.splice(position, 1)
+        }
+    }, 1000)
+}
+const getTGPosi = (chatId, _db) => {
+    let position = null
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return position
+    }
+}
+// Family 100
+const addfam = (chatId, jawaban, expired, _db) => {
+    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
+    _db.push(obi)
+}
+const getjawaban100 = (chatId, _db) => {
+    let found = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            found = i
+        }
+    })
+    if (found !== false) {
+        return _db[found].jawaban
+    }
+}
+const isfam = (chatId, _db) => {
+    let status = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            status = true
+        }
+    })
+    return status
+}
+const cekWaktuFam = (denz, _dir) => {
+    setInterval(() => {
+        let position = null
+        Object.keys(_dir).forEach((i) => {
+            if (Date.now() >= _dir[i].expired) {
+                position = i
+            }
+        })
+        if (position !== null) {
+            var juwu = `*Waktu habis*\n\n*Jawaban yang belum terjawab :*\n\n`
+            aae = _dir[position].jawaban
+            for (let i of aae){
+                juwu += `${i}\n`
+            }
+            denz.sendMessage(_dir[position].id, juwu, MessageType.text)
+            _dir.splice(position, 1)
+        }
+    }, 1000)
+}
+const getfamposi = (chatId, _dir) => {
+    let position = null
+    Object.keys(_dir).forEach((i) => {
+        if (_dir[i].id === chatId) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return position
+    }
+}
+// TEBAK ANIME
+const addnime = (chatId, jawaban, expired, _db) => {
+    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
+    _db.push(obi)
+}
+const getJawabanTA = (chatId, _db) => {
+    let found = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            found = i
+        }
+    })
+    if (found !== false) {
+        return _db[found].jawaban
+    }
+}
+const isTebakAnime = (chatId, _db) => {
+    let status = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            status = true
+        }
+    })
+    return status
+}
+const cekWaktuTA = (denz, _dir) => {
+    setInterval(() => {
+        let position = null
+        Object.keys(_dir).forEach((i) => {
+            if (Date.now() >= _dir[i].expired) {
+                position = i
+            }
+        })
+        if (position !== null) {
+            sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'tebakanime',buttonText: {displayText: 'Tebak Anime'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+            _dir.splice(position, 1)
+        }
+    }, 1000)
+}
+const getTAPosi = (chatId, _db) => {
+    let position = null
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return position
+    }
+}
+// CAK LONTONG
+const addlontong = (chatId, jawaban, expired, _db) => {
+    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
+    _db.push(obi)
+}
+const getJawabanCL = (chatId, _db) => {
+    let found = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            found = i
+        }
+    })
+    if (found !== false) {
+        return _db[found].jawaban
+    }
+}
+const isCakLontong = (chatId, _db) => {
+    let status = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            status = true
+        }
+    })
+    return status
+}
+const cekWaktuCL = (denz, _dir) => {
+    setInterval(() => {
+        let position = null
+        Object.keys(_dir).forEach((i) => {
+            if (Date.now() >= _dir[i].expired) {
+                position = i
+            }
+        })
+        if (position !== null) {
+            sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'caklontong',buttonText: {displayText: 'Cak Lontong'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+            _dir.splice(position, 1)
+        }
+    }, 1000)
+}
+const getLontongPosi = (chatId, _db) => {
+    let position = null
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return position
+    }
+}
+
+// SUSUN KATA
+const addskata = (chatId, jawaban, expired, _db) => {
+    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
+    _db.push(obi)
+}
+const getjawabanSK = (chatId, _db) => {
+    let found = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            found = i
+        }
+    })
+    if (found !== false) {
+        return _db[found].jawaban
+    }
+}
+const isSusunKata = (chatId, _db) => {
+    let status = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            status = true
+        }
+    })
+    return status
+}
+const cekWaktuSK = (denz, _dir) => {
+    setInterval(() => {
+        let position = null
+        Object.keys(_dir).forEach((i) => {
+            if (Date.now() >= _dir[i].expired) {
+                position = i
+            }
+        })
+        if (position !== null) {
+            sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'susunkata',buttonText: {displayText: 'Susun Kata'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+            _dir.splice(position, 1)
+        }
+    }, 1000)
+}
+const getSKPosi = (chatId, _dir) => {
+    let position = null
+    Object.keys(_dir).forEach((i) => {
+        if (_dir[i].id === chatId) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return position
+    }
+}
+// SIAPA AKU
+const addsaku = (chatId, jawaban, expired, _db) => {
+    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
+    _db.push(obi)
+}
+const getjawabanSA = (chatId, _db) => {
+    let found = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            found = i
+        }
+    })
+    if (found !== false) {
+        return _db[found].jawaban
+    }
+}
+const isSiapaAku = (chatId, _db) => {
+    let status = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            status = true
+        }
+    })
+    return status
+}
+const cekWaktuSA = (denz, _dir) => {
+    setInterval(() => {
+        let position = null
+        Object.keys(_dir).forEach((i) => {
+            if (Date.now() >= _dir[i].expired) {
+                position = i
+            }
+        })
+        if (position !== null) {
+        	sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'siapaaku',buttonText: {displayText: 'Siapa Aku'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+            _dir.splice(position, 1)
+        }
+    }, 1000)
+}
+const getSAPosi = (chatId, _dir) => {
+    let position = null
+    Object.keys(_dir).forEach((i) => {
+        if (_dir[i].id === chatId) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return position
+    }
+}
+//tebakkalimat
+const addtkalimat = (chatId, jawaban, expired, _db) => {
+    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
+    _db.push(obi)
+}
+const getjawabanTKA = (chatId, _db) => {
+    let found = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            found = i
+        }
+    })
+    if (found !== false) {
+        return _db[found].jawaban
+    }
+}
+const isTebakKalimat = (chatId, _db) => {
+    let status = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            status = true
+        }
+    })
+    return status
+}
+const cekWaktuTKA = (denz, _dir) => {
+    setInterval(() => {
+        let position = null
+        Object.keys(_dir).forEach((i) => {
+            if (Date.now() >= _dir[i].expired) {
+                position = i
+            }
+        })
+        if (position !== null) {
+        	sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'siapaaku',buttonText: {displayText: 'Siapa Aku'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+            _dir.splice(position, 1)
+        }
+    }, 1000)
+}
+const getKalimatPosi = (chatId, _dir) => {
+    let position = null
+    Object.keys(_dir).forEach((i) => {
+        if (_dir[i].id === chatId) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return position
+    }
+}
+
+		//GAME
+		    const hadiahwin = randomNomor(500)
+			cekWaktuFam(denz, family100)
+            cekWaktuTG(denz, tebakgambar)
+            cekWaktuSK(denz, susunkata)
+            cekWaktuCL(denz, caklontong)
+            cekWaktuTA(denz, tebakanime)
+            cekWaktuSA(denz, siapaku)
+            cekWaktuTL(denz, tebaklirik)
+            cekWaktuAO(denz, asahotak)
+            cekWaktuTK(denz, tebakkata)
+            cekWaktuTKA(denz, tebakkalimat)
          //Function Game
          
-         if (game.isSusunKata(from, susunkata) && isUser){
-            if (budy.toLowerCase().includes(game.getjawabanSK(from, susunkata))){
-                sendButMessage(from, `*Selamat jawaban kamu benar 🎉*\n\n*Jawaban :* ${game.getjawabanSK(from, susunkata)}`, "Ingin bermain lagi?", [{buttonId: 'susunkata',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
-                susunkata.splice(game.getSKPosi(from, susunkata), 1)
+         if (isSusunKata(from, susunkata) && isUser){
+         	addBalance(sender, hadiahwin, balance)
+            if (budy.toLowerCase().includes(getjawabanSK(from, susunkata))){
+                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getjawabanSK(from, susunkata)}\nHadiah : ${hadiahwin} Balance`, "Susun Kata", [{buttonId: 'susunkata',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                susunkata.splice(getSKPosi(from, susunkata), 1)
             }
         }
         
-            if (game.isTebakGambar(from, tebakgambar) && isUser){
-            if (budy.toLowerCase().includes(game.getJawabanTG(from, tebakgambar))){
-                sendButMessage(from, `*Selamat jawaban kamu benar 🎉*\n\n*Jawaban :* ${game.getJawabanTG(from, tebakgambar)}`, "Ingin bermain lagi?", [{buttonId: 'tebakgambar',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
-                tebakgambar.splice(game.getTGPosi(from, tebakgambar), 1)
+        if (isTebakKalimat(from, tebakkalimat) && isUser){
+        	addBalance(sender, hadiahwin, balance)
+            if (budy.toLowerCase().includes(getjawabanTKA(from, tebakkalimat))){
+                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getjawabanTKA(from, tebakkalimat)}\nHadiah : ${hadiahwin} Balance`, "Tebak Kalimat", [{buttonId: 'tebakkalimat',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                tebakkalimat.splice(getKalimatPosi(from, tebakkalimat), 1)
             }
         }
         
-        if (game.isTebakAnime(from, tebakanime) && isUser){
-            if (budy.toLowerCase().includes(game.getJawabanTA(from, tebakanime))){
-                sendButMessage(from, `*Selamat jawaban kamu benar 🎉*\n\n*Jawaban :* ${game.getJawabanTA(from, tebakanime)}`, "Ingin bermain lagi?", [{buttonId: 'tebakanime',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
-                tebakanime.splice(game.getTAPosi(from, tebakanime), 1)
+        if (isTebakKata(from, tebakkata) && isUser){
+            if (budy.toLowerCase().includes(getjawabanTK(from, tebakkata))){
+            	addBalance(sender, hadiahwin, balance)
+                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getjawabanTK(from, tebakkata)}\nHadiah : ${hadiahwin} Balance`, "Tebak Kata", [{buttonId: 'tebakkata',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                tebakkata.splice(getKataPosi(from, tebakkata), 1)
             }
         }
         
-        if (game.isCakLontong(from, caklontong) && isUser){
-            if (budy.toLowerCase().includes(game.getJawabanCL(from, caklontong))){
-                sendButMessage(from, `*Selamat jawaban kamu benar 🎉*\n\n*Jawaban :* ${game.getJawabanCL(from, caklontong)}`, "Ingin bermain lagi?", [{buttonId: 'caklontong',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
-                caklontong.splice(game.getLontongPosi(from, caklontong), 1)
+            if (isTebakGambar(from, tebakgambar) && isUser){
+            if (budy.toLowerCase().includes(getJawabanTG(from, tebakgambar))){
+            	addBalance(sender, hadiahwin, balance)
+                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanTG(from, tebakgambar)}\nHadiah : ${hadiahwin} Balance`, "Tebak Gambar", [{buttonId: 'tebakgambar',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                tebakgambar.splice(getTGPosi(from, tebakgambar), 1)
             }
         }
         
-        if (game.isfam(from, family100) && isUser){
-            var anjuy = game.getjawaban100(from, family100)
+        if (isTebakAnime(from, tebakanime) && isUser){
+            if (budy.toLowerCase().includes(getJawabanTA(from, tebakanime))){
+            	addBalance(sender, hadiahwin, balance)
+                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanTA(from, tebakanime)}\nHadiah : ${hadiahwin} Balance`, "Tebak Anime", [{buttonId: 'tebakanime',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                tebakanime.splice(getTAPosi(from, tebakanime), 1)
+            }
+        }
+        
+        if (isCakLontong(from, caklontong) && isUser){
+            if (budy.toLowerCase().includes(getJawabanCL(from, caklontong))){
+            	addBalance(sender, hadiahwin, balance)
+                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanCL(from, caklontong)}\nHadiah : ${hadiahwin} Balance`, "Cak Lontong", [{buttonId: 'caklontong',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                caklontong.splice(getLontongPosi(from, caklontong), 1)
+            }
+        }
+        
+        if (isSiapaAku(from, siapaku) && isUser){
+            if (budy.toLowerCase().includes(getjawabanSA(from, siapaku))){
+            	addBalance(sender, hadiahwin, balance)
+                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanSA(from, siapaku)}\nHadiah : ${hadiahwin} Balance`, "Siapakah Aku?", [{buttonId: 'siapaaku',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                siapaku.splice(getSAPosi(from, siapaku), 1)
+            }
+        }
+        
+        if (isAsahOtak(from, asahotak) && isUser){
+            if (budy.toLowerCase().includes(getJawabanAO(from, asahotak))){
+            	addBalance(sender, hadiahwin, balance)
+                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanAo(from, asahotak)}\nHadiah : ${hadiahwin} Balance`, "Asah Otak", [{buttonId: 'asahotak',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                asahotak.splice(getOtakPosi(from, asahotak), 1)
+            }
+        }
+        
+        if (isTebakLirik(from, tebaklirik) && isUser){
+            if (budy.toLowerCase().includes(getJawabanTL(from, tebaklirik))){
+                addBalance(sender, hadiahwin, balance)
+                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanTL(from, tebaklirik)}\nHadiah : ${hadiahwin} Balance`, "Tebak Lirik", [{buttonId: 'tebaklirik',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                tebaklirik.splice(getLirikPosi(from, tebaklirik), 1)
+            }
+        }
+        
+       
+        if (isfam(from, family100) && isUser){
+            let anjuy = getjawaban100(from, family100)
             for (let i of anjuy){
                 if (budy.toLowerCase().includes(i)){
-                    await reply(`*Jawaban benar*\n*Jawaban :* ${i}\n*Jawaban yang blum tertebak :* ${anjuy.length - 1}`)
-                    var anug = anjuy.indexOf(i)
+                    let htgmi = Math.floor(Math.random() * 20) + 1
+                    addBalance(sender, htgmi, balance)
+                    await reply(`*Jawaban benar*\n*Jawaban :* ${i}\n*Hadiah :* $${htgmi}\n*Jawaban yang blum tertebak :* ${anjuy.length - 1}`)
+                    let anug = anjuy.indexOf(i)
                     anjuy.splice(anug, 1)
                 }
             }
             if (anjuy.length < 1){
                 denz.sendMessage(from, `Semua jawaban sudah tertebak\nKirim *${prefix}family100* untuk bermain lagi`, text)
-                family100.splice(game.getfamposi(from, family100), 1)
+                family100.splice(getfamposi(from, family100), 1)
             }
         }
         
@@ -1210,28 +1649,7 @@ denz.updatePresence(from, Presence.recording)
   const buruh11 = buruhlaut[Math.floor(Math.random() * (buruhlaut.length))]
   const buruh22 = buruhdarat[Math.floor(Math.random() * (buruhdarat.length))]
   const buruh33 = buruhudara[Math.floor(Math.random() * (buruhudara.length))]
-   let sotoy = [
-        '🍊 : 🍒 : 🍐',
-        '🍒 : 🔔 : 🍊',
-        '🍇 : 🍇 : 🍐',
-        '🍊 : 🍋 : 🔔', //ANKER
-        '🔔 : 🍒 : 🍐',
-        '🔔 : 🍒 : 🍊',
-        '🍊 : 🍋 : 🔔',        
-        '🍐 : 🍒 : 🍋',
-        '🍐 : 🍒 : 🍐',
-        '🍒 : 🍒 : 🍒',
-        '🔔 : 🔔 : 🍇',
-        '🍌 : 🍌 : 🔔',
-        '🍐 : 🔔 : 🔔',
-        '🍊 : 🍋 : 🍒',
-        '🍋 : 🍋 : 🍋',
-        '🔔 : 🔔 : 🍇',
-        '🔔 : 🍇 : 🍇', 
-        '🔔 : 🍐 : 🔔',
-        '🍌 : 🍌 : 🍌'
-        ]
-
+   
         let isStcMedia = isStc !== "" && content.includes("quotedMessage") && !content.includes("extendedTextMessage") || isStc !== "" && content.includes("quotedMessage") && !content.includes("conversation")
 	    let isStcVideo = isStcMedia && content.includes("videoMessage")
 	    let isStcImage = isStcMedia && content.includes("imageMessage")
@@ -1263,444 +1681,461 @@ denz.updatePresence(from, Presence.recording)
         reply(su)
 				}
         switch (command) {
-        	case 'menu': case 'help':
-        if (isBanned) return reply(mess.banned)
-            sendButLocation(from, `B a g u s - B o t`, "Jika ada bug lapor ya kak, buton tidak muncul? ketik !allmenu.", {jpegThumbnail:ofrply,name:""}, [{buttonId:`allmenu`,buttonText:{displayText:'Menu'},type:1},{buttonId:`owner`,buttonText:{displayText:'Owner'},type:1}], {contextInfo: { mentionedJid: [sender]}})
-            break
-          case 'allmenu':
-        case 'allcmd':
-  if (isBanned) return reply(mess.banned)
+          case 'menu':
+        case 'help':
+  runtime = process.uptime()
+  stst = await denz.getStatus(`${sender.split('@')[0]}@c.us`)
+				stst = stst.status == 401 ? '' : stst.status
            stod = `${sender}`
-			num = await fetchJson(`https://api.telnyx.com/anonymous/v2/number_lookup/${senderNumber}`, {method: 'get'})
-fill =`Hi kak, ${pushname} 👋 [ @${stod.split('@')[0]} ] `
-menu =`╭─❒ ⌜ Main ⌟
-├ • ${prefix}menu
-├ • ${prefix}allmenu
-├ • ${prefix}info
-├ • ${prefix}runtime
-├ • ${prefix}donasi
-├ • ${prefix}sourcecode
-└❏
+menu =`Selamat ${tampilUcapan} - @${stod.split('@')[0]}
 
-╭─❒ ⌜ Owner ⌟
-├ • ${prefix}ban
-├ • ${prefix}unban
-├ • ${prefix}addprem
-├ • ${prefix}dellprem
-├ • ${prefix}banlist
-├ • ${prefix}premiumlist
-└❏
- 
-╭─❒ ⌜ Group ⌟
-├ • ${prefix}getpict @tag
-├ • ${prefix}getname reply target
-├ • ${prefix}getbio reply target
-├ • ${prefix}promote @tag
-├ • ${prefix}demote @tag
-├ • ${prefix}welcome enable/disable
-├ • ${prefix}antilink enable/disable
-├ • ${prefix}nsfw enable/disable
-├ • ${prefix}creategrup nama|@tag
-├ • ${prefix}getpp
-├ • ${prefix}kick @tag
-├ • ${prefix}add nomor
-├ • ${prefix}getdeskgc
-├ • ${prefix}sider reply chat bot
-├ • ${prefix}hacked teks
-├ • ${prefix}setnamegc teks
-├ • ${prefix}setdeskgc teks
-├ • ${prefix}fitnah @tag|teks1|teks2
-├ • ${prefix}kontak @tag|nama
-├ • ${prefix}kontag @tag|nama
-├ • ${prefix}opengc
-├ • ${prefix}closegc
-├ • ${prefix}resetlinkgc
-├ • ${prefix}linkgrup
-├ • ${prefix}tagall
-├ • ${prefix}hidetag teks
-├ • ${prefix}sticktag reply
-├ • ${prefix}totag reply
-└❏
+*_Bot Info :_*
+_Name : ${NamaBot}_
+_Owner : @${otod.split('@')[0]}_
+_Lib : Baileys_
+_Prefix : ${multi ? 'Multi Prefix' : 'No Prefix'}_
+_Runtime : ${waktu(runtime)}_
+_Language : Javascript_
+_TotalHit : ${cmhit.length}_
 
-╭─❒ ⌜ Sticker ⌟
-├ • ${prefix}sticker
-├ • ${prefix}stickerwm nama|author
-├ • ${prefix}semoji emoji
-├ • ${prefix}smeme atas|bawah
-├ • ${prefix}attp teks
-├ • ${prefix}ttp teks
-├ • ${prefix}ttp2 teks
-├ • ${prefix}doge
-├ • ${prefix}patrick
-├ • ${prefix}sticknime
-└❏
+*_User Info :_*
+_Name : ${pushname}_
+_Bio : ${stst}_
+_Nomor : @${stod.split('@')[0]}_
+_Status : ${isOwner ? 'Owner': isPremium ? 'Premium' : 'Not Premium'}_
+_Limit : ${isOwner?`Owner`:isPremium ? `Unlimited` : `${getLimit(sender, limitawal, limit)} / ${limitawal}`}_
+_Limit Game : ${cekGLimit(sender, gcount, glimit)} / ${gcount}_
+_Balance : $${getBalance(sender, balance)}_
 
-╭─❒ ⌜ Convert ⌟
-├ • ${prefix}tts kodebhs teks
-├ • ${prefix}tourl
-├ • ${prefix}toimg
-├ • ${prefix}tomp3
-├ • ${prefix}tomp4
-└❏
+_*❒ ── ⌜ Main ⌟*_
+_• ${prefix}menu_
+_• ${prefix}allmenu_
+_• ${prefix}listmsg_
+_• ${prefix}info_
+_• ${prefix}runtime_
+_• ${prefix}donasi_
+_• ${prefix}sourcecode_
 
-╭─❒ ⌜ Game ⌟
-├ • ${prefix}tictactoe @tag
-├ • ${prefix}gelud @tag
-├ • ${prefix}tebakgambar
-├ • ${prefix}tebakanime
-├ • ${prefix}family100
-├ • ${prefix}caklontong
-├ • ${prefix}susunkata
-├ • ${prefix}slots
-├ • ${prefix}dadu
-├ • ${prefix}suit *gunting/batu/kertas*
-├ • ${prefix}tembak *udara/darat/laut*
-└❏
+_*❒ ── ⌜ Owner ⌟*_
+_• ${prefix}ban_
+_• ${prefix}unban_
+_• ${prefix}addprem_
+_• ${prefix}dellprem_
+_• ${prefix}banlist_
+_• ${prefix}premiumlist_
+_• ${prefix}setlimit_
+_• ${prefix}resetlimit_
 
-╭─❒ ⌜ Sesi ⌟
-├ • ${prefix}delttt
-├ • ${prefix}delgelud
-└❏
+_*❒ ── ⌜ Uang ⌟*_
+_• ${prefix}topbalance_
+_• ${prefix}toplimit_
+_• ${prefix}topglimit_
+_• ${prefix}limit_
+_• ${prefix}balance_
+_• ${prefix}buylimit_
+_• ${prefix}buyglimit_
+_• ${prefix}giftlimit_
+_• ${prefix}giftglimit_
 
-╭─❒ ⌜ Fun ⌟
-├ • ${prefix}bisakah teks
-├ • ${prefix}apakah teks
-├ • ${prefix}kapankah teks
-├ • ${prefix}watak
-├ • ${prefix}jadian
-├ • ${prefix}hobby
-├ • ${prefix}rate
-├ • ${prefix}truth
-├ • ${prefix}dare
-├ • ${prefix}cerpen
-├ • ${prefix}pantun
-├ • ${prefix}quotes
-├ • ${prefix}faktaunik
-├ • ${prefix}seberapagay @tag
-├ • ${prefix}cekbapak @tag
-└❏
+_*❒ ── ⌜ Group ⌟*_
+_• ${prefix}getpict @tag_
+_• ${prefix}getname reply target_
+_• ${prefix}getbio reply target_
+_• ${prefix}promote @tag_
+_• ${prefix}demote @tag_
+_• ${prefix}welcome enable/disable_
+_• ${prefix}antilink enable/disable_
+_• ${prefix}nsfw enable/disable_
+_• ${prefix}creategrup nama|@tag_
+_• ${prefix}getpp_
+_• ${prefix}kick @tag_
+_• ${prefix}add nomor_
+_• ${prefix}getdeskgc_
+_• ${prefix}sider reply chat bot_
+_• ${prefix}hacked teks_
+_• ${prefix}setnamegc teks_
+_• ${prefix}setdeskgc teks_
+_• ${prefix}fitnah @tag|teks1|teks2_
+_• ${prefix}kontak @tag|nama_
+_• ${prefix}kontag @tag|nama_
+_• ${prefix}opengc_
+_• ${prefix}closegc_
+_• ${prefix}resetlinkgc_
+_• ${prefix}linkgrup_
+_• ${prefix}tagall_
+_• ${prefix}hidetag teks__
+_• ${prefix}sticktag reply_
+_• ${prefix}totag reply_
 
-╭─❒ ⌜ Islam ⌟
-├ • ${prefix}alquran
-├ • ${prefix}wallpaperislam
-├ • ${prefix}kisahnabi nabi
-├ • ${prefix}jadwalsholat daerah
-├ • ${prefix}asmaulhusna
-├ • ${prefix}hadistsahih kitab|no
-└❏
+_*❒ ── ⌜ Sticker ⌟*_
+_• ${prefix}sticker_
+_• ${prefix}stickerwm nama|author_
+_• ${prefix}semoji emoji_
+_• ${prefix}smeme atas|bawah_
+_• ${prefix}smeme-a teks_
+_• ${prefix}smeme-b teks_
+_• ${prefix}attp teks_
+_• ${prefix}ttp teks_
+_• ${prefix}ttp2 teks_
+_• ${prefix}ttp3 teks_
+_• ${prefix}doge_
+_• ${prefix}patrick_
+_• ${prefix}gura_
+_• ${prefix}sticknime_
 
-╭─❒ ⌜ Maker ⌟
-├ • ${prefix}tahta teks
-├ • ${prefix}nulis teks
-├ • ${prefix}blueneon teks
-├ • ${prefix}breakwall teks
-├ • ${prefix}skytext teks
-├ • ${prefix}pubglogo teks1 teks2
-├ • ${prefix}epeplogo teks
-├ • ${prefix}leavesttext teks
-├ • ${prefix}sandwrite teks
-├ • ${prefix}coffecup teks
-├ • ${prefix}coffecup2 teks
-├ • ${prefix}lightwriting teks
-├ • ${prefix}wolflogo teks1 teks2
-├ • ${prefix}glitchtext teks1 teks2
-├ • ${prefix}jokerlogo teks
-├ • ${prefix}firetext teks
-├ • ${prefix}snowwrite teks1 teks2
-├ • ${prefix}yutubgold teks
-├ • ${prefix}yutubsilver teks
-├ • ${prefix}naruto teks
-├ • ${prefix}flowertext teks
-├ • ${prefix}lighttext teks
-├ • ${prefix}hekertext teks
-├ • ${prefix}cslogo teks
-├ • ${prefix}blackpink teks
-├ • ${prefix}avengerslogo teks1 teks2
-├ • ${prefix}pornhub teks1 teks2
-├ • ${prefix}text3dbox teks
-├ • ${prefix}text3d teks
-├ • ${prefix}marvellogo teks1 teks2
-├ • ${prefix}sharelock teks1 teks2
-└❏
+_*❒ ── ⌜ Convert ⌟*_
+_• ${prefix}tts kodebhs teks_
+_• ${prefix}tourl_
+_• ${prefix}toimg_
+_• ${prefix}tomp3_
+_• ${prefix}tomp4_
 
-╭─❒ ⌜ Logo ⌟
-├ • ${prefix}guramaker teks
-├ • ${prefix}kanekimaker teks
-├ • ${prefix}lolimaker teks
-├ • ${prefix}logomaker teks1 teks2
-├ • ${prefix}waifumaker teks1 teks2
-├ • ${prefix}remmaker teks
-└❏
+_*❒ ── ⌜ Game ⌟*_
+_• ${prefix}susunkata_
+_• ${prefix}tebaklirik_
+_• ${prefix}tebakgambar_
+_• ${prefix}tebakanime_
+_• ${prefix}tebakkata_
+_• ${prefix}tebakkalimat_
+_• ${prefix}family100_
+_• ${prefix}asahotak_
+_• ${prefix}caklontong_
+_• ${prefix}siapaaku_
+_• ${prefix}tictactoe @tag_
+_• ${prefix}gelud @tag_
+_• ${prefix}slots_
+_• ${prefix}dadu_
+_• ${prefix}suit *gunting/batu/kertas*_
+_• ${prefix}tembak *udara/darat/laut*_
 
-╭─❒ ⌜ Nulis ⌟
-├ • ${prefix}nulis teks
-├ • ${prefix}nuliskiri teks
-├ • ${prefix}nuliskanan teks
-├ • ${prefix}foliokiri teks
-├ • ${prefix}foliokanan trks
-└❏
+_*❒ ── ⌜ Sesi ⌟*_
+_• ${prefix}delttt_
+_• ${prefix}delgelud_
 
-╭─❒ ⌜ Download ⌟
-├ • ${prefix}mediafire link
-├ • ${prefix}ytsearch query
-├ • ${prefix}ytmp4 link
-├ • ${prefix}ytmp3 link
-├ • ${prefix}play query
-├ • ${prefix}audio query
-├ • ${prefix}video query
-├ • ${prefix}fetch link
-├ • ${prefix}igdl link
-├ • ${prefix}igstory link
-├ • ${prefix}tiktokdl link
-└❏
+_*❒ ── ⌜ Fun ⌟*_
+_• ${prefix}bisakah teks_
+_• ${prefix}apakah teks_
+_• ${prefix}kapankah teks_
+_• ${prefix}watak_
+_• ${prefix}jadian_
+_• ${prefix}ngewe_
+_• ${prefix}hobby_
+_• ${prefix}rate_
+_• ${prefix}truth_
+_• ${prefix}dare_
+_• ${prefix}cerpen_
+_• ${prefix}pantun_
+_• ${prefix}quotes_
+_• ${prefix}quotesimage_
+_• ${prefix}faktaunik_
+_• ${prefix}seberapagay @tag_
+_• ${prefix}cekbapak @tag_
+_• ${prefix}hilih teks_
+_• ${prefix}jagokata teks_
 
-╭─❒ ⌜ Stalker ⌟
-├ • ${prefix}igstalk nama
-├ • ${prefix}githubstalk nama
-├ • ${prefix}youtubestalk chanel
-└❏
+_*❒ ── ⌜ Islam ⌟*_
+_• ${prefix}alquran_
+_• ${prefix}wallpaperislam_
+_• ${prefix}kisahnabi nabi_
+_• ${prefix}jadwalsholat daerah_
+_• ${prefix}asmaulhusna_
+_• ${prefix}hadistsahih kitab|no_
 
-╭─❒ ⌜ Shortlink ⌟
-├ • ${prefix}tinyurl link
-├ • ${prefix}isgd link
-└❏
+_*❒ ── ⌜ Maker ⌟*_
+_• ${prefix}tahta teks_
+_• ${prefix}blueneon teks_
+_• ${prefix}breakwall teks_
+_• ${prefix}skytext teks_
+_• ${prefix}epeplogo teks_
+_• ${prefix}leavesttext teks_
+_• ${prefix}sandwrite teks_
+_• ${prefix}lightwriting teks_
+_• ${prefix}wolflogo teks1 teks2_
+_• ${prefix}jokerlogo teks_
+_• ${prefix}firetext teks_
+_• ${prefix}snowwrite teks1 teks2_
+_• ${prefix}yutubgold teks_
+_• ${prefix}yutubsilver teks_
+_• ${prefix}flowertext teks_
+_• ${prefix}lighttext teks_
+_• ${prefix}hekertext teks_
+_• ${prefix}cslogo teks_
+_• ${prefix}blackpink teks_
+_• ${prefix}avengerslogo teks1 teks2_
+_• ${prefix}pornhub teks1 teks2_
+_• ${prefix}text3dbox teks_
+_• ${prefix}text3d teks_
+_• ${prefix}marvellogo teks1 teks2_
+_• ${prefix}sharelock teks1 teks2_
 
-╭─❒ ⌜ Search ⌟
-├ • ${prefix}pinterest query
-├ • ${prefix}google query
-├ • ${prefix}gimage query
-├ • ${prefix}playstore query
-├ • ${prefix}happymod query
-├ • ${prefix}linkwa query
-├ • ${prefix}kbbi query
-├ • ${prefix}brainly query
-├ • ${prefix}wiki query
-├ • ${prefix}lirik query
-├ • ${prefix}caripesan teks
-├ • ${prefix}resepmasakan query
-└❏
+_*❒ ── ⌜ Logo ⌟*_
+_• ${prefix}guramaker teks_
+_• ${prefix}kanekimaker teks_
+_• ${prefix}lolimaker teks_
+_• ${prefix}logomaker teks1 teks2_
+_• ${prefix}waifumaker teks1 teks2_
+_• ${prefix}remmaker teks_
 
-╭─❒ ⌜ Nsfw ⌟
-├ • ${prefix}nekonime
-├ • ${prefix}awoo
-├ • ${prefix}blowjob
-├ • ${prefix}nsfwyuri
-├ • ${prefix}hentai
-├ • ${prefix}kitsune
-├ • ${prefix}pussy
-├ • ${prefix}nsfwkuni
-├ • ${prefix}nsfwtrap
-├ • ${prefix}poke
-├ • ${prefix}anal
-├ • ${prefix}slap
-├ • ${prefix}eroneko
-├ • ${prefix}neko2
-├ • ${prefix}baka
-├ • ${prefix}wallpapers
-└❏
+_*❒ ── ⌜ Nulis ⌟*_
+_• ${prefix}nuliskiri teks_
+_• ${prefix}nuliskanan teks_
+_• ${prefix}foliokiri teks_
+_• ${prefix}foliokanan teks_
 
-╭─❒ ⌜ Audio ⌟
-├ • ${prefix}fast
-├ • ${prefix}nightcore
-├ • ${prefix}slow
-├ • ${prefix}trigger
-├ • ${prefix}robot
-├ • ${prefix}balik
-├ • ${prefix}bass
-├ • ${prefix}gemes
-├ • ${prefix}gemuk
-├ • ${prefix}detikvn
-├ • ${prefix}detikvideo 
-└❏
+_*❒ ── ⌜ Phototoxy ⌟*_
+_• ${prefix}naruto teks_
+_• ${prefix}shadow teks_
+_• ${prefix}romantic teks_
+_• ${prefix}smoke teks_
+_• ${prefix}burnpaper teks_
+_• ${prefix}lovemsg teks_
+_• ${prefix}grass teks_
+_• ${prefix}doubleheart teks_
+_• ${prefix}coffecup teks_
+_• ${prefix}coffecup2 teks_
+_• ${prefix}lovetext teks_
+_• ${prefix}butterfly teks_
+_• ${prefix}glitch teks1 teks2_
+_• ${prefix}pubg teks1 teks2_
+_• ${prefix}battlefield teks1 teks2_
+_• ${prefix}googlesuggestion teks1|teks2|teks3_
 
-╭─❒ ⌜ Anime ⌟
-├ • ${prefix}loli
-├ • ${prefix}husbu
-├ • ${prefix}waifu
-├ • ${prefix}shota
-├ • ${prefix}megumin
-├ • ${prefix}milf
-├ • ${prefix}cosplay
-├ • ${prefix}storyanime
-├ • ${prefix}lolivideo
-├ • ${prefix}chara query
-└❏
+_*❒ ── ⌜ Download ⌟*_
+_• ${prefix}mediafire link_
+_• ${prefix}ytsearch query_
+_• ${prefix}ytmp4 link_
+_• ${prefix}ytmp3 link_
+_• ${prefix}play query_
+_• ${prefix}audio query_
+_• ${prefix}video query_
+_• ${prefix}fetch link_
+_• ${prefix}igdl link_
+_• ${prefix}igstory link_
+_• ${prefix}tiktokdl link_
 
-╭─❒ ⌜ Random ⌟
-├ • ${prefix}ppcp
-├ • ${prefix}cecan
-├ • ${prefix}darkjokes
-├ • ${prefix}meme
-├ • ${prefix}aesthetic
-└❏
+_*❒ ── ⌜ Stalker ⌟*_
+_• ${prefix}igstalk user_
+_• ${prefix}githubstalk user_
+_• ${prefix}tiktokstalk user_
+_• ${prefix}youtubestalk user_
 
-╭─❒ ⌜ Asupan ⌟
-├ • ${prefix}asupan
-├ • ${prefix}asupansantuy
-├ • ${prefix}asupanbocil
-├ • ${prefix}asupanukhty
-├ • ${prefix}asupanrikagusriani
-├ • ${prefix}asupanghea
-└❏
+_*❒ ── ⌜ Shortlink ⌟*_
+_• ${prefix}tinyurl link_
+_• ${prefix}isgd link_
 
-╭─❒ ⌜ Cecan ⌟
-├ • ${prefix}vietnam
-├ • ${prefix}malaysia
-├ • ${prefix}korea
-├ • ${prefix}indonesia
-├ • ${prefix}japan
-├ • ${prefix}thailand
-├ • ${prefix}china
-└❏
+_*❒ ── ⌜ Search ⌟*_
+_• ${prefix}pinterest query_
+_• ${prefix}google query_
+_• ${prefix}gimage query_
+_• ${prefix}playstore query_
+_• ${prefix}happymod query_
+_• ${prefix}linkwa query_
+_• ${prefix}kbbi query_
+_• ${prefix}kodepos kota_
+_• ${prefix}brainly query_
+_• ${prefix}wiki query_
+_• ${prefix}lirik query_
+_• ${prefix}caripesan teks_
+_• ${prefix}resepmasakan query_
 
-╭─❒ ⌜ Image ⌟
-├ • ${prefix}gay 
-├ • ${prefix}rip
-├ • ${prefix}triggered
-├ • ${prefix}wanted
-├ • ${prefix}jail
-├ • ${prefix}blur
-├ • ${prefix}police
-├ • ${prefix}captcha
-├ • ${prefix}greyscale
-├ • ${prefix}bonk
-├ • ${prefix}spotifyimage
-└❏
+_*❒ ── ⌜ Nsfw ⌟*_
+_• ${prefix}nekonime_
+_• ${prefix}awoo_
+_• ${prefix}blowjob_
+_• ${prefix}nsfwyuri_
+_• ${prefix}kitsune_
+_• ${prefix}pussy_
+_• ${prefix}nsfwkuni_
+_• ${prefix}nsfwtrap_
+_• ${prefix}poke_
+_• ${prefix}anal_
+_• ${prefix}slap_
+_• ${prefix}eroneko_
+_• ${prefix}neko2_
+_• ${prefix}baka_
+_• ${prefix}wallpapers_
 
-╭─❒ ⌜ News ⌟
-├ • ${prefix}tribunews
-├ • ${prefix}liputan6
-├ • ${prefix}foxnews
-├ • ${prefix}detikcom
-└❏
+_*❒ ── ⌜ Audio ⌟*_
+_• ${prefix}fast_
+_• ${prefix}nightcore_
+_• ${prefix}slow_
+_• ${prefix}trigger_
+_• ${prefix}robot_
+_• ${prefix}balik_
+_• ${prefix}bass_
+_• ${prefix}gemes_
+_• ${prefix}gemuk_
+_• ${prefix}vibrato_
+_• ${prefix}detikvn_
+_• ${prefix}detikvideo_
 
-╭─❒ ⌜ Primbon ⌟
-├ • ${prefix}jodoh kamu & dia
-├ • ${prefix}artinama nama
-├ • ${prefix}artimimpi teks
-└❏
+_*❒ ── ⌜ Anime ⌟*_
+_• ${prefix}loli_
+_• ${prefix}husbu_
+_• ${prefix}waifu_
+_• ${prefix}shota_
+_• ${prefix}megumin_
+_• ${prefix}milf_
+_• ${prefix}cosplay_
+_• ${prefix}hentai_
+_• ${prefix}storyanime_
+_• ${prefix}lolivideo_
+_• ${prefix}chara query_
 
-╭─❒ ⌜ Tag ⌟
-├ • ${prefix}ganteng
-├ • ${prefix}cantik
-├ • ${prefix}jelek
-├ • ${prefix}goblok
-├ • ${prefix}bego
-├ • ${prefix}pinter
-├ • ${prefix}jago
-├ • ${prefix}nolep
-├ • ${prefix}monyet
-├ • ${prefix}babi
-├ • ${prefix}beban
-├ • ${prefix}baik
-├ • ${prefix}jahat
-├ • ${prefix}anjing
-├ • ${prefix}haram
-├ • ${prefix}kontol
-├ • ${prefix}wibu
-├ • ${prefix}hebat
-└❏
+_*❒ ── ⌜ Random ⌟*_
+_• ${prefix}ppcp_
+_• ${prefix}cecan_
+_• ${prefix}darkjokes_
+_• ${prefix}meme_
+_• ${prefix}aesthetic_
 
-╭─❒ ⌜ Other ⌟
-├ • ${prefix}kalkulator angka
-├ • ${prefix}bilangangka angka
-├ • ${prefix}styletext teks
-├ • ${prefix}translate kodebhs|teks
-├ • ${prefix}ssweb link
-├ • ${prefix}herodetail hero
-├ • ${prefix}herolist
-├ • ${prefix}infogempa
-├ • ${prefix}nickepep
-├ • ${prefix}fakedata
-└❏
+_*❒ ── ⌜ Asupan ⌟*_
+_• ${prefix}asupan_
+_• ${prefix}asupansantuy_
+_• ${prefix}asupanbocil_
+_• ${prefix}asupanukhty_
+_• ${prefix}asupanrikagusriani_
+_• ${prefix}asupanghea_
 
-╭─❒ ⌜ 18+ ⌟
-├ • ${prefix}bokep
-├ • ${prefix}indohot
-└❏
+_*❒ ── ⌜ Cecan ⌟*_
+_• ${prefix}vietnam_
+_• ${prefix}malaysia_
+_• ${prefix}korea_
+_• ${prefix}indonesia_
+_• ${prefix}japan_
+_• ${prefix}thailand_
+_• ${prefix}china_
 
-╭─❒ ⌜ Mutual ⌟
-├ • ${prefix}mutual
-├ • ${prefix}next
-└❏
+_*❒ ── ⌜ Image ⌟*_
+_• ${prefix}gay_
+_• ${prefix}rip_
+_• ${prefix}triggered_
+_• ${prefix}wanted_
+_• ${prefix}jail_
+_• ${prefix}blur_
+_• ${prefix}police_
+_• ${prefix}captcha_
+_• ${prefix}greyscale_
+_• ${prefix}bonk_
+_• ${prefix}spotifyimage_
 
-╭─❒ ⌜ Premium ⌟
-├ • ${prefix}join link gc
-└❏
+_*❒ ── ⌜ News ⌟*_
+_• ${prefix}tribunews_
+_• ${prefix}liputan6_
+_• ${prefix}foxnews_
+_• ${prefix}detikcom_
 
-× Creator : ${NamaOwner}
-× Tag : @${otod.split('@')[0]}
+_*❒ ── ⌜ Primbon ⌟*_
+_• ${prefix}jodoh kamu & dia_
+_• ${prefix}artinama nama_
+_• ${prefix}artimimpi teks_
 
-Total User : ${_registered.length}`
-gbutsan = [
-{buttonId:`donasi`,buttonText:{displayText:'Donasi'},type:1},
-{buttonId:`rules`,buttonText:{displayText:'Rules'},type:1}
-]
-mhan = await denz.prepareMessage(from, dfrply, image, {thumbnail: dfrply})
-let btnmenu = {
-imageMessage: mhan.message.imageMessage,
-contentText: `${fill}`,
-footerText: `${menu}`,
-buttons: gbutsan,
-headerType: 4
-}
-denz.sendMessage(from, btnmenu, MessageType.buttonsMessage, {contextInfo :{text: 'hi',
-"forwardingScore": 1000000000,
-isForwarded: false,
-sendEphemeral: false,
-"externalAdReply": {
-"title": `Bagus Bot` ,
-"body": `Selamat ${tampilUcapan}!`,
-"mediaType": "2",
-"thumbnail": dfrply,
-},mentionedJid:[stod]}, quoted: ftrol})
+_*❒ ── ⌜ Tag ⌟*_
+_• ${prefix}ganteng_
+_• ${prefix}cantik_
+_• ${prefix}jelek_
+_• ${prefix}goblok_
+_• ${prefix}bego_
+_• ${prefix}pinter_
+_• ${prefix}jago_
+_• ${prefix}nolep_
+_• ${prefix}monyet_
+_• ${prefix}babi_
+_• ${prefix}beban_
+_• ${prefix}baik_
+_• ${prefix}jahat_
+_• ${prefix}anjing_
+_• ${prefix}haram_
+_• ${prefix}kontol_
+_• ${prefix}wibu_
+_• ${prefix}hebat_
+
+_*❒ ── ⌜ Other ⌟*_
+_• ${prefix}kalkulator angka_
+_• ${prefix}bilangangka angka_
+_• ${prefix}styletext teks_
+_• ${prefix}translate kodebhs|teks_
+_• ${prefix}ssweb link_
+_• ${prefix}herodetail hero_
+_• ${prefix}herolist_
+_• ${prefix}infogempa_
+_• ${prefix}nickepep_
+_• ${prefix}fakedata_
+
+_*❒ ── ⌜ 18+ ⌟*_
+_• ${prefix}bokep_
+_• ${prefix}indohot_
+
+_*❒ ── ⌜ Premium ⌟*_
+_• ${prefix}join link gc_
+
+_*❒ ── ⌜ Sound ⌟*_
+_• ${prefix}sound1_
+_• ${prefix}sound2_
+_• ${prefix}sound3_
+_• ${prefix}sound4_
+_• ${prefix}sound5_
+_• ${prefix}sound6_
+_• ${prefix}sound7_
+_• ${prefix}sound8_
+_• ${prefix}sound9_
+_• ${prefix}sound10_
+_• ${prefix}sound11_
+_• ${prefix}sound12_
+_• ${prefix}sound13_
+_• ${prefix}sound14_
+_• ${prefix}sound15_
+_• ${prefix}sound16_
+_• ${prefix}sound17_
+_• ${prefix}sound18_
+_• ${prefix}sound19_
+_• ${prefix}sound20_
+_• ${prefix}sound21_
+_• ${prefix}sound22_
+_• ${prefix}sound23_
+_• ${prefix}sound24_
+_• ${prefix}sound25_
+_• ${prefix}sound26_
+_• ${prefix}sound27_
+_• ${prefix}sound28_
+_• ${prefix}sound29_
+_• ${prefix}sound30_
+_• ${prefix}sound31_
+_• ${prefix}sound32_
+_• ${prefix}sound33_
+_• ${prefix}sound34_
+_• ${prefix}sound35_
+
+_*❒ ── ⌜ Tools ⌟*_
+_• ${prefix}suratto nomor|pesan_
+
+*_Auto Regis : ${_registered.length}_*`
+sendButMessage(from, `${menu}`, "Made with by Bagus ID", [{buttonId: 'rules',buttonText: {displayText: 'Rules'}, type: 1},{buttonId: 'sewabot',buttonText: {displayText: 'Price'}, type: 1}], {quoted: finv2, contextInfo: { mentionedJid: [otod,stod]}})
 break
-//-------- > Sewa Bot < --------
+//-------- > Store < --------
 case 'sewabot': case 'iklan':
-			buz = `5k Permanent ( Promo )
-
-chat https://wa.me/6285335145197`
-            sendButMessage(from, `${buz}`, "Chat my owner, in here!^_^", [{buttonId: 'owner',buttonText: {displayText: 'Owner'}, type: 1}], {quoted: finv, contextInfo: { mentionedJid: [otod,stod]}})
-            break
-//case 'sewa':
-			stod = `${sender}`
-            sendButMessage(from, `Hai kak @${stod.split('@')[0]}\nMau sewa ${NamaBot} yang berapa?\n`, "Silahkan pilih durasi sewa bot dibawah", [{buttonId: 'sewa1',buttonText: {displayText: '1 Minggu'}, type: 1},{buttonId:`sewa2`,buttonText:{displayText:'1 Bulan'},type:1}], {contextInfo: { mentionedJid: [stod]}})
-            break
-            //case 'sewa1':
-			stod = `${sender}`
-			res =`Reward:
-
-Untuk Pembayaran Lainnya, hubungi ${prefix}owner`
-            sendButMessage(from, `${res}`, "Mau bayar lewat mana?", [{buttonId:'gopaypay',buttonText:{displayText:'Gopay'}, type: 1},{buttonId:`danapay`,buttonText:{displayText:'Dana'},type:1}], {contextInfo: { mentionedJid: [stod]}})
-            break
-            //case 'sewa2':
-			stod = `${sender}`
-			res =`\`\`\`JASA SEWA BOT\`\`\`
+			buz = `*Mau Sewa Apa Lihat Doang?*
 			
-\`\`\`•> Nama : ${pushname}\`\`\`
-\`\`\`•> Nomor : @${stod.split('@')[0]}\`\`\`
-\`\`\`•> Sewa : 1 Bulan\`\`\`
-\`\`\`•> Harga : 20.000,00\`\`\`
-			
-Untuk Pembayaran Lainnya, hubungi ${prefix}owner`
-            sendButMessage(from, `${res}`, "Mau bayar lewat mana?", [{buttonId:'gopaypay',buttonText:{displayText:'Gopay'}, type: 1},{buttonId:`danapay`,buttonText:{displayText:'Dana'},type:1}], {contextInfo: { mentionedJid: [stod]}})
+*S E W A  B O T*
+1 Bulan : 5k
+Permanent : 10k
+
+*P R E M I U M*
+1 Bulan : 5k
+
+Keuntungan:
+Sewa : Bot Masuk Group
+Premium : Upgrade Status User Menjadi Premium User, Limit Unlimited
+
+*Untuk sewa permanent free premium user!*`
+            sendButMessage(from, `${buz}`, "Metode Pembayaran!", [{buttonId: 'gopay',buttonText: {displayText: 'Gopay'}, type: 1},{buttonId: 'dana',buttonText: {displayText: 'Dana'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [otod,stod]}})
             break
-//case 'gopaypay':
-menu = `*Pembayaran Gopay*
-\`\`\`•> 085335144197\`\`\`
-\`\`\`•> A/N Bagus ID\`\`\`
-
-Silahkan hubungi ${prefix}owner untuk konfirmasi.`
-katalogg(menu)
-break
-//case 'danapay':
-menu = `*Pembayaran Dana*
-\`\`\`•> 085335144197\`\`\`
-\`\`\`•> A/N Bagus ID\`\`\`
-
-Silahkan hubungi ${prefix}owner untuk konfirmasi.`
-katalogn(menu)
-break
+            case 'gopay':
+            sendButMessage(from, `No Gopay : 081228788859\nAN : Bagus`, "Sewa by Bagus Bot", [{buttonId: 'owner',buttonText: {displayText: 'Done'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+            break
+            case 'dana':
+            sendButMessage(from, `No Dana : 081228788859\nAN : David Ardani Ardiansyah`, "Sewa by Bagus Bot", [{buttonId: 'owner',buttonText: {displayText: 'Done'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+            break
 //-------- > Top Up < --------
 //case 'order':
 stod = `${sender}`
@@ -1738,35 +2173,6 @@ listMsg = {
 }
 denz.sendMessage(from, listMsg, MessageType.listMessage, {contextInfo: { mentionedJid: [stod]},quoted:mek})
 break
-//------ > All Menu < ------
-//case 'listmsg':
-stod = `${sender}`
-listMsg = {
- buttonText: 'LIST MENU' ,
- footerText: 'Silahkan pilih menu disini',
- description: `Hai kak @${stod.split('@')[0]}\nCalendar : ${week} ${calender}\nTime : ${jmn}`,
- sections: [
-                     {
-                      "title": `List Msg by Bagus Bot`,
- rows: [
-                          {
-                              "title": "Owner",
-                              "rowId": "owner"
-                           },
-                           {
-                              "title": "SewaBot",
-                              "rowId": "sewabot"
-                           }, 
-                           {
-                              "title": "Script",
-                              "rowId": "sc"
-                           }
-                        ]
-                     }],
- listType: 1
-}
-denz.sendMessage(from, listMsg, MessageType.listMessage, {contextInfo: { mentionedJid: [stod]},quoted:mek})
-break
 //------ > O
 case 'donasi':
 donet = `*Donasi Bot*
@@ -1782,8 +2188,8 @@ break
 
 //------ > batas < ------
 case 'jadibot':
-if (!isOwner && !mek.key.fromMe) return reply(`Chat owner saya bang`)
-client.version = [2, 2119, 6]
+if (!isPremium && !isOwner && !mek.key.fromMe) return reply(mess.only.prem)
+client.version = [2, 2143, 3]
 client.browserDescription = ['Bagus Bot','Desktop','3.0']
 if (args[0] && args[0].length > 200) {
 	let json = Buffer.from(args[0], 'base64').toString('utf-8')
@@ -1844,7 +2250,7 @@ denz.sendMessage(from, {
 "displayName": `Developer ${NamaBot}`,
 "contacts": ini_list 
 }, 'contactsArrayMessage', { quoted: mek, contextInfo: { forwardingScore: 508, isForwarded: true }})
-textreply(`wa.me/6285335144197`)
+textreply(`wa.me/6285335145197`)
 break
 case 'addcmd': 
 case 'setcmd':
@@ -1877,7 +2283,7 @@ teksnyee += `\n\n*❏ ID :* ${i.id}\n*❏ Cmd :* ${i.chats}`
 reply(teksnyee)
 break
 			case 'sc': case 'script': case 'sourcecode':
-            reply(`Coba chat owner saya`)
+            reply(`Bot ini menggunakan script : https://youtube.com/channel/UCIdzbkRJ8k7qTivffTWSk_w / Base Nyah : https://github.com/dcode-denpa/Bitch-Boot`)
             break
        case 'debug':
 			 res = await denz.prepareMessageFromContent(from,{
@@ -1958,10 +2364,9 @@ reply(mess.error.api)
 console.log(res)
 sendMediaURL(from,`${res.result.link}`,`${res.result.desc}`)
                     break
-                    case 'tiktok':
-                   case 'tiktokdl':
-                   case 'tiktoknowm':
-if (!c) return reply('Linknya?')
+case 'tiktoknowm': case 'tiktok': case 'tiktokdl':
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
+if (!c) return reply('Link tidak valid')
 var { TiktokDownloader } = require('./lib/tiktokdl')
 reply(mess.wait)
 res = await TiktokDownloader(`${c}`).catch(e => {
@@ -1969,6 +2374,7 @@ reply(mess.error.api)
 })
 console.log(res)
 sendMediaURL(from, `${res.result.nowatermark}`)
+limitAdd(sender, limit)
 break
                     case 'imgtourl': case 'tourl':
                     if (isBanned) return reply(mess.banned)
@@ -1977,7 +2383,7 @@ var jnckk = await  denz.downloadAndSaveMediaMessage(encmediiwoia)
 var imgbb = require('imgbb-uploader')
 imgbb('3b8594f4cb11895f4084291bc655e510', jnckk)
 .then(data => {
-var caps = `[ ✓ ] 𝚂𝚞𝚌𝚌𝚎𝚜\n\n• ID : ${data.id}\n• MimeType : ${data.image.mime}\n• Extension : ${data.image.extension}\n• Url : ${data.display_url}`
+var caps = `[ Image To Url ]\n\n• ID : ${data.id}\n• MimeType : ${data.image.mime}\n• Extension : ${data.image.extension}\n• Url : ${data.display_url}`
 ibb = fs.readFileSync(jnckk)
 denz.sendMessage(from, ibb, image, { quoted: mek, caption: caps })
 })
@@ -2000,6 +2406,7 @@ res = await denz.prepareMessageFromContent(from,{
 denz.relayWAMessage(res)
 break
 case 'pinterest':
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)
 if (!c) return reply('yg mau di cari apa?')
 reply(mess.wait)
@@ -2008,6 +2415,7 @@ let amsulah = data.result
 let pimterest = amsulah[Math.floor(Math.random() * amsulah.length)]
 sendMediaURL (from ,pimterest , `Pinterest : ${c}`)
 })
+limitAdd(sender, limit)
 break
 case 'isbaileys': 
 case 'bail': 
@@ -2135,6 +2543,7 @@ if (isBanned) return reply(mess.banned)
                break
 				case 'tictactoe':
 case 'ttt':
+if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
 if (isBanned) return reply(mess.banned)
 if (!isGroup) return reply(mess.only.group)
 if (args.length < 1) return reply('Tag Lawan Anda! ')
@@ -2151,6 +2560,7 @@ mulaittt =`\`\`\`@${sender.split('@')[0]} Menantang @${player2.split('@')[0]} un
 
 \`\`\`Kirim  (Y/T) untuk bermain\`\`\``
 sendButMessage(from, `${mulaittt}`, "Y untuk menerima\nT untuk menolak", [{buttonId: 'delttc',buttonText: {displayText: 'Nyerah'}, type: 1}], {quoted:mek, contextInfo: { mentionedJid: [player2,sender]}})
+gameAdd(sender, glimit)
 break
                 case 'delttt':
                 case 'delttc':
@@ -2274,6 +2684,7 @@ sendFileFromUrl(res[0].thumb, image, {quoted: mek, caption: result}).catch(e => 
 })
 break
 case 'mediafire':
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)
 if (args.length < 1) return reply('Link Nya Mana? ')
 if(!isUrl(args[0]) && !args[0].includes('mediafire')) return reply(mess.error.api)
@@ -2291,6 +2702,7 @@ result = `*Nama :* ${res[0].nama}
 _File sedang dikirim, Silahkan tunggu beberapa menit_`
 reply(result)
 sendFileFromUrl(res[0].link, document, {mimetype: res[0].mime, filename: res[0].nama, quoted: mek})
+limitAdd(sender, limit)
 break
 				case 'kalkulator': case 'calc': case 'calt':
 				if (isBanned) return reply(mess.banned)
@@ -2323,6 +2735,7 @@ teks = anu.result
 reply(teks)
 break
 case 'lirik':
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)
 if (args.length < 1) return reply('Judulnya?')
 reply(mess.wait)
@@ -2331,6 +2744,7 @@ lirikLagu(teks).then((res) => {
 let lirik = `${res[0].result}`
 reply(lirik)
 })
+limitAdd(sender, limit)
 break
 				case 'bilangangka':
 				if (isBanned) return reply(mess.banned)
@@ -2377,6 +2791,16 @@ break
 					buff = await getBuffer(anu.result.avatar_url)
 				    denz.sendMessage(from, buff, image, {quoted: mek, caption: gstalk})
 					break
+					case 'tiktokstalk':
+					if (isBanned) return reply(mess.banned)
+					if (args.length < 1) return reply('Usernamenya?')
+					var teks = body.slice(13)
+					anu = await fetchJson(`https://api-bagusbot.herokuapp.com/api/stalk/tiktok?apikey=manogay&username=${teks}`, {method: 'get'})
+					gstalk = `*TIKTOK STALK*\n\n⬣ UniqueID : ${anu.result.user.uniqueId}\n⬣ Nickname : ${anu.result.user.nickname}\n⬣ Signature : ${anu.result.user.signature}\n⬣ Create Time : ${anu.result.user.createTime}\n⬣ SecUID : ${anu.result.user.secUid}\n⬣ Follower : ${anu.result.stats.followerCount}\n⬣ Following : ${anu.result.stats.followingCount}\n⬣ Like : ${anu.result.stats.heartCount}\n⬣ Uploud : ${anu.result.stats.videoCount}`
+					reply(mess.wait)
+					buff = await getBuffer(anu.result.user.avatarLarger)
+				    denz.sendMessage(from, buff, image, {quoted: mek, caption: gstalk})
+					break
 					case 'youtubestalk':
 					if (isBanned) return reply(mess.banned)
 					if (args.length < 1) return reply('Usernamenya?')
@@ -2393,7 +2817,7 @@ break
 					gempa = `*INFO GEMPA*\n\n❏ Waktu : ${anu.result.Waktu}\n❏ Lintang : ${anu.result.Lintang}\n❏ Bujur : ${anu.result.Bujur}\n❏ Magnitudo : ${anu.result.Magnitudo}\n❏ Kedalaman : ${anu.result.Kedalaman}\n❏ Wilayah : ${anu.result.Wilayah}`
 					reply(mess.wait)
 					buff = await getBuffer(anu.result.Map)
-					denz.sendMessage(from, buff, image, {quoted: ftok, caption: gempa})
+					denz.sendMessage(from, buff, image, {quoted: mek, caption: gempa})
 					break 
 				case 'dadu':
 				if (isBanned) return reply(mess.banned)
@@ -2520,6 +2944,19 @@ if (isBanned) return reply(mess.banned)
 						fs.unlinkSync(ran)
 					})
 				break
+				case 'vibrato':
+if (isBanned) return reply(mess.banned)
+				encmedial = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
+medial = await denz.downloadAndSaveMediaMessage(encmedial)
+				ran = getRandom('.mp3')
+				exec(`ffmpeg -i ${media} -filter_complex "vibrato=f=16" ${ran}`, (err, stderr, stdout) => {
+				fs.unlinkSync(medial)
+				if (err) return reply(mess.error.api)
+				uhh = fs.readFileSync(ran)
+				denz.sendMessage(from, uhh, audio, {mimetype: 'audio/mp4', duration: 359996400, ptt:true, quoted: mek})
+				fs.unlinkSync(ran)
+				})
+				break
 case 'sider':
 if (isBanned) return reply(mess.banned)
 if (!isGroup) return reply(mess.only.group)
@@ -2590,7 +3027,7 @@ if (isBanned) return reply(mess.banned)
                     reply(mess.wait)
                     ini_txt = args.join(" ")
                     ini_buffer = await getBuffer(`http://api.zeks.xyz/api/hartatahta?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, {quoted: mek, caption: 'by Bagus Botz'})
+                    denz.sendMessage(from, ini_buffer, image, {quoted: mek, caption: 'Harta Tahta Maker'})
                     break
                     case 'blueneon':
                     if (isBanned) return reply(mess.banned)                    
@@ -2652,18 +3089,6 @@ if (isBanned) return reply(mess.banned)
                     ini_buffer = await getBuffer(`https://api.zeks.xyz/api/wolflogo?apikey=${ZeksApi}&text1=${txt1}&text2=${txt2}`)
                     denz.sendMessage(from, ini_buffer, image, { quoted: mek})
                     break
-                    case 'pubglogo':         
-                    if (isBanned) return reply(mess.banned)                               
-               cf = `${body.slice(8)}`
-                    txt1 = cf.split("|")[0];
-                    txt2 = cf.split("|")[1];
-                    if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
-                    reply(mess.wait)
-                    txt1 = args[0]
-                    txt2 = args[1]
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/pubglogo?apikey=${ZeksApi}&text1=${txt1}&text2=${txt2}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
                     case 'epeplogo':         
                     if (isBanned) return reply(mess.banned)                               
                     if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
@@ -2671,25 +3096,6 @@ if (isBanned) return reply(mess.banned)
                     ini_txt = args.join(" ")
                     ini_buffer = await getBuffer(`https://api.zeks.xyz/api/epep?apikey=${ZeksApi}&text=${ini_txt}`)
                     denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'glitchtext':          
-                    if (isBanned) return reply(mess.banned)                              
-               cf = `${body.slice(8)}`
-                    txt1 = cf.split("|")[0];
-                    txt2 = cf.split("|")[1];
-                    if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
-                    reply(mess.wait)
-                    txt1 = args[0]
-                    txt2 = args[1]
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/gtext?apikey=${ZeksApi}&text1=${txt1}&text2=${txt2}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'nulis':               
-                    if (isBanned) return reply(mess.banned)                         
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    if (!c) return reply('Textnya mana gan?')
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/nulis?apikey=${ZeksApi}&text=${c}`)
-                    denz.sendMessage(from, ini_buffer, image, {quoted: mek, caption: 'Noh... '})
                     break
                     case 'firetext':         
                     if (isBanned) return reply(mess.banned)                               
@@ -2743,14 +3149,6 @@ if (isBanned) return reply(mess.banned)
                     ini_buffer = await getBuffer(`https://api.zeks.xyz/api/text3d?apikey=${ZeksApi}&text=${ini_txt}`)
                     denz.sendMessage(from, ini_buffer, image, { quoted: mek})
                     break
-                    case 'naruto':                    
-                    if (isBanned) return reply(mess.banned)                    
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/naruto?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
                     case 'flowertext':                    
                     if (isBanned) return reply(mess.banned)                    
                     if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
@@ -2791,13 +3189,6 @@ if (isBanned) return reply(mess.banned)
                     ini_buffer = await getBuffer(`https://api.zeks.xyz/api/logobp?apikey=${ZeksApi}&text=${ini_txt}`)
                     denz.sendMessage(from, ini_buffer, image, { quoted: mek})
                     break
-                    case 'coffecup':              
-                    if (isBanned) return reply(mess.banned)                                         
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    if (!c) return reply('Textnya mana gan?')
-                    ini_buffer = await getBuffer(`https://api.dapuhy.ga/api/photooxy/coffecup?text=${c}&apikey= ${Dapuy}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
                     case 'avengerslogo':        
                     if (isBanned) return reply(mess.banned)                                               
                cf = `${body.slice(8)}`
@@ -2834,38 +3225,39 @@ if (isBanned) return reply(mess.banned)
                     ini_buffer = await getBuffer(`https://api.zeks.xyz/api/marvellogo?apikey=${ZeksApi}&text1=${txt1}&text2=${txt2}`)
                     denz.sendMessage(from, ini_buffer, image, { quoted: mek})
                     break
-                    case 'coffecup2':        
-                    if (isBanned) return reply(mess.banned)                                               
-                    if (!c) return reply('Textnya mana gan?')
-                    ini_buffer = await getBuffer(`https://api.dapuhy.ga/api/photooxy/coffecup2?text=${c}&apikey= ${Dapuy}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
 //------ > Logo Maker < ------
                     case 'guramaker':           
-                    if (isBanned) return reply(mess.banned)                                            
+                    if (isBanned) return reply(mess.banned)
+                    if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
                     if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
                     reply(mess.wait)
                     ini_txt = args.join(" ")
                     ini_buffer = await getBuffer(`https://hardianto-chan.herokuapp.com/api/bot/gura?apikey=hardianto&nama=${ini_txt}`)
                     denz.sendMessage(from, ini_buffer, image, { quoted: mek, caption: 'Nih Tod'})
+                    limitAdd(sender, limit)
                     break
-                    case 'kanekimaker':       
+                    case 'kanekimaker':
+                    if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)       
                     if (isBanned) return reply(mess.banned)                                                
                     if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
                     reply(mess.wait)
                     ini_txt = args.join(" ")
                     ini_buffer = await getBuffer(`https://hardianto-chan.herokuapp.com/api/bot/gfx1?apikey=hardianto&nama=${ini_txt}`)
                     denz.sendMessage(from, ini_buffer, image, { quoted: mek, caption: 'Nih Tod'})
+                    limitAdd(sender, limit)
                     break
                     case 'lolimaker':          
+                    if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
                     if (isBanned) return reply(mess.banned)                                             
                     if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
                     reply(mess.wait)
                     ini_txt = args.join(" ")
                     ini_buffer = await getBuffer(`https://hardianto-chan.herokuapp.com/api/bot/gfx2?apikey=hardianto&nama=${ini_txt}`)
                     denz.sendMessage(from, ini_buffer, image, { quoted: mek, caption: 'Nih Tod'})
+                    limitAdd(sender, limit)
                     break
                     case 'logomaker':        
+                    if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
                     if (isBanned) return reply(mess.banned)                                               
                cf = `${body.slice(8)}`
                     txt1 = cf.split("|")[0];
@@ -2876,8 +3268,10 @@ if (isBanned) return reply(mess.banned)
                     txt2 = args[1]
                     ini_buffer = await getBuffer(`https://hardianto-chan.herokuapp.com/api/bot/gfx3?apikey=hardianto&text1=${txt1}&text2=${txt2}`)
                     denz.sendMessage(from, ini_buffer, image, { quoted: mek, caption: 'Nih Tod'})
+                    limitAdd(sender, limit)
                     break
                     case 'waifumaker':       
+                    if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
                     if (isBanned) return reply(mess.banned)                                                
                cf = `${body.slice(8)}`
                     txt1 = cf.split("|")[0];
@@ -2888,24 +3282,19 @@ if (isBanned) return reply(mess.banned)
                     txt2 = args[1]
                     ini_buffer = await getBuffer(`https://hardianto-chan.herokuapp.com/api/bot/gfx4?apikey=hardianto&text1=${txt1}&text2=${txt2}`)
                     denz.sendMessage(from, ini_buffer, image, { quoted: mek, caption: 'Nih Tod'})
+                    limitAdd(sender, limit)
                     break
-                    case 'remmaker':        
+                    case 'remmaker':       
+                    if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`) 
                     if (isBanned) return reply(mess.banned)                                               
                     if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
                     reply(mess.wait)
                     ini_txt = args.join(" ")
                     ini_buffer = await getBuffer(`https://hardianto-chan.herokuapp.com/api/bot/gfx5?apikey=hardianto&text=${ini_txt}`)
                     denz.sendMessage(from, ini_buffer, image, { quoted: mek, caption: 'Nih Tod'})
+                    limitAdd(sender, limit)
                     break
-//------ > New < ------
-case 'harrypotter':                  
-                    if (isBanned) return reply(mess.banned)                                     
-                    if (!c) return reply('Textnya mana gan?')
-                    reply(mess.wait) 
-                    ini_buffer = await getBuffer(`https://api.dapuhy.ga/api/photooxy/harrypotter?text=${c}&apikey= ${Dapuy}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-//------ > Apikey Free, Regist To https://api.dapuhy.ga < ------
+//------ > joker < ------
                     case 'jokerlogo':
                     if (isBanned) return reply(mess.banned)                                   
                     if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
@@ -2997,7 +3386,7 @@ encmediam = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.exten
 	        if (!isGroup) return reply(mess.only.group)
 			if (!isGroupAdmins) return reply(mess.only.admin)
 			if (!isBotGroupAdmins) return reply(mess.only.Badmin)
-					if (args.length < 1) return reply(`ketik ${prefix}antilink enable/disable`)
+					if (args.length < 1) return reply(`ketik ${prefix}antilink enable`)
 					if ((args[0]) === 'enable') {
 						if (isAntiLink) return reply('Sudah Aktif Kak')
 						antilink.push(from)
@@ -3018,7 +3407,7 @@ encmediam = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.exten
 					stod = `${sender}`
               if (!isGroup) return reply(mess.only.group)
               if (!isGroupAdmins) return reply(mess.only.admin)
-              if (args.length < 1) return reply(`ketik ${prefix}welcome enable/disable`)
+              if (args.length < 1) return reply(`ketik ${prefix}welcome enable`)
               if ((args[0]) === 'enable') {
               if (isWelkom) return reply('Udah aktif')
               welkom.push(from)
@@ -3037,7 +3426,7 @@ encmediam = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.exten
 					stod = `${sender}`
               if (!isGroup) return reply(mess.only.group)
 			if (!isGroupAdmins) return reply(mess.only.admin)
-              if (args.length < 1) return reply(`ketik ${prefix}nsfw enable/disable`)
+              if (args.length < 1) return reply(`ketik ${prefix}nsfw enable`)
               if ((args[0]) === 'enable') {
               if (isNsfw) return reply('Udah aktif')
               nsfw.push(from)
@@ -3445,43 +3834,74 @@ break
 					})
 					break
 				case 'suit':
-				if (isBanned) return reply(mess.banned)                                   
-  if (args.length < 1) return reply('Pilih gunting/batu/kertas')
-					if (args[0] === 'gunting' ) {
-					  gunting = [
-					    "*[ Suit Game ]*\n\n• You : *Gunting*\n• Me : *Kertas*\n\nResult: You Win 👑",
-					    "*[ Suit Game ]*\n\n• You : *Gunting*\n• Me : *Batu*\n\nResult: You Lose 😂",
-					    "*[ Suit Game ]*\n\n• You : *Gunting*\n• Me : *Gunting*\n\nResult: imbang"
-					    ]
-					  gun = gunting[Math.floor(Math.random() * gunting.length)]
-					  reply(gun)
-					} else if (args[0] === 'kertas') {
-					  ker = [
-					    "*[ Suit Game ]*\n\n• You : *Kertas*\n• Me : *Batu*\n\nResult: You Win 👑",
-					    "*[ Suit Game ]*\n\n• You : *Kertas*\n• Me : *Gunting*\n\nResult: You Lose 😂",
-					    "*[ Suit Game ]*\n\n• You : *Kertas*\n• Me : *Kertas*\n\nResult: imbang"
-					    ]
-					  kertas = ker[Math.floor(Math.random() * ker.length)]
-						reply(kertas)
-					} else if (args[0] === 'batu') {
-					  bat = [
-					    "*[ Suit Game ]*\n\n• You : *Batu*\n• Me : *Gunting*\n\nResult: You Win 👑",
-					    "*[ Suit Game ]*\n\n• You : *Batu*\n• Me : *Kertas*\n\nResult: You Lose 😂",
-					    "*[ Suit Game ]*\n\n• You : *Batu*\n• Me : *Batu*\n\nResult: imbang"
-					    ]
-					  batu = bat[Math.floor(Math.random() * bat.length)]
-					  reply(batu)
-					} else {
-					  reply('Pilih gunting/batu/kertas')
-					}
-break
-		    case 'slot':
-            case 'slots':
-            if (isBanned) return reply(mess.banned)                                   
-            let somtoy = sotoy[Math.floor(Math.random() * sotoy.length)]
-            slotss = `[  🎰 | SLOTS ]\n-----------------\n🍋 : 🍌 : 🍍\n${somtoy}<=====\n🍋 : 🍌 : 🍍\n[  🎰 | SLOTS ]\n\nKeterangan : Jika anda Mendapatkan 3Buah Sama Berarti Anda Menang\n\nContoh : 🍌 : 🍌 : 🍌<=====`
-            sendButMessage(from, `${slotss}`, "nice try.", [{buttonId:`slot`,buttonText:{displayText:'Play Again'},type:1}], {contextInfo: { mentionedJid: [sender]}})
-            break
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (args.length < 1) return reply(`Penggunaan ${command} gunting/kertas/batu\n\nContoh : ${command} gunting`)
+                let suit = ["gunting", "batu", "kertas"];
+                let isSuit = suit.includes(q)
+                if (isSuit){
+                    let suit1 = suit[Math.floor(Math.random() * (suit.length))]
+                    let hadi = randomNomor(30)
+                    if (q === suit[0]){
+                        if (suit1 === "gunting"){
+                            textreply(`*[ Suit Game ]*\n\nYou : ${q}\nMe : ${suit1}\n\nResult : Seri`)
+                        } else if (suit1 === "batu"){
+                            textreply(`*[ Suit Game ]*\n\nYou : ${q}\nMe : ${suit1}\n\nResult : You Lose`)
+                        } else {
+                            textreply(`*[ Suit Game ]*\n\nYou : ${q}\nMe : ${suit1}\n\nResult : You Win\nHadiah : ${hadi} balance`)
+                            addBalance(sender, hadi, balance)
+                        }
+                    } else if (q === suit[1]){
+                        if (suit1 === "batu"){
+                            textreply(`*[ Suit Game ]*\n\nYou : ${q}\nMe : ${suit1}\n\nResult : Seri`)
+                        } else if (suit1 === "kertas"){
+                            textreply(`*[ Suit Game ]*\n\nYou : ${q}\nMe : ${suit1}\n\nResult : You Lose`)
+                        } else {
+                            textreply(`*[ Suit Game ]*\n\nYou : ${q}\nMe : ${suit1}\n\nResult : You Win\nHadiah : ${hadi} balance`)
+                            addBalance(sender, hadi, balance)
+                        }
+                    } else if (q === suit[2]){
+                        if (suit1 === "kertas"){
+                            textreply(`*[ Suit Game ]*\n\nYou : ${q}\nMe : ${suit1}\n\nResult : Seri`)
+                        } else if (suit1 === "gunting"){
+                            textreply(`*[ Suit Game ]*\n\nYou : ${q}\nMe : ${suit1}\n\nResult : You Lose`)
+                        } else {
+                            textreply(`*[ Suit Game ]*\n\nYou : ${q}\nMe : ${suit1}\n\nResult : You Win\nHadiah : ${hadi} balance`)
+                            addBalance(sender, hadi, balance)
+                        }
+                    }
+                    gameAdd(sender, glimit)
+                } else {
+                    reply(body.replace(args[1], "*"+args[1]+"*")+'\n\n'+`Tidak ada pilihan ${args[1]}`+`\nContoh : ${command} gunting`)
+                }
+                break
+            case 'slot': case 'slots':
+  if (isBanned) return reply(mess.banned)                                   
+  if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+  const sotoy = ['🍊 : 🍒 : 🍐','🍒 : 🍐 : 🍊','🍐 : 🍒 : 🍐','🍊 : 🍋 : 🔔','🔔 : 🍒 : 🍐','🔔 : 🍒 : 🍊','🍊 : 🍋 : 🔔','🍐 : 🍒 : 🍋','🍐 : 🍐 : 🍐','🍊 : 🍒 : 🍒','🔔 : 🔔 : 🍇','🍌 : 🍒 : 🔔','🍐 : 🔔 : 🔔','🍊 : 🍋 : 🍒','🍋 : 🍋 : 🍌','🔔 : 🔔 : 🍇','🔔 : 🍐 : 🍇','🔔 : 🔔 : 🔔','🍒 : 🍒 : 🍒','🍌 : 🍌 : 🍌','🍇 : ?? : 🍇']
+  somtoy = sotoy[Math.floor(Math.random() * (sotoy.length))]	
+  somtoyy = sotoy[Math.floor(Math.random() * (sotoy.length))]
+  somtoyyy = sotoy[Math.floor(Math.random() * (sotoy.length))]	
+  rn = randomNomor(100)
+  if (somtoyy  == '🍌 : 🍌 : 🍌') {
+  sendButMessage(from, `[  🎰 | SLOTS ]\n-----------------\n${somtoy}\n${somtoyy}<=====\n${somtoyyy}\n[  🎰 | SLOTS ]\n\nHadiah : ${rn} Balance`, "You Win!", [{buttonId:`slot`,buttonText:{displayText:'Play Again'},type:1}], {contextInfo: { mentionedJid: [sender]}})
+  addBalance(sender, rn, balance)
+  } else if (somtoyy == '🍒 : 🍒 : 🍒') {
+  sendButMessage(from, `[  🎰 | SLOTS ]\n-----------------\n${somtoy}\n${somtoyy}<=====\n${somtoyyy}\n[  🎰 | SLOTS ]\n\nHadiah : ${rn} Balance`, "You Win!", [{buttonId:`slot`,buttonText:{displayText:'Play Again'},type:1}], {contextInfo: { mentionedJid: [sender]}})
+  addBalance(sender, rn, balance)
+  } else if (somtoyy == '🔔 : 🔔 : 🔔') {
+  sendButMessage(from, `[  🎰 | SLOTS ]\n-----------------\n${somtoy}\n${somtoyy}<=====\n${somtoyyy}\n[  🎰 | SLOTS ]\n\nHadiah : ${rn} Balance`, "You Win!", [{buttonId:`slot`,buttonText:{displayText:'Play Again'},type:1}], {contextInfo: { mentionedJid: [sender]}})
+  addBalance(sender, rn, balance)
+  } else if (somtoyy == '🍐 : 🍐 : 🍐') {
+  sendButMessage(from, `[  🎰 | SLOTS ]\n-----------------\n${somtoy}\n${somtoyy}<=====\n${somtoyyy}\n[  🎰 | SLOTS ]\n\nHadiah : ${rn} Balance`, "You Win!", [{buttonId:`slot`,buttonText:{displayText:'Play Again'},type:1}], {contextInfo: { mentionedJid: [sender]}})
+  addBalance(sender, rn, balance)
+  } else if (somtoyy == '🍇 : 🍇 : 🍇') {
+  sendButMessage(from, `[  🎰 | SLOTS ]\n-----------------\n${somtoy}\n${somtoyy}<=====\n${somtoyyy}\n[  🎰 | SLOTS ]\n\nHadiah : ${rn} Balance`, "You Win!", [{buttonId:`slot`,buttonText:{displayText:'Play Again'},type:1}], {contextInfo: { mentionedJid: [sender]}})
+  addBalance(sender, rn, balance)
+  } else {
+ sendButMessage(from, `[  🎰 | SLOTS ]\n-----------------\n${somtoy}\n${somtoyy}<=====\n${somtoyyy}\n[  🎰 | SLOTS ]`, "You Lose!", [{buttonId:`slot`,buttonText:{displayText:'Play Again'},type:1}], {contextInfo: { mentionedJid: [sender]}})
+  gameAdd(sender, glimit)
+  }
+  break
 				case 'kontak':
 				if (isBanned) return reply(mess.banned)                                   
 				if (!isGroup) return reply(mess.only.group)
@@ -3551,7 +3971,7 @@ break
                 case 'attp':
                 if (isBanned) return reply(mess.banned)                                   
                 if (args.length < 1) return reply(`Kirim perintah *${prefix}attp* teks`)
-                let ane = await getBuffer(`https://api.xteam.xyz/attp?file&text=${encodeURIComponent(c)}`)
+                let ane = await getBuffer(`https://api.xteam.xyz/attp?file&text=${c}`)
                 fs.writeFileSync('./sticker/attp.webp', ane)
                 exec(`webpmux -set exif ./sticker/data.exif ./sticker/attp.webp -o ./sticker/attp.webp`, async (error) => {
                     if (error) return reply(mess.error.api)
@@ -3584,17 +4004,12 @@ break
 				case 'join':  
 				if  (!isPremium) return reply(mess.only.prem)
                     if (isBanned) return reply(mess.banned) 
-                    if (args.length < 1) return reply(`contoh ${prefix}join https://chat.whatsapp.com/CAPUjeauAafAskp3o5LDNj`)
-                    const bug11 = body.slice(6)
-                    if (bug11.length > 300) return denz.sendMessage(from, 'Maaf Teks Terlalu Panjang, Maksimal 300 Teks', msgType.text, {quoted: { key: { fromMe: false, participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "status@broadcast" } : {}) }, message: { "imageMessage": { "caption": `Bagus Botz`} } }})
-                    var nomor = denz.participant
-                    const bug22 = `*[ UNDANGAN JOIN ]*\n\nDari ${pushname} \nNomor : @${nomor.split("@s.whatsapp.net")[0]}\nLink : ${bug11}`
-                    var optionsp = {
-                    text: bug22,
-                    contextInfo: {mentionedJid: [nomor]},
-                    }                     
-                    denz.sendMessage(`6285335144197@s.whatsapp.net`, optionsp, text, {quoted: { key: { fromMe: false, participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "status@broadcast" } : {}) }, message: { "imageMessage": { "caption": `Done!`} } } })                    
-                    reply('Mau Masuk!')
+                    if (args.length < 1) return ephe('Link nya mana?')
+					denz.query({
+json:["action", "invite", `${args[0].replace('https://chat.whatsapp.com/','')}`]
+})
+reply('Sukses bergabung dalam group')
+break
 				case 'totag':
 				if (isBanned) return reply(mess.banned)                                   
 			if (!isGroup) return reply(mess.only.group)
@@ -3796,7 +4211,7 @@ var nn = body.slice(9)
 					teks = (args.length > 1) ? body.slice(8).trim() : ''
 					teks += '\n\n'
 					for (let mem of groupMembers) {
-						teks += `*~>* @${mem.jid.split('@')[0]}\n`
+						teks += `Pesan : ${c}\n\n@${mem.jid.split('@')[0]}\n`
 						members_id.push(mem.jid)
 					}
 					mentions(teks, members_id, true)
@@ -4095,6 +4510,7 @@ denz.sendMessage(from, 'yaudah oke',text, {
 })
 break
                 case 'ytmp4':
+                if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
                 if (isBanned) return reply(mess.banned)                                   
 						if (args.length === 0) return reply(`Kirim perintah *${prefix}ytmp4 [linkYt]*`)
 						let isLinks2 = args[0].match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
@@ -4113,6 +4529,7 @@ break
 						} catch (err) {
 							reply(mess.error.api)
 						}
+						limitAdd(sender, limit)
 						break
 						case 'ytsearch':
 						if (isBanned) return reply(mess.banned)                                   
@@ -4139,6 +4556,7 @@ break
             }
             break
 					case 'ytmp3':
+					if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 					if (isBanned) return reply(mess.banned)                                   
 						if (args.length === 0) return reply(`Kirim perintah *${prefix}ytmp3 [linkYt]*`)
 						let isLinks = args[0].match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
@@ -4157,8 +4575,10 @@ break
 						} catch (err) {
 							reply(mess.error.api)
 						}
+						limitAdd(sender, limit)
 						break
                     case 'audio':
+                    if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
                     if (isBanned) return reply(mess.banned)                                   
                             if (args.length === 0) return reply(`Kirim perintah *${prefix}play* _Judul lagu yang akan dicari_`)
                             let playy = await axios.get(`https://bx-hunter.herokuapp.com/api/yt/search?query=${body.slice(6)}&apikey=${HunterApi}`)
@@ -4177,8 +4597,10 @@ break
                             } catch (err) {
                                 reply(mess.error.api)
                             }
+                            limitAdd(sender, limit)
                             break
                             case 'video':
+                            if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
                             if (isBanned) return reply(mess.banned)                                   
                             if (args.length === 0) return reply(`Kirim perintah *${prefix}video* _Judul video yang akan dicari_`)
                             let playi = await axios.get(`https://bx-hunter.herokuapp.com/api/yt/search?query=${body.slice(6)}&apikey=${HunterApi}`)
@@ -4197,6 +4619,7 @@ break
                             } catch (err) {
                                 reply(mess.error.api)
                             }
+                            limitAdd(sender, limit)
                             break
                     case 'exif':
                     if (!isOwner && !mek.key.fromMe) return reply(mess.only.ownerB)
@@ -4269,7 +4692,7 @@ break
 						break
 					case 'stickerwm':
 					case 'swm':
-					if (!isPremium) return reply(mess.only.prem)
+					if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 					if (isBanned) return reply(mess.banned)                                   
 						if (isMedia && !mek.message.videoMessage || isQuotedImage) {
 							ppp = `${args.join(' ')}`
@@ -4337,6 +4760,7 @@ break
 						} else {
 							reply(`Kirim gambar/video dengan caption ${prefix}stickerwm nama|author atau tag gambar/video yang sudah dikirim\nNote : Durasi video maximal 10 detik`)
 						}
+						limitAdd(sender, limit)
 						break
 					case 'takestick':
 					case 'take':
@@ -4392,8 +4816,10 @@ break
 					}
 					break
 				case 'ss': case 'ssweb':
+				if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 				if (isBanned) return reply(mess.banned)                                   
 					sendMediaURL(from, `https://api.dapuhy.ga/api/others/ssweb?url=${args[0]}&apikey=${Dapuy}`)
+					limitAdd(sender, limit)
 					break
 				break
 				case 'addsticker':
@@ -4530,21 +4956,35 @@ break
                 denz.updateProfileName(anu)
                 reply(`Sukses mengganti nama ke ${body.slice(9)}`)
                 break
-case 'add':  
-if (isBanned) return reply(mess.banned)                                   
+case 'add':
+  try {
+if (isBanned) return reply(mess.banned)                                                  
 if (!isGroup) return reply(mess.only.group)
 if (!isGroupAdmins) return reply(mess.only.admin)
 if (!isBotGroupAdmins) return reply(mess.only.Badmin)
-if (args.length < 1) return reply('Yang mau di add jin ya?')
-if (args[0].startsWith('08')) return reply('Gunakan kode negara mas')
-try {
-num = `${args[0].replace(/ /g, '')}@s.whatsapp.net`
-denz.groupAdd(from, [num])
-} catch (e) {
-console.log('Error :', e)
-reply('Gagal menambahkan target, mungkin karena di private')
-}  
-break 
+if (mek.message.extendedTextMessage === null || mek.message.extendedTextMessage === undefined) {
+  entah = q.replace(new RegExp("[()+-/ +/]", "gi"), "") + `@s.whatsapp.net`
+  response = await denz.groupAdd(from, [entah])
+o = response.participants[0]
+let inv = (Object.values(o))
+if(inv[0].code == 409) return textreply('Nomor tersebut sudah di dalam group!')
+if(inv[0].code == 403) return textreply('Error, karena di private')
+if(inv[0].code == 408) return textreply('Nomor tersebut keluar group baru-baru ini')
+if(inv[0].code == 401) return textreply('Bot di block oleh target')
+} else {
+  entah = mek.message.extendedTextMessage.contextInfo.participant
+ response = await denz.groupAdd(from, [entah])
+o = response.participants[0]
+let inv = (Object.values(o))
+if(inv[0].code == 409) return textreply('Nomor tersebut sudah di dalam group!')
+if(inv[0].code == 403) return textreply('Error, karena di private')
+if(inv[0].code == 408) return textreply('Nomor tersebut keluar group baru-baru ini')
+if(inv[0].code == 401) return textreply('Bot di block oleh target')
+}
+} catch {
+return 
+}
+break
 case 'kick':       
 if (isBanned) return reply(mess.banned)                                                  
 if (!isGroup) return reply(mess.only.group)
@@ -4649,15 +5089,13 @@ case 'darkjoke':
 case 'darkmeme': case 'memedark':
 if (isBanned) return reply(mess.banned)                                   
 reply(mess.wait)
-auah = body.slice(8)
-anu = await fetchJson(`https://api.zeks.xyz/api/darkjokes?apikey=${ZeksApi}`, {method: 'get'})
-hasil = await getBuffer(anu.result)
+hasil = await getBuffer(`https://bagusbot-api.herokuapp.com/api/random/darkjoke?apikey=${BagusKey}`)
 let jokesbro = await denz.prepareMessage(from, hasil, MessageType.image, ) // change for file type
 let jokebut = [
   {buttonId: 'darkjokes', buttonText: {displayText: 'NEXT'}, type: 1}
 ]
 let darkjokmg = {
-    contentText: `Nih Senter 🔦🔦`,
+    contentText: `Dark Joke`,
     buttons: jokebut,
     footerText: 'Next to continue',
     headerType: 4, // change for file type
@@ -4668,9 +5106,7 @@ break
 case 'meme':
 if (isBanned) return reply(mess.banned)                                   
 reply(mess.wait)
-auah = body.slice(8)
-anu = await fetchJson(`https://api.zeks.xyz/api/darkjokes?apikey=${ZeksApi}`, {method: 'get'})
-hasil = await getBuffer(anu.result)
+hasil = await getBuffer(`https://bagusbot-api.herokuapp.com/api/random/darkjoke?apikey=${BagusKey}`)
 let memetod = await denz.prepareMessage(from, hasil, MessageType.image, ) // change for file type
 let memebut = [
   {buttonId: 'meme', buttonText: {displayText: 'NEXT'}, type: 1}
@@ -4683,20 +5119,6 @@ let memeimg = {
     imageMessage: memetod.message.imageMessage // change for file type
 }
 denz.sendMessage(from, memeimg, MessageType.buttonsMessage, {contextInfo: {"mentionedJid": [sender]}, quoted: mek})
-break
-case 'batues':
-reply(mess.wait)
-gatauda = body.slice(6)
-getBuffer(`https://api.dapuhy.ga/api/randomimage/batues?apikey= ${Dapuy}`).then((gambar) => {
-denz.sendMessage(from, gambar, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-})
-break
-case 'exontol':
-reply(mess.wait)
-gatauda = body.slice(6)
-getBuffer(`https://api.dapuhy.ga/api/randomimage/exontol?apikey= ${Dapuy}`).then((gambar) => {
-denz.sendMessage(from, gambar, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-})
 break
 case 'estetic': case 'estetikpic': case 'esteticpic': case 'aesthetic':
 if (isBanned) return reply(mess.banned)                                   
@@ -4720,9 +5142,7 @@ break
 //random
 case 'cecan':
 if (isBanned) return reply(mess.banned)                                   
-auah = body.slice(8)
-anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/cewe/china?apikey=${BagusKey}`, {method: 'get'})
-hasil = await getBuffer(anu.result.url)
+hasil = await getBuffer(`https://bagusbot-api.herokuapp.com/api/random/cecan?apikey=${BagusKey}`)
 let cewe = await denz.prepareMessage(from, hasil, MessageType.image, ) // change for file type
 let cewebut = [
   {buttonId: 'cecan', buttonText: {displayText: 'NEXT'}, type: 1}
@@ -4740,7 +5160,6 @@ break
 case 'ppcouple': case 'couple': case 'ppcp':
 if (isBanned) return reply(mess.banned)                                   
 reply(mess.wait)
-auah = body.slice(8)
 anu = await fetchJson(`https://api.dapuhy.ga/api/randomimage/couple?apikey=${Dapuy}`, {method: 'get'})
 buffer = await getBuffer(anu.result.pria)
 denz.sendMessage(from, buffer, image, { quoted: mek, caption: 'Cowo'})
@@ -4763,6 +5182,7 @@ store += `\n*「 PLAY STORE 」*\n
 textreply(pstore);
 break;
 case 'linkwa': case 'grupwa' :
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)                                   
 if(!c) return reply('cari group apa?')
 hx.linkwa(c)
@@ -4773,6 +5193,7 @@ res += `*Nama*: *${i.nama}\n*Link*: ${i.link}\n\n`
 }
 textreply(res)
 });
+limitAdd(sender, limit)
 break
 case 'kbbi':
 if (isBanned) return reply(mess.banned)                                   
@@ -4782,6 +5203,7 @@ anu = await fetchJson(`https://mnazria.herokuapp.com/api/kbbi?search=${body.slic
 textreply('Menurut Kbbi:\n\n'+anu.result)
 break
 case 'brainly':
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)                                   
 if (args.length < 1) return reply('Masukkan soal!\ncontoh : ${prefix}brainly apa arti pancasila?')
   brainly(`${q}`).then(res => {
@@ -4791,16 +5213,15 @@ if (args.length < 1) return reply('Masukkan soal!\ncontoh : ${prefix}brainly apa
   }
   denz.sendMessage(from, teks, text, {quoted: mek, detectLinks: false})
   })
+  limitAdd(sender, limit)
   break
 //------ > Gabut < ------ | |
-case prefix+'hobby':
-if (!c) return reply(`Penggunaan ${command} text\n\nContoh : ${command} Bagus`)
+case 'hobby':
 let hob = ['Desah Di Game', 'Ngocokin Doi', 'Stalking sosmed nya mantan', 'Kau kan gak punya hobby awokawok', 'Memasak', 'Membantu Atok', 'Mabar', 'Nobar', 'Sosmedtan', 'Membantu Orang lain', 'Nonton Anime', 'Nonton Drakor', 'Naik Motor', 'Nyanyi', 'Menari', 'Bertumbuk', 'Menggambar', 'Foto fotoan Ga jelas', 'Maen Game', 'Berbicara Sendiri']
 let by = hob[Math.floor(Math.random() * hob.length)]
 denz.sendMessage(from, 'Pertanyaan : hobby ' + q + '\n\nJawaban : ' + by, text, { quoted: mek })
 break
-case prefix+'rate':
-if (!c) return reply(`Penggunaan ${command} text\n\nContoh : ${command} kegantengan saya`)
+case 'rate':
 let ra = ['4', '9', '17', '28', '34', '48', '59', '62', '74', '83', '97', '100', '29', '94', '75', '82', '41', '39']
 let lte = ra[Math.floor(Math.random() * ra.length)]
 denz.sendMessage(from, 'Pertanyaan : ' + q + '\n\nJawaban : ' + te + '%', text, { quoted: msg })
@@ -4898,13 +5319,11 @@ let meguimg = {
 }
 denz.sendMessage(from, meguimg, MessageType.buttonsMessage, {contextInfo: {"mentionedJid": [sender]}, quoted: mek})
 break
-//------ > Nsfw < ------
+//------ > Nsfw & Sfw < ------
 case 'nekonime':
 if (isBanned) return reply(mess.banned)                                   
 if (!isGroup) return reply(mess.only.group)
-if (!isNsfw) return reply(`Fitur Nsfw Belum Aktif!\nketik : ${prefix}nsfw`)
 reply(mess.wait)
-gatauda = body.slice(6)
 getBuffer(`https://bx-hunter.herokuapp.com/api/sfw/neko?apikey=${HunterApi}`).then((gambar) => {
 denz.sendMessage(from, gambar, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
 })
@@ -4912,9 +5331,7 @@ break
 case 'blowjob':
 if (isBanned) return reply(mess.banned)                                   
 if (!isGroup) return reply(mess.only.group)
-if (!isNsfw) return reply(`Fitur Nsfw Belum Aktif!\nketik : ${prefix}nsfw`)
 reply(mess.wait)
-gatauda = body.slice(6)
 getBuffer(`https://bx-hunter.herokuapp.com/api/nsfw/blowjob?apikey=${HunterApi}`).then((gambar) => {
 denz.sendMessage(from, gambar, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
 })
@@ -4922,9 +5339,7 @@ break
 case 'awoo':
 if (isBanned) return reply(mess.banned)                                   
 if (!isGroup) return reply(mess.only.group)
-if (!isNsfw) return reply(`Fitur Nsfw Belum Aktif!\nketik : ${prefix}nsfw`)
 reply(mess.wait)
-gatauda = body.slice(6)
 getBuffer(`https://bx-hunter.herokuapp.com/api/sfw/awoo?apikey=${HunterApi}`).then((gambar) => {
 denz.sendMessage(from, gambar, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
 })
@@ -4932,27 +5347,24 @@ break
 case 'nsfwyuri':
 if (isBanned) return reply(mess.banned)                                   
 if (!isGroup) return reply(mess.only.group)
-if (!isNsfw) return reply(`Fitur Nsfw Belum Aktif!\nketik : ${prefix}nsfw`)
 reply(mess.wait)
-gatauda = body.slice(6)
 getBuffer(`https://bx-hunter.herokuapp.com/api/nsfw/yuri?apikey=${HunterApi}`).then((gambar) => {
 denz.sendMessage(from, gambar, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
 })
 break
 case 'hentai':
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)                                   
 if (!isGroup) return reply(mess.only.group)
-if (!isNsfw) return reply(`Fitur Nsfw Belum Aktif!\nketik : ${prefix}nsfw`)
 reply(mess.wait)
-gatauda = body.slice(6)
 getBuffer(`https://bx-hunter.herokuapp.com/api/nsfw/hentai?apikey=${HunterApi}`).then((gambar) => {
 denz.sendMessage(from, gambar, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
 })
+limitAdd(sender, limit)
 break
 case 'kitsune':
 if (isBanned) return reply(mess.banned)                                   
 if (!isGroup) return reply(mess.only.group)
-if (!isNsfw) return reply(`Fitur Nsfw Belum Aktif!\nketik : ${prefix}nsfw`)
 reply(mess.wait)
 anu = (`https://hardianto-chan.herokuapp.com/api/anime/random?nsfw=kitsune&apikey=hardianto`)
 img = await getBuffer(anu)
@@ -4961,7 +5373,6 @@ break
 case 'pussy':
 if (isBanned) return reply(mess.banned)                                   
 if (!isGroup) return reply(mess.only.group)
-if (!isNsfw) return reply(`Fitur Nsfw Belum Aktif!\nketik : ${prefix}nsfw`)
 reply(mess.wait)
 anu = await getBuffer(`https://hardianto-chan.herokuapp.com/api/anime/random?nsfw=pussy&apikey=hardianto`)
 img = await getBuffer(anu)
@@ -4970,7 +5381,6 @@ break
 case 'nsfwkuni':
 if (isBanned) return reply(mess.banned)                                   
 if (!isGroup) return reply(mess.only.group)
-if (!isNsfw) return reply(`Fitur Nsfw Belum Aktif!\nketik : ${prefix}nsfw`)
 reply(mess.wait)
 gatauda = body.slice(6)
 getBuffer(`https://api.dapuhy.ga/api/nsfw/nsfwkuni?apikey=${Dapuy}`).then((gambar) => {
@@ -4980,9 +5390,7 @@ break
 case 'nsfwtrap':
 if (isBanned) return reply(mess.banned)                                   
 if (!isGroup) return reply(mess.only.group)
-if (!isNsfw) return reply(`Fitur Nsfw Belum Aktif!\nketik : ${prefix}nsfw`)
 reply(mess.wait)
-gatauda = body.slice(6)
 getBuffer(`https://api.dapuhy.ga/api/nsfw/nsfwtrap?apikey=${Dapuy}`).then((gambar) => {
 denz.sendMessage(from, gambar, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
 })
@@ -4990,9 +5398,7 @@ break
 case 'poke':
 if (isBanned) return reply(mess.banned)                                   
 if (!isGroup) return reply(mess.only.group)
-if (!isNsfw) return reply(`Fitur Nsfw Belum Aktif!\nketik : ${prefix}nsfw`)
 reply(mess.wait)
-gatauda = body.slice(6)
 getBuffer(`https://api.dapuhy.ga/api/sfw/sfwpoke?apikey=${Dapuy}`).then((gambar) => {
 denz.sendMessage(from, gambar, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
 })
@@ -5000,7 +5406,6 @@ break
 case 'anal':
 if (isBanned) return reply(mess.banned)                                   
 if (!isGroup) return reply(mess.only.group)
-if (!isNsfw) return reply(`Fitur Nsfw Belum Aktif!\nketik : ${prefix}nsfw`)
 reply(mess.wait)
 aku = (`https://hardianto-chan.herokuapp.com/api/anime/random?nsfw=anal&apikey=hardianto`)
 kon = await getBuffer(aku)
@@ -5009,7 +5414,6 @@ break
 case 'eroneko':
 if (isBanned) return reply(mess.banned)                                   
 if (!isGroup) return reply(mess.only.group)
-if (!isNsfw) return reply(`Fitur Nsfw Belum Aktif!\nketik : ${prefix}nsfw`)
 reply(mess.wait)
 aku = (`https://hardianto-chan.herokuapp.com/api/anime/random?nsfw=eroNeko&apikey=hardianto`)
 kon = await getBuffer(aku)
@@ -5018,7 +5422,6 @@ break
 case 'slap':
 if (isBanned) return reply(mess.banned)                                   
 if (!isGroup) return reply(mess.only.group)
-if (!isNsfw) return reply(`Fitur Nsfw Belum Aktif!\nketik : ${prefix}nsfw`)
 reply(mess.wait)
 aku = (`https://hardianto-chan.herokuapp.com/api/anime/random?sfw=slap&apikey=hardianto`)
 kon = await getBuffer(aku)
@@ -5027,7 +5430,6 @@ break
 case 'keta':
 if (isBanned) return reply(mess.banned)                                   
 if (!isGroup) return reply(mess.only.group)
-if (!isNsfw) return reply(`Fitur Nsfw Belum Aktif!\nketik : ${prefix}nsfw`)
 reply(mess.wait)
 aku = (`https://hardianto-chan.herokuapp.com/api/anime/random?nsfw=keta&apikey=hardianto`)
 kon = await getBuffer(aku)
@@ -5036,7 +5438,6 @@ break
 case 'baka':
 if (isBanned) return reply(mess.banned)                                   
 if (!isGroup) return reply(mess.only.group)
-if (!isNsfw) return reply(`Fitur Nsfw Belum Aktif!\nketik : ${prefix}nsfw`)
 reply(mess.wait)
 aku = (`https://hardianto-chan.herokuapp.com/api/anime/random?sfw=baka&apikey=hardianto`)
 kon = await getBuffer(aku)
@@ -5045,7 +5446,6 @@ break
 case 'wallpapers':
 if (isBanned) return reply(mess.banned)                                   
 if (!isGroup) return reply(mess.only.group)
-if (!isNsfw) return reply(`Fitur Nsfw Belum Aktif!\nketik : ${prefix}nsfw`)
 reply(mess.wait)
 aku = (`https://hardianto-chan.herokuapp.com/api/anime/random?sfw=wallpaper&apikey=hardianto`)
 kon = await getBuffer(aku)
@@ -5054,7 +5454,6 @@ break
 case 'neko2':
 if (isBanned) return reply(mess.banned)                                   
 if (!isGroup) return reply(mess.only.group)
-if (!isNsfw) return reply(`Fitur Nsfw Belum Aktif!\nketik : ${prefix}nsfw`)
 reply(mess.wait)
 aku = (`https://hardianto-chan.herokuapp.com/api/anime/random?sfw=neko&apikey=hardianto`)
 kon = await getBuffer(aku)
@@ -5104,6 +5503,7 @@ if (isBanned) return reply(mess.banned)
       break
 //------ > anime < ------
 case 'storyanime':
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)                                   
 reply(mess.wait)
 get_result = await getBuffer(`https://api.dapuhy.ga/api/anime/storyanime?apikey=${Dapuy}`)
@@ -5117,12 +5517,12 @@ displayText: `NEXT`,
 type: 1,
 },
 ]);                 
+limitAdd(sender, limit)
 break
-case 'loliv':
-case 'lolivid':
-case 'lolivideo': case 'lolivideo':
+//case 'loliv':
+//case 'lolivid':
+//case 'lolivideo': //case 'lolivideo':
 if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
 anu = await fetchText('https://raw.githubusercontent.com/AlvioAdjiJanuar/random/main/loli.txt')
 .then(async (body) => {
 anu = body.split('\n')
@@ -5264,6 +5664,16 @@ var cintax = kamu[Math.floor(Math.random() * cinta.length)]
 let vejs = `Ciee.. yang lagi jadian\n@${aku.jid.split('@')[0]} ♥️ @${cintax.jid.split('@')[0]}\nSemoga Langgeng Hii`
 mentions(vejs, [aku.jid, cintax.jid], true)
 break
+case 'ngewe':
+if (isBanned) return reply(mess.banned)                                   
+if (!isGroup) return reply(mess.only.group)
+var ngewe = groupMembers
+var samaa = groupMembers
+var taggsatuu = samaa[Math.floor(Math.random() * ngewe.length)]
+var taggduaa = ngewe[Math.floor(Math.random() * samaa.length)]
+let ngeweeah = `Yang ngewe kemarin di grup ini adalah @${taggsatuu.jid.split('@')[0]} dan @${taggduaa.jid.split('@')[0]}`
+mentions(ngeweeah, [taggsatuu.jid, taggduaa.jid], true)
+break
 //------ > Nulis < ------
             case 'nuliskiri':
                 if (args.length < 1) return reply(`Kirim perintah *${prefix}nuliskiri* teks`)
@@ -5371,6 +5781,7 @@ break
                 break
 //Asupan
 case 'asupanbocil':
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)                                   
 reply(mess.wait)
                     get_result = await getBuffer(`https://api.dapuhy.ga/api/asupan/asupanbocil?apikey=${Dapuy}`)
@@ -5384,8 +5795,10 @@ reply(mess.wait)
             type: 1,
           },
         ]);                 
+        limitAdd(sender, limit)
                     break    
 case 'asupan':
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)                                   
 reply(mess.wait)
                     get_result = await getBuffer(`https://api.dapuhy.ga/api/asupan/asupan?apikey=${Dapuy}`)
@@ -5399,8 +5812,10 @@ reply(mess.wait)
             type: 1,
           },
         ]);                 
+        limitAdd(sender, limit)
                     break    
 case 'asupansantuy':
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)                                   
 reply(mess.wait)
                     get_result = await getBuffer(`https://api.dapuhy.ga/api/asupan/asupansantuy?apikey=${Dapuy}`)
@@ -5414,8 +5829,10 @@ reply(mess.wait)
             type: 1,
           },
         ]);                 
+        limitAdd(sender, limit)
                     break 
 case 'asupanukhty':
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)                                   
 reply(mess.wait)
                     get_result = await getBuffer(`https://api.dapuhy.ga/api/asupan/asupanukhty?apikey=${Dapuy}`)
@@ -5429,8 +5846,10 @@ reply(mess.wait)
             type: 1,
           },
         ]);                 
+        limitAdd(sender, limit)
                     break    
 case 'asupanrikagusriani':
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)                                   
 reply(mess.wait)
                     get_result = await getBuffer(`https://api.dapuhy.ga/api/asupan/asupanrikagusriani?apikey=${Dapuy}`)
@@ -5444,8 +5863,10 @@ reply(mess.wait)
             type: 1,
           },
         ]);                 
+        limitAdd(sender, limit)
                     break    
 case 'asupanghea':
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)                                   
 reply(mess.wait)
                     get_result = await getBuffer(`https://api.dapuhy.ga/api/asupan/asupanghea?apikey=${Dapuy}`)
@@ -5459,6 +5880,7 @@ reply(mess.wait)
             type: 1,
           },
         ]);                 
+        limitAdd(sender, limit)
                     break
 case "chara":
 if (isBanned) return reply(mess.banned)                                   
@@ -5485,10 +5907,18 @@ if (isBanned) return reply(mess.banned)
             }
             });
             break
-case 'quotes':
+            case 'quotes':
+					quotez = body.slice(1)
+				    nasehat =['Jangan pernah mengabaikan apapun yang terjadi, suatu saat akan sadar dan menyesal, ingat tuhan akan selalu memberikan penyesalan terakhir ...','Ingat iya.. Perilaku mu bisa mengubah perasaan seseorang.','Setia itu bukan yang selalu ada, namun saat tak bersama dia tahu hatinya milik siapa.','Kamu perlu belajar satu hal : "Menghargai seriusnya seseorang."','Jangan cari yang sempurna, Sempurnakan saja yang ada.','Ketika seseorang menghina kamu, itu adalah sebuah pujian bahwa selama ini mereka menghabiskan banyak waktu untuk memikirkan kamu, bahkan ketika kamu tidak memikirkan mereka.','Yang terbaik tidak akan hilang. Jika dia hilang maka dia bukanlah yang terbaik.','Percayalah. Suatu hari nanti pasti akan ada seseorang yang bangga memilikimu.','Tidak ada kmek yang pernah dibuat oleh seorang seniman yang malas.','Jika seseorang memberimu perhatian jangan pernah mengabaikannya karena suatu saat perhatian sekecil itu kamu rindukan saat kamu kesepian.','Bersyukurlah.. Untuk segala apapun yang engkau miliki saat ini, sebab nikmat itu akan bertambah ketika kamu dapat mensyukuri apa yang telah diberi saat ini. #Buat diri ini jangan banyak mengeluh yah.','Ada perbedaan antara menyerah dan tau kapan kamu merasa cukup dalam berusaha.','Jangan sampai kesenanganmu menyusahkan orang lain. Jangan pula kesusahanmu menyenangkan orang lain.','Semakin banyak kamu memberi, semakin banyak pula yang akan kembali padamu.','Jangan pernah bandingkan akhir kesuksesan orang lain dengan pertengahan prosesmu.','Lakukan apa yang kamu bisa, dengan apa kamu miliki, dimanapun kamu berada.','Hidup memang bukan balapan, tetapi kamu memang perlu untuk terus bergerak maju.','NIKMATI HIDUPMU, LUPAKAN UMURMU.','Sebaik-baiknya permintaan maaf adalah membaiknya tingkah laku.','Belajarlah memahami bahwa tidak semua keinginan bisa terpenuhi, barangkali itu adalah obat yang terbaik untuk mencegah kecewa dan sakit hati.','Kamu akan menemukan yang terbaik, ketika kamu sudah berhenti membanding-bandingkan.','Jangan menilai orang dari masa lalunya karena kita semua sudah tidak hidup disana. Semua orang bisa berubah, biarkan mereka membuktikannya.','Jika dia tidak merasakan kehadiranmu, buat dia merasakan kepergianmu.','Orang pintar mampu memecahkan masalah. Orang bijak mampu menghindarinya.','Bersikap tidak lagi peduli lebih baik dari pada balas dendam.','Tegas akan diri sendiri, buang pikiran negatif dan lakukan yang baik. Kegelisahan hanya milik mereka yang putus asa.','Jangan pikirkan kegagalan kemarin, hari ini sudah lain, sukses pasti diraih selama semangat masih menyengat.','Memaafkanmu bukan berarti memberimu kesempatan sekali lagi.','Berubah menjadi lebih baik adalah pilihan. Tapi, merasa paling baik adalah kesalahan.','Jangan pernah bandingkan dirimu dengan orang lain, tapi bandingkanlah dengan dirimu yang lalu, apakah hari ini sudah lebih baik?','Ketahuilah orang yang paling sering memberi nasihat kepadamu, itulah orang yang paling mencintai kamu.','Jangan pernah berhenti belajar, karena hidup tidak pernah berhenti mengajarkan.','Salah satu tanda dirimu tidak berakhlak adalah main HP ketika ada orang yang berbicara.','Raihlah kesuksesan yang tidak seseorangpun berfikir kamu bisa meraihnya. Buktikan pada mereka kalau kamu bisa!','Kesalahan adalah bukti nyata kalau kamu pernah mencoba. Jangan takut salah. Takutlah untuk melakukan kesalahan-kesalahan yang sama dua kalinya.','Cepat atau lambat bukan masalah. Selama kamu tetap bergerak maju, tidak ada akhirnya kamu akan tetap sampai tidak ada tujuan.','Jika kamu tidak bisa membahagiakan orang lain, Setidaknya janganlah kamu tambah dukanya.','Teruslah berusaha sampai temanmu berkata kepadamu "Sombong iya sekarang."','Ketika kamu melakukan sebuah kesalahan, Akuilah dan jangan ragu untuk meminta maaf. Tidak pernah ada satupun orang dalam sejarah yang mati tersedak karena menelan gengsinya sendiri.','Syukuri yang menyayangimu, Maafkan yang menyakitimu.','Tunjukkan keburukanmu, lalu lihat siapa yang bertahan.','Kamu boleh lelah, tetapi tidak boleh menyerah untuk selamanya.','Jangan pernah lupa bilang "Terima Kasih." Jangan pernah gengsi bilang "Maaf." Jangan pernah jadi terlalu sombong untuk bilang "Tolong."','Masa lalu tidak bisa berubah, diubah, dilupakan, ataupun di hapus. Masa lalu hanya bisa di terima','Kita ini.. sangat pintar menghakimi, Namun bodoh dalam memperbaiki diri.','Tidak peduli seberapa baiknya kamu, Kebaikan tidak akan berarti apa-apa jika kamu memberikan kepada orang yang salah.','Orang sabar selalu menang, Orang tamak selalu rugi, Orang marah selalu kalah, Orang baik selalu diuji.','Carilah tempat dimana kamu bisa dihargai, Bukan dibutuhkan. Karena banyak orang mencarimu hanya saat butuh saja, Hingga lupa bagaimana cara menghargaimu.','Melupakan orang yang melukaimu adalah hadiahmu untuk mereka. Memaafkan orang yang melukaimu adalah hadiahmu untuk dirimu sendiri.','Maafkan orang yang menyakitimu... Bukan karena mereka pantas di maafkan, Tapi karena kamu harus berbahagia.','Tetaplah kuat, Tetaplah positif, Buatlah mereka bertanya-tanya bagaimana kamu masih tetap bisa tersenyum.','Jangan meninggalkan yang pasti demi yang mungkin. Sebab semua kemungkinan, belum tentu menjadi kepastian.','Seseorang pernah berkata padaku, Merelakan bukan berarti menyerah, Tapi tidak bisa dipaksakan.','Ikuti alurnya, Nikmati prosesnya, Tuhan tau kapan kita harus bahagia.','Usia hanyalah angka, Hanya mereka yang terus berusaha yang berhasil.','Jangan pernah meremehkan siapapun! Karena sukses adalah balas dendam Terbaik.','Pria sejati.. Harus menyelesaikan apa yang sudah dimulai.','Jika kau ingin terbang, Kau harus melepaskan hal-hal yang membuatmu berat.','Siapapun yang meremehkan mu hari ini, Suatu saat harus kamu lewati.','Jangan Mencintai terlalu mudah, Jangan Percaya terlalu cepat, Jangan Berhenti terlalu dini, Jangan Berharap terlalu tinggi, Jangan Bicara terlalu banyak.','Jadilah orang baik tapi jangan biarkan orang lain mengambil keuntungan dari mu. Ketahuilah kapan kamu harus bilang tidak.','Sahabat sejati adalah mereka tau semua kelemahan mu, Tapi tidak menggunakan nya untuk menjatuhkan mu.','Ada tiga hal yang harus dimiliki dalam hidup yaitu : Perubahan, Pilihan dan Prinsip.','Orang bodoh mengira dirinya bijak. orang bijak tau dirinya bodoh.','Jatuh cintalah seperlunya.. Kemudian patah hatilah secukupnya. Karena semua ada porsinya, Karena semua ada masanya.','Kita tidak pernah tau jalan hidup seseorang.. Maka ada baiknya jika kita tidak menghakiminya atas keputusan dalam hidupnya.','Jangan pernah menyesal mengenal seseorang dalam hidupmu, Orang baik akan memberi mu Kebahagiaan, Orang jahat akan memberi mu Pengalaman, Bahkan seburuk-buruk manusia akan memberi mu Pelajaran.','Jangan menilai kedewasaan dari usia seseorang, Karena itu bukan jaminan.']
+				    nsh = nasehat[Math.floor(Math.random() * nasehat.length)]
+					denz.sendMessage(from, ''+nsh+'\n\n~ By Bagus ID'+ quotez, text, { quoted: mek })
+					break
+case 'quotesimage': case 'quotesyt':
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)                                   
 dapuhy = await getBuffer(`https://api.dapuhy.ga/api/randomimage/quotesyt?apikey=${Dapuy}`)
-denz.sendMessage(from, dapuhy, image, {quoted: mek})        
+denz.sendMessage(from, dapuhy, image, {quoted: mek})       
+limitAdd(sender, limit) 
 break
 case 'vietnam' :
 case 'malaysia' :
@@ -5503,9 +5933,7 @@ auah = body.slice(8)
 anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/cewe/vietnam?apikey=${BagusKey}`, {method: 'get'})
 hasil = await getBuffer(anu.result.url)
 let gachacewe = await denz.prepareMessage(from, hasil, MessageType.image, ) // change for file type
-let gachaceweb = [
-  {buttonId: '${command}', buttonText: {displayText: 'NEXT'}, type: 1}
-]
+let gachaceweb = [{buttonId:`${command}`,buttonText: {displayText: 'NEXT'}, type: 1}]
 let gachacewei = {
     contentText: `Cewenya @${sender.split('@')[0]}`,
     buttons: gachaceweb,
@@ -5693,61 +6121,122 @@ reply('Reply Gambarnya!!')
 break
 //------ > Games < ------
                 case 'tebakgambar':
-                if (game.isTebakGambar(from, tebakgambar)) return reply(`Masih ada soal yang belum di selesaikan`)
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isTebakGambar(from, tebakgambar)) return reply(`Masih ada soal yang belum di selesaikan`)
                 anu = await axios.get(`https://api-ramlan.herokuapp.com/api/game/tebak-gambar?apikey=${Ramlan}`)
                 petunjuk = anu.data.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
                 gambarsoal = await getBuffer(anu.data.img)
                 bp = await denz.sendMessage(from, gambarsoal, image, {caption:`Silahkan jawab soal berikut ini\n\nPetunjuk : ${petunjuk}\nWaktu : ${gamewaktu}s`, quoted:mek})
                 console.log(anu.data.jawaban)
                 let anih = anu.data.jawaban.toLowerCase()
-                game.addgambar(from, anih, gamewaktu, tebakgambar)
+                addgambar(from, anih, gamewaktu, tebakgambar)
+                gameAdd(sender, glimit)
                 break
                 case 'tebakanime':
-                if (game.isTebakAnime(from, tebakanime)) return reply(`Masih ada soal yang belum di selesaikan`)
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isTebakAnime(from, tebakanime)) return reply(`Masih ada soal yang belum di selesaikan`)
                 anu = await axios.get(`https://api-ramlan.herokuapp.com/api/game/tebak-anime?apikey=${Ramlan}`)
                 petunjuk = anu.data.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
                 gambarsoal = await getBuffer(anu.data.soal)
-                bp = await denz.sendMessage(from, gambarsoal, image, {caption:`Siapa Dia?\n\nPetunjuk : ${petunjuk}\nWaktu : ${gamewaktu}s`, quoted:mek})
+                bp = await denz.sendMessage(from, gambarsoal, image, {caption:`Tebak!\n\nPetunjuk : ${petunjuk}\nWaktu : ${gamewaktu}s`, quoted:mek})
                 console.log(anu.data.jawaban)
                 let animeh = anu.data.jawaban.toLowerCase()
-                game.addnime(from, animeh, gamewaktu, tebakanime)
+                addnime(from, animeh, gamewaktu, tebakanime)
+                gameAdd(sender, glimit)
                 break
                 case 'caklontong':
-                if (game.isCakLontong(from, caklontong)) return reply(`Masih ada soal yang belum di selesaikan`)
-                anu = await axios.get(`https://api-ramlan.herokuapp.com/api/game/caklontong?apikey=YTRAMLANID`)
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isCakLontong(from, caklontong)) return reply(`Masih ada soal yang belum di selesaikan`)
+                anu = await axios.get(`https://api-ramlan.herokuapp.com/api/game/caklontong?apikey=${Ramlan}`)
                 petunjuk = anu.data.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
-                bp = await denz.sendMessage(from, `*Soal* : ${anu.data.soal}\n\nPetunjuk : ${petunjuk}\nWaktu : ${gamewaktu}s`, text, {quoted:mek})
+                bp = await sendButMessage(from, `${anu.data.soal}\n\nTimeout : *${gamewaktu}s*\nHint : ${petunjuk}`, "Jawab Bro, Gabisa Donasi!!", [{buttonId: 'hintl',buttonText: {displayText: 'Cak Lontong-'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
                 console.log(anu.data.jawaban)
                 let colont = anu.data.jawaban
-                game.addlontong(from, colont, gamewaktu, caklontong)
+                addlontong(from, colont, gamewaktu, caklontong)
+                gameAdd(sender, glimit)
                 break
                case 'family100':
-                if (game.isfam(from, family100)) return reply(`Masih ada soal yang belum di selesaikan`)
+               if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isfam(from, family100)) return reply(`Masih ada soal yang belum di selesaikan`)
                 anu = await axios.get(`https://api-ramlan.herokuapp.com/api/game/family100?apikey=${Ramlan}`)
-                textreply(`*JAWABLAH SOAL BERIKUT*\n\n*Soal :* ${anu.data.soal}\n\nWaktu : ${gamewaktu}s`)
+                bp = await denz.sendMessage(from, `*JAWABLAH SOAL BERIKUT*\n\n*Soal :* ${anu.data.soal}\n\nWaktu : ${gamewaktu}s`, text, {quoted:mek})
                 console.log(anu.data.jawaban)
                 let anoh = anu.data.jawaban
-                game.addfam(from, anoh, gamewaktu, family100)
+                addfam(from, anoh, gamewaktu, family100)
+                gameAdd(sender, glimit)
                 break
-//Games Text
-               case 'susunkata':
-                if (game.isSusunKata(from, susunkata)) return reply(`Masih ada soal yang belum di selesaikan`)
+                case 'susunkata':
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isSusunKata(from, susunkata)) return reply(`Masih ada soal yang belum di selesaikan`)
                 anu = await axios.get(`https://hardianto.xyz/api/susunkata?apikey=hardianto`)
-                textreply(`*Susun Kata*\n\n*Soal* : ${anu.data.math.soal}\n*Tipe* : ${anu.data.math.tipe}\n\nWaktu : ${gamewaktu}s`)
+                petunjuk = anu.data.math.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
+                bp = await denz.sendMessage(from, `${anu.data.math.soal}\nTipe : ${anu.data.math.tipe}\n\n_Jawab Bro!!, Waktu : ${gamewaktu} detik_`, text, {quoted:mek})
                 console.log(anu.data.math.jawaban)
-                let gamef = anu.data.math.jawaban
-                game.addskata(from, gamef, gamewaktu, susunkata)
+                let skataa = anu.data.math.jawaban.toLowerCase()
+                addskata(from, skataa, gamewaktu, susunkata)
+                gameAdd(sender, glimit)
                 break
-                
-//------ New Feature
+                case 'siapakahaku': case 'siapaaku': case 'siapaku':
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isSiapaAku(from, siapaku)) return reply(`Masih ada soal yang belum di selesaikan`)
+                anu = await axios.get(`https://hardianto.xyz/api/siapaaku?apikey=hardianto`)
+                bp = await denz.sendMessage(from, `${anu.data.math.soal}\n\n_Siapakah aku?, Waktu : ${gamewaktu} detik_`, text, {quoted:mek})
+                console.log(anu.data.math.jawaban)
+                sopoaku = anu.data.math.jawaban.toLowerCase()
+                addsaku(from, sopoaku, gamewaktu, siapaku)
+                gameAdd(sender, glimit)
+                break
+                case 'tebakkata': 
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isTebakKata(from, tebakkata)) return reply(`Masih ada soal yang belum di selesaikan`)
+                anu = await axios.get(`https://hardianto.xyz/api/tebakkata?apikey=hardianto`)
+                bp = await denz.sendMessage(from, `${anu.data.math.soal}`, text, {quoted:mek})
+                console.log(anu.data.math.jawaban)
+                ikikataopo = anu.data.math.jawaban.toLowerCase()
+                addtebakkata(from, ikikataopo, gamewaktu, tebakkata)
+                gameAdd(sender, glimit)
+                break
+                case 'tebakkalimat': 
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isTebakKalimat(from, tebakkalimat)) return reply(`Masih ada soal yang belum di selesaikan`)
+                anu = await axios.get(`https://hardianto.xyz/api/tebakkalimat?apikey=hardianto`)
+                bp = await denz.sendMessage(from, `${anu.data.math.soal}`, text, {quoted:mek})
+                console.log(anu.data.math.jawaban)
+                kalimatapa = anu.data.math.jawaban.toLowerCase()
+                addtkalimat(from, kalimatapa, gamewaktu, tebakkalimat)
+                gameAdd(sender, glimit)
+                break
+                case 'asahotak':
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isAsahOtak(from, asahotak)) return reply(`Masih ada soal yang belum di selesaikan`)
+                anu = await axios.get(`https://hardianto.xyz/api/asahotak?apikey=hardianto`)
+                petunjuk = anu.data.math.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
+                bp = await denz.sendMessage(from, `*Soal* : ${anu.data.math.soal}\n\n*Petunjuk*: ${petunjuk}`, text, {quoted:mek})
+                console.log(anu.data.math.jawaban)
+                gamef = anu.data.math.jawaban.toLowerCase()
+                addasahotak(from, gamef, gamewaktu, asahotak)
+                gameAdd(sender, glimit)
+                break
+                case 'tebaklirik':
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isTebakLirik(from, tebaklirik)) return reply(`Masih ada soal yang belum di selesaikan`)
+                anu = await axios.get(`https://hardianto.xyz/api/tebaklirik?apikey=hardianto`)
+                bp = await denz.sendMessage(from, `${anu.data.math.soal}\n\n\n\n_Jawab Bro!!, Waktu : ${gamewaktu} detik_`, text, {quoted:mek})
+                console.log(anu.data.math.jawaban)
+                gamef = anu.data.math.jawaban.toLowerCase()
+                addtebaklirik(from, gamef, gamewaktu, tebaklirik)
+                gameAdd(sender, glimit)
+                break
 case 'cerpen':
-if (isBanned) return reply(mess.banned)                                   
+if (isBanned) return reply(mess.banned)
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)           
 auah = body.slice(8)
 cerresult = await fetchJson(`https://api.dapuhy.ga/api/fun/cerpen?apikey=Anjay`, {method: 'get'})
 ini_txt = `Judul : ${cerresult.result.judul}\n`
 ini_txt += `Kategori : ${cerresult.result.kategori}\n`
 ini_txt += `\n*Cerita* :\n${cerresult.result.cerita}`
 sendButMessage(from, `${ini_txt}`, "klik *Next* untuk melanjutkan", [{buttonId: 'cerpen',buttonText: {displayText: 'NEXT'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+limitAdd(sender, limit)
 break
 case 'fakedata':
 if (isBanned) return reply(mess.banned)                                   
@@ -5777,7 +6266,8 @@ if(!c) return reply('mau nyari apa?')
                   textreply(store)
                   break
 case 'smeme': 
-if (isBanned) return reply(mess.banned)                                   
+if (isBanned) return reply(mess.banned) 
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)                                  
 reply('Loading.... ')
 top = arg.split('|')[0]
 bottom = arg.split('|')[1]
@@ -5793,6 +6283,39 @@ sendStickerUrl(from, `${anu1}`)
 } else {
 reply('Reply foto/stiker!')
 }
+limitAdd(sender, limit)
+break
+case 'smeme-a': 
+if (isBanned) return reply(mess.banned)                                   
+reply('Loading.... ')
+var imgbb = require('imgbb-uploader')
+if ((isMedia && !mek.message.videoMessage || isQuotedImage || isQuotedSticker) && args.length > 0) {
+ger = isQuotedImage || isQuotedSticker ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek 
+owgi = await  denz.downloadAndSaveMediaMessage(ger)
+anu = await imgbb("3b8594f4cb11895f4084291bc655e510", owgi)
+ranp = getRandom('.gif')
+rano = getRandom('.webp')
+anu1 = `https://api.memegen.link/images/custom/${c}/-.png?background=${anu.display_url}`
+sendStickerUrl(from, `${anu1}`)
+} else {
+reply('Reply foto/stiker!')
+}
+break
+case 'smeme-b': 
+if (isBanned) return reply(mess.banned)                                   
+reply('Loading.... ')
+var imgbb = require('imgbb-uploader')
+if ((isMedia && !mek.message.videoMessage || isQuotedImage || isQuotedSticker) && args.length > 0) {
+ger = isQuotedImage || isQuotedSticker ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek 
+owgi = await  denz.downloadAndSaveMediaMessage(ger)
+anu = await imgbb("3b8594f4cb11895f4084291bc655e510", owgi)
+ranp = getRandom('.gif')
+rano = getRandom('.webp')
+anu1 = `https://api.memegen.link/images/custom/-/${c}.png?background=${anu.display_url}`
+sendStickerUrl(from, `${anu1}`)
+} else {
+reply('Reply foto/stiker!')
+}
 break
 case 'ttp':
 if (isBanned) return reply(mess.banned)                                   
@@ -5802,6 +6325,13 @@ anjay = `https://hardianto.xyz/api/maker/ttp?text=${woy}&apikey=hardianto`
 sendStickerUrl(from, anjay)
 break
 case 'ttp2':
+if (isBanned) return reply(mess.banned)                                   
+if (args.length < 1) return reply(`teks nya mana?`)
+woy = args.join(" ")
+anjay = `https://api.dapuhy.ga/api/maker/ttp?text=${woy}&apikey=Anjay`
+sendStickerUrl(from, anjay)
+break
+case 'ttp3':
 if (isBanned) return reply(mess.banned)                                   
 if (args.length < 1) return reply(`teks nya mana?`)
 woy = args.join(" ")
@@ -5844,12 +6374,23 @@ if (isBanned) return reply(mess.banned)
 }
 )
               break
+              case 'gawgura': case 'gura':
+              if (isBanned) return reply(mess.banned)                                   
+              reply(mess.wait)
+              fetch('https://raw.githubusercontent.com/rashidsiregar28/data/main/gura')
+             .then(res => res.text())
+             .then(body => {
+              let todd = body.split("\n");
+              let pjrr = todd[Math.floor(Math.random() * todd.length)];
+              sendWebp(from, pjrr)
+}
+)
+              break
 case 'bokep': case 'indohot':
-if (isBanned) return reply(mess.banned)                                   
+if (isBanned) return reply(mess.banned) 
 let bok =['https://www.mediafire.com/file/v4033tkl16hgf2b/VID-20210107-WA1459.mp4/file','https://www.mediafire.com/file/us3f4j62emftbrf/VID-20210107-WA1463.mp4/file','https://www.mediafire.com/file/snwja297dv4zvtl/VID-20210107-WA0036.mp4/file','https://www.mediafire.com/file/60dqek0mqhyt6rn/VID-20210107-WA1530.mp4/file','https://www.mediafire.com/file/112q3u286tnvzjo/VID-20210107-WA1467.3gp/file','https://www.mediafire.com/file/arpphhxsv94ak0r/VID-20210107-WA1462.mp4/file','https://www.mediafire.com/file/h2nygxbyb6n9cyo/VID-20210107-WA1468.mp4/file','https://www.mediafire.com/file/h2nygxbyb6n9cyo/VID-20210107-WA1468.mp4/file','https://www.mediafire.com/file/pk8hozohzdc076c/VID-20210107-WA1466.mp4/file','https://www.mediafire.com/file/112q3u286tnvzjo/VID-20210107-WA1467.3gp/file','https://www.mediafire.com/file/arpphhxsv94ak0r/VID-20210107-WA1462.mp4/file','https://www.mediafire.com/file/us3f4j62emftbrf/VID-20210107-WA1463.mp4/file','https://www.mediafire.com/file/v4033tkl16hgf2b/VID-20210107-WA1459.mp4/file','https://www.mediafire.com/file/3scnim6d1x4b8ie/VID-20210107-WA1461.mp4/file','https://www.mediafire.com/file/dx9tklonu0eq36w/VID-20210107-WA1464.mp4/file','https://www.mediafire.com/file/snwja297dv4zvtl/VID-20210107-WA0036.mp4/file','https://www.mediafire.com/file/60dqek0mqhyt6rn/VID-20210107-WA1530.mp4/file','https://www.mediafire.com/file/ni2mcdknb6zn50t/VID-20210107-WA1532.mp4/file','https://www.mediafire.com/file/i9t96lrmd9lm71z/VID-20210107-WA1542.mp4/file','https://www.mediafire.com/file/tjqdfmp8g08dt4e/VID-20210107-WA1536.mp4/file','https://www.mediafire.com/file/x034q0s16u9vyhy/VID-20210107-WA1537.mp4/file','https://www.mediafire.com/file/mgmynqghjnon2q7/VID-20210107-WA1533.mp4/file']
 let bkep = bok[Math.floor(Math.random() * bok.length)]
-img18 = await getBuffer(`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV4gcoiGQlTu5fofb48on91n9Y00ZKlpPAVQ&usqp=CAU`)
-denz.sendMessage(from, img18, image, { caption: '*Link Download:*\n\n'+ bkep, quoted: mek })
+denz.sendMessage(from, '*Link Download:*\n\n'+ bkep, text, { quoted: mek })
 break
         case 'spotifyimage':
         if (isBanned) return reply(mess.banned)                                   
@@ -5900,6 +6441,7 @@ case 'playy':
   })
 break
 case 'play':
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)
   if (!q) return reply(`Example : ${prefix+command} query`)
   reply(mess.wait)
@@ -5925,12 +6467,12 @@ const buttonsssok = [
   imageMessage: gambra
   }
   denz.sendMessage(from, ButtonsMessagees, MessageType.buttonsMessage, {quoted: mek})
+  limitAdd(sender, limit)
   break 
-  case 'mutual': case 'next':
+//  case 'mutual': case 'next':
   if (isBanned) return reply(mess.banned)
-  if (!isRegistered) return sendButRegis(from, daftar1, daftar2, daftar3, { quoted: ftrol})
 				if (isGroup) return  reply( 'Command ini tidak bisa digunakan di dalam grup!')
-				anug = getRegisteredRandomId(_registered).replace('@s.whatsapp.net','')
+				anug = getRegisteredRandomId(_registered).replace('@s.whatsapp.net')
 				sendButMessage(from, `[ wa.me/${anug} ]`, "*Next* — find a new partner", [{buttonId: 'next',buttonText: {displayText: 'NEXT'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [stod]}})
 				break
 // tembak berburu
@@ -5980,8 +6522,8 @@ case 'tembak':
 					  reply('example: ${prefix}tembak udara')
 					}
 break
-//by Bagus-)
-case 'verify' : case 'daftar':
+// Matiin dulu auto regisnya kalo mau nyalahin verify
+//case 'verify' : case 'daftar':
 if (isRegistered) return reply(`udah daftar lu cuy`)
 let serialUser = createSerial(18)
 	        veri = sender
@@ -6059,6 +6601,353 @@ break
 					teks += `Total : ${prem.length}`
 				denz.sendMessage(from, teks.trim(), extendedText, {quoted: mek, contextInfo: {"mentionedJid": prem}})
 				break
+				case 'kodepos':
+if (isBanned) return reply(mess.banned)                                   
+if(!c) return reply('masukan kota?')
+                kota = `${body.slice(9)}`
+                  anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/kodepos?kota=${kota}&apikey=bagusgans`, {method: 'get'})
+                  store = '- Kode Pos'
+                  for (let ply of anu.result.data){
+                  store += `\n\n*Provinsi* : ${ply.province}\n*Kota* : ${ply.city}\n*Kecamatan* : ${ply.subdistrict}\n*Perkotaan* : ${ply.urban}\n*Kode Pos* : ${ply.postalcode}`
+                  }
+                  textreply(store)
+                  break
+                  case 'hilih':
+                  if (isBanned) return reply(mess.banned)                                   
+                  if(!c) return reply('teksnya um?')
+                  anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/hilih?kata=${c}&apikey=${BagusKey}`, {method: 'get'})
+                  noreply(anu.result.result)
+                  break
+                  case 'jagokata':
+                  if (isBanned) return reply(mess.banned)                                   
+                  if(!c) return reply('teksnya um?')
+                  anu = await fetchJson(`https://api.dapuhy.ga/api/fun/jagokata?query=${c}&apikey=${Dapuy}`, {method: 'get'})
+                  textreply(anu.result)
+                  break
+// Sound by Bagus ID
+case 'sound1': case 'sound2': case 'sound3': case 'sound4': case 'sound5': case 'sound6': case 'sound7': 
+case 'sound8': case 'sound9': case 'sound10': case 'sound11': case 'sound12': case 'sound13': case 'sound14': case 'sound15': 
+case 'sound16': case 'sound17': case 'sound18': case 'sound19': case 'sound20': case 'sound21': case 'sound22': 
+case 'sound23': case 'sound24': case 'sound25': case 'sound26': case 'sound27': case 'sound28': case 'sound29': case 'sound30':
+case 'sound31': case 'sound32': case 'sound33': case 'sound34': case 'sound35':
+if (isBanned) return reply(mess.banned)                                   
+songnya = await getBuffer(`https://apirandom.bagusadi5.repl.co/${command}.m4a`)
+denz.sendMessage(from, songnya, MessageType.audio, {quoted: mek, mimetype: 'audio/mp4', ptt:true})
+break
+// apikey: bagusgans
+case 'naruto':
+if (!q) return reply('teksnya mana?')
+reply(mess.wait)
+pNaruto(`${q}`)
+         .then(res => {
+    	console.log(res) 
+sendMediaURL(from, res.url)
+		})
+		break
+case 'shadow':
+if (!q) return reply('teksnya mana?')
+reply(mess.wait)
+pShadow(`${q}`)
+         .then(res => {
+    	console.log(res) 
+sendMediaURL(from, res.url)
+		})
+		break
+case 'romantic':
+if (!q) return reply('teksnya mana?')
+reply(mess.wait)
+pRomantic(`${q}`)
+         .then(res => {
+    	console.log(res) 
+sendMediaURL(from, res.url)
+		})
+		break
+case 'smoke':
+if (!q) return reply('teksnya mana?')
+reply(mess.wait)
+pSmoke(`${q}`)
+         .then(res => {
+    	console.log(res) 
+sendMediaURL(from, res.url)
+		})
+		break
+case 'burnpaper':
+if (!q) return reply('teksnya mana?')
+reply(mess.wait)
+pBurnPapper(`${q}`)
+         .then(res => {
+    	console.log(res) 
+sendMediaURL(from, res.url)
+		})
+		break
+case 'lovemsg':
+if (!q) return reply('teksnya mana?')
+reply(mess.wait)
+pLoveMsg(`${q}`)
+         .then(res => {
+    	console.log(res) 
+sendMediaURL(from, res.url)
+		})
+		break
+case 'grass':
+if (!q) return reply('teksnya mana?')
+reply(mess.wait)
+pMsgGrass(`${q}`)
+         .then(res => {
+    	console.log(res) 
+sendMediaURL(from, res.url)
+		})
+		break
+case 'doubleheart':
+if (!q) return reply('teksnya mana?')
+reply(mess.wait)
+pDoubleHeart(`${q}`)
+         .then(res => {
+    	console.log(res) 
+sendMediaURL(from, res.url)
+		})
+		break
+case 'coffecup':
+if (!q) return reply('teksnya mana?')
+reply(mess.wait)
+pCoffeCup(`${q}`)
+         .then(res => {
+    	console.log(res) 
+sendMediaURL(from, res.url)
+		})
+		break
+case 'coffecup2':
+if (!q) return reply('teksnya mana?')
+reply(mess.wait)
+pCoffeCup2(`${q}`)
+         .then(res => {
+    	console.log(res) 
+sendMediaURL(from, res.url)
+		})
+		break
+case 'lovetext':
+if (!q) return reply('teksnya mana?')
+reply(mess.wait)
+pLoveText(`${q}`)
+         .then(res => {
+    	console.log(res) 
+sendMediaURL(from, res.url)
+		})
+		break
+case 'butterfly':
+if (!q) return reply('teksnya mana?')
+reply(mess.wait)
+pButterfly(`${q}`)
+         .then(res => {
+    	console.log(res) 
+sendMediaURL(from, res.url)
+		})
+		break
+case 'glitch':
+if (isBanned) return reply(mess.banned)                              
+txt1 = q.split("|")[0];
+txt2 = q.split("|")[1];
+if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
+reply(mess.wait)
+txt1 = args[0]
+txt2 = args[1]
+anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/textmaker?text=${txt1}&text2=${txt2}&theme=glitch&apikey=${BagusKey}`)
+ini_buffer = await getBuffer(anu.result.url)
+denz.sendMessage(from, ini_buffer, image, { quoted: mek})
+break
+case 'pubg':
+if (isBanned) return reply(mess.banned)                              
+txt1 = q.split("|")[0];
+txt2 = q.split("|")[1];
+if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
+reply(mess.wait)
+txt1 = args[0]
+txt2 = args[1]
+anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/textmaker/game?text=${txt1}&text2=${txt2}&theme=pubg&apikey=${BagusKey}`)
+ini_buffer = await getBuffer(anu.result.url)
+denz.sendMessage(from, ini_buffer, image, { quoted: mek})
+break
+case 'battlefield':
+if (isBanned) return reply(mess.banned)                              
+txt1 = q.split("|")[0];
+txt2 = q.split("|")[1];
+if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
+reply(mess.wait)
+txt1 = args[0]
+txt2 = args[1]
+anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/textmaker/game?text=${txt1}&text2=${txt2}&theme=battlefield&apikey=${BagusKey}`)
+ini_buffer = await getBuffer(anu.result.url)
+denz.sendMessage(from, ini_buffer, image, { quoted: mek})
+break
+case 'googlesuggestion' :
+if (isBanned) return reply(mess.banned)                                   
+if (args.length == 0) return reply(`Contoh: ${prefix + command} Bagus|Gans|Banget`)
+reply(mess.wait)
+ini_nama = args.join(" ").split("|")
+nama1 = ini_nama[0].trim()
+nama2 = ini_nama[1].trim()
+nama3 = ini_nama[2].trim()
+anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/textmaker?text=${nama1}&text2=${nama2}&text3=${nama3}&theme=google-suggestion&apikey=bagusgans`)
+ini_buffer = await getBuffer(anu.result.url)
+denz.sendMessage(from, ini_buffer, image, { quoted: mek})
+break
+//Kasih Wm Gw Kalo Nyolong
+case 'suratto': 
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
+if (isBanned) return reply(mess.banned)
+if (args.length < 1) return reply(`Example : ${prefix}suratto No tujuan|Isi surat`)
+textp = body.slice(9)
+noorg2 = textp.split("|")[0]
+katakita2 = textp.split("|")[1]
+kataorg2 = `Surat Dari ${sender}`
+tekssurat = `\`\`\`KIRIM SURAT\`\`\`
+
+*Surat Dari :*
+Nama : ${pushname}
+Nomor: @${sender.split("@")[0]}
+
+*Isi Surat :*
+${katakita2}
+
+*Untuk Membalas Surat :*
+• !suratto nomor|pesan
+• !suratto 6285335144197|hai`
+denz.sendMessage(`${noorg2}@s.whatsapp.net`,tekssurat, text, {contextInfo: { mentionedJid: [sender]}})
+reply('Surat Berhasil Terkirim!')
+limitAdd(sender, limit)
+break
+//Limit || Hargai Gw Pantek, Buat Ginian Lu Kira Semenit
+case 'limit': case 'glimit': case 'bal': case 'balance': case 'ceklimit': case 'cekglimit': case 'dompet':
+if (isBanned) return reply(mess.banned)
+youlimittxt = `*Limit* : ${isPremium ? 'Unlimited' : `${getLimit(sender, limitawal, limit)} / ${limitawal}`}
+*Limit Game* : ${cekGLimit(sender, gcount, glimit)} / ${gcount}
+*Balance* : $${getBalance(sender, balance)}
+
+Kamu dapat membeli limit dengan ${prefix}buylimit dan ${prefix}buyglimit untuk membeli game limit`
+textreply(youlimittxt)
+break
+case 'buylimit': case 'belilimit':
+if (isBanned) return reply(mess.banned)
+if (!q) return reply(`Kirim perintah *${prefix}buylimit* jumlah limit yang ingin dibeli\n\nHarga 1 limit = $100 balance`)
+if (q.includes('-')) return reply(`Jangan menggunakan -`)
+if (isNaN(q)) return reply(`Harus berupa angka`)
+ane = Number(nebal(q) * 100) //harga perlimit
+if (getBalance(sender, balance) < ane) return reply(`Balance kamu tidak mencukupi untuk pembelian ini`)
+kurangBalance(sender, ane, balance)
+giveLimit(sender, nebal(q), limit)
+textreply(`Pembeliaan limit sebanyak ${q} berhasil
+
+*Sisa Balance* : $${getBalance(sender, balance)}
+*Sisa Limit* : ${getLimit(sender, limitawal, limit)} / ${limitawal}`)
+break
+case 'buyglimit': case 'buygamelimit': case 'beliglimit': case 'beligamelimit':
+if (isBanned) return reply(mess.banned)
+if (!q)return reply(`Example : ${prefix + command} 10\n\nHarga 1 limit = $100 balance`)
+if (q.includes('-')) return reply(`Jangan menggunakan -`)
+if (isNaN(q)) return reply(`Harus berupa angka`)
+koinPerlimit = 100 // harga perlimit
+total = koinPerlimit * q
+if (getBalance(sender,balance) <= total) return reply(`Yah, Uang kamu belum mencukupi. silahkan kumpulkan dan beli nanti`)
+kurangBalance(sender, total, balance)
+givegame(sender, q, glimit)
+textreply(`Pembeliaan game limit sebanyak ${q} berhasil
+
+*Sisa Balance* : $${getBalance(sender, balance)}
+*Sisa Game Limit* : ${cekGLimit(sender, gcount, glimit)} / ${gcount}`)
+break
+case 'giftlimit': 
+if (isPremium) return reply(`User Premium Tidak Bisa Melakukan Gift Limit`)
+if (isBanned) return reply(mess.banned)
+if (!isGroup) return reply(mess.only.group)
+if (!q.includes('|')) return  reply(`Salah!! \nContoh ${prefix + command} _@62 | Nominal_`)
+tujuan = q.substring(0, q.indexOf('|') - 1)
+jumblah = q.substring(q.lastIndexOf('|') + 1)
+if(isNaN(jumblah)) return await reply('jumlah harus berupa angka!!')
+if (jumblah < 1 ) return reply(`minimal transfer 1`)
+if (getLimit(sender, limitawal, limit) < jumblah) return reply(`Yah, limit mu tidak mencukupi untuk melakukan gift limit`)
+tujuantf = `${tujuan.replace("@","")}@s.whatsapp.net`
+hasiltf = jumblah
+giveLimit(tujuantf, hasiltf, limit)
+suksesgift = `*Succes Gift*
+
+Pengirim : @${sender.split("@")[0]}
+Penerima : ${tujuan}
+Total : ${jumblah} Limit`
+textreply(suksesgift)
+break
+case 'giftglimit': 
+if (isPremium) return reply(`User Premium Tidak Bisa Melakukan Gift Game Limit`)
+if (isBanned) return reply(mess.banned)
+if (!isGroup) return reply(mess.only.group)
+if (!q.includes('|')) return  reply(`Salah!! \nContoh ${prefix + command} _@62 | Nominal_`)
+tujuan = q.substring(0, q.indexOf('|') - 1)
+jumblah = q.substring(q.lastIndexOf('|') + 1)
+if(isNaN(jumblah)) return await reply('jumlah harus berupa angka!!')
+if (jumblah < 1 ) return reply(`minimal transfer 1`)
+if (cekGLimit(sender, gcount, glimit) < jumblah) return reply(`Yah, game limit mu tidak mencukupi untuk melakukan gift game limit`)
+tujuantf = `${tujuan.replace("@","")}@s.whatsapp.net`
+hasiltf = jumblah
+givegame(tujuantf, hasiltf, glimit)
+suksesgiftg = `*Sukses Gift*
+
+Pengirim : @${sender.split("@")[0]}
+Penerima : ${tujuan}
+Total : ${jumblah} Game Limit`
+textreply(suksesgiftg)
+break  
+case 'resetlimit':
+if (!isOwner && !mek.key.fromMe) return reply(mess.only.owner)
+denz.updatePresence(from, Presence.avaible) 
+fs.writeFileSync('./database/limit.json', ('[]'))
+fs.writeFileSync('./database/glimit.json', ('[]'))
+reply('Limit berhasil di reset✓')  
+await sleep(5000)
+break
+case 'setlimit': case 'addlimit':
+if (!isOwner && !mek.key.fromMe) return reply(mess.only.owner)
+if (args.length < 1) return reply(`Masukan Jumlah-`)
+if (isNaN(args[0])) return reply('Limit harus angka')
+limitawal = args[0]
+reply(`*Limit berhasil di ubah menjadi* : ${limitawal}`)
+break 
+// Biar Keren Aja || _-
+case 'topbalance':
+if (isBanned) return reply(mess.banned)
+if(!isGroup)return reply(mess.only.group)
+
+txot = `*── 「 TOP BALANCE 」 ──*\n\n`
+mebn = [];
+for (let i of balance){
+mebn.push(i.id)
+bl = (i.balance)
+txot += `*ID :* @${i.id.split("@")[0]}\n➸ Balance : ${bl}\n\n`
+mentions(txot, mebn, true)
+}
+break
+case 'toplimit':
+if (isBanned) return reply(mess.banned)
+if(!isGroup)return reply(mess.only.group)
+txot = `*── 「 TOP LIMIT 」 ──*\n\n`
+mebn = [];
+for (let i of limit){
+mebn.push(i.id)
+bl = (i.limit)
+txot += `*ID :* @${i.id.split("@")[0]}\n➸ Limit : ${bl}\n\n`
+mentions(txot, mebn, true)
+}
+break
+case 'topglimit':
+if (isBanned) return reply(mess.banned)
+if(!isGroup)return reply(mess.only.group)
+txot = `*── 「 TOP GAME LIMIT 」 ──*\n\n`
+mebn = [];
+for (let i of glimit){
+mebn.push(i.id)
+bl = (i.glimit)
+txot += `*ID :* @${i.id.split("@")[0]}\n➸ Glimit : ${bl}\n\n`
+mentions(txot, mebn, true)
+}
+break
 		default:break
 //ANTI SPAM
 if (isCmd && msgFilter.isFiltered(from) && !isGroup) {

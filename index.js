@@ -145,7 +145,7 @@ try {
 	    const isWelcome = welkom.includes(anu.jid)
 	    if (!isWelcome) return
            mem = anu.participants[0]
-			mdata = await denz.groupMetadata(anu.jid)
+		       mdata = await denz.groupMetadata(anu.jid)
                 memeg = mdata.participants.length
             	num = anu.participants[0]
                 let v = denz.contacts[num] || { notify: num.replace(/@.+/, '') }
@@ -156,10 +156,11 @@ try {
 			fkontakk = { key: { fromMe: false, participant: `0@s.whatsapp.net`, ...(anu.jid ? { remoteJid: '6283136505591-1604595598@g.us' } : {})}, message: { "contactMessage":{"displayName": `${mdata.subject}`,"vcard":`BEGIN:VCARD\nVERSION:3.0\nN:2;denz;;;\nFN:denz\nitem1.TEL;waid=6282252509320:6282252509320\nitem1.X-ABLabel:Mobile\nEND:VCARD` }}}
 		    num = anu.participants[0]
 			try {
-			ppimg = await denz.getProfilePicture(`${num.split('@')[0]}@c.us`)
-			} catch {
-			ppimg = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
-			}
+        ppimg = await denz.getProfilePicture(mem);
+      } catch (e) {
+        ppimg =
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60";
+      }
 			try {
                 pp_grup = await denz.getProfilePicture(anu.jid)
                 } catch {
@@ -173,7 +174,7 @@ Gender:
 Askot:
 
 Pahami rules grup ya kak!`
-			let buff = await getBuffer(ppimg)
+			let buff = await getBuffer(`http://hadi-api.herokuapp.com/api/card/welcome?nama=${anu_user}&descriminator=${memeg}&memcount=${memeg}&gcname=${encodeURI(mdata.subject)}&pp=${ppimg}&bg=https://i.postimg.cc/rFkw8MpX/IMG-20210807-151325.jpg`)
 			const welbutton = await denz.prepareMessage(mdata.id, buff, MessageType.image, ) // change for file type
 const buttonssss = [
   {buttonId: 'wel', buttonText: {displayText: 'Halo'}, type: 1}
@@ -195,16 +196,17 @@ denz.sendMessage(mdata.id, buttonWel, MessageType.buttonsMessage, {contextInfo: 
                 let w = denz.contacts[num] || { notify: num.replace(/@.+/, '') }
                 anu_user = w.vname || w.notify || num.split('@')[0]
 			try {
-			ppimg = await denz.getProfilePicture(`${num.split('@')[0]}@c.us`)
-			} catch {
-			ppimg = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
-			}
+        ppimg = await denz.getProfilePicture(mem);
+      } catch (e) {
+        ppimg =
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60";
+      }
 			try {
                 pp_grup = await denz.getProfilePicture(anu.jid)
                 } catch {
                 pp_grup = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60'
             }
-			let buff = await getBuffer(ppimg)
+			let buff = await getBuffer(`http://hadi-api.herokuapp.com/api/card/goodbye?nama=${anu_user}&descriminator=${memeg}&memcount=${memeg}&gcname=${encodeURI(mdata.subject)}&pp=${ppimg}&bg=https://i.postimg.cc/rFkw8MpX/IMG-20210807-151325.jpg`)
 			out =`*Selamat tinggal* @${num.split('@')[0]}\nSemoga tenang di alam sana!`
             const lefbutton = await denz.prepareMessage(mdata.id, buff, MessageType.image, ) // change for file type
 const buttonsss = [
@@ -221,15 +223,15 @@ denz.sendMessage(mdata.id, buttonLef, MessageType.buttonsMessage, {contextInfo: 
 			} else if (anu.action == 'promote') {
 fkontakk = { key: { fromMe: false, participant: `0@s.whatsapp.net`, ...(anu.jid ? { remoteJid: '0@s.whatsapp.net' } : {})}, message: { "contactMessage":{"displayName": `Congrats 🔥`,"vcard":`BEGIN:VCARD\nVERSION:3.0\nN:2;denz;;;\nFN:denz\nitem1.TEL;waid=6282252509320:6282252509320\nitem1.X-ABLabel:Mobile\nEND:VCARD` }}}
 num = anu.participants[0]
-teks = `*PROMOTE DETECT*\n\n@${num.split('@')[0]} Selamat anda naik menjadi admin grup!`
-denz.sendMessage(mdata.id, teks, MessageType.text, {contextInfo: {"mentionedJid": [num]}, quoted: fkontakk})
+teks = `*DEMOTE DETECT*\n\nNomor : @${num.split('@')[0]}\nGroup : ${mdata.subject}\nPesan : selamat sekarang anda menjadi admin grup!`
+denz.sendMessage(mdata.id, teks, MessageType.text, {contextInfo: {"mentionedJid": [num]}})
 console.log(color('|TRM|'), color(`Promote Member ${num.split('@')[0]} In ${mdata.subject}`,  'cyan'))
 } 
 else if (anu.action == 'demote') {
 fkontakk = { key: { fromMe: false, participant: `0@s.whatsapp.net`, ...(anu.jid ? { remoteJid: '0@s.whatsapp.net' } : {})}, message: { "contactMessage":{"displayName": `Kasian di demote`,"vcard":`BEGIN:VCARD\nVERSION:3.0\nN:2;denz;;;\nFN:denz\nitem1.TEL;waid=6282252509320:6282252509320\nitem1.X-ABLabel:Mobile\nEND:VCARD` }}}
 num = anu.participants[0]
-teks = `*DEMOTE DETECT*\n\n@${num.split('@')[0]} Sekarang bukan admin lagi!`
-denz.sendMessage(mdata.id, teks, MessageType.text, {contextInfo: {"mentionedJid": [num]}, quoted: fkontakk})
+teks = `*DEMOTE DETECT*\n\nNomor : @${num.split('@')[0]}\nGroup : ${mdata.subject}\nPesan : awokawok di demote`
+denz.sendMessage(mdata.id, teks, MessageType.text, {contextInfo: {"mentionedJid": [num]}})
 console.log(color('|TRM|'), color(`Demote Admin ${num.split('@')[0]} In ${mdata.subject}`,  'cyan'))
 }
 		    } catch (e) {
@@ -241,28 +243,28 @@ console.log(color('|TRM|'), color(`Demote Admin ${num.split('@')[0]} In ${mdata.
     	const fkontakk = { key: { fromMe: false, participant: `0@s.whatsapp.net`, ...(anu.jid ? { remoteJid: '0@s.whatsapp.net' } : {})}, message: { "contactMessage":{"displayName": ``,"vcard":`BEGIN:VCARD\nVERSION:3.0\nN:2;denz;;;\nFN:denz\nitem1.TEL;waid=6282252509320:6282252509320\nitem1.X-ABLabel:Mobile\nEND:VCARD` }}}
     if(anu.announce == 'false'){
     teks = `- [ Group Opened ] -\n\nGroup telah dibuka oleh admin\nSekarang semua member bisa mengirim pesan`
-    denz.sendMessage(metdata.id, teks, MessageType.text, {quoted: fkontakk})
+    denz.sendMessage(metdata.id, teks, MessageType.text)
     console.log(color('|TRM|'), color(`Group Opened In ${metdata.subject}`, 'cyan'))
   } 
   else if(anu.announce == 'true'){
     teks = `- [ Group Closed ] -\n\nGroup telah ditutup oleh admin\nSekarang hanya admin yang dapat mengirim pesan`
-    denz.sendMessage(metdata.id, teks, MessageType.text, {quoted: fkontakk})
+    denz.sendMessage(metdata.id, teks, MessageType.text)
     console.log(color('|TRM|'), color(`Group Closed In ${metdata.subject}`,  'cyan'))
   }
   else if(!anu.desc == ''){
     tag = anu.descOwner.split('@')[0] + '@s.whatsapp.net'
     teks = `- [ Group Description Change ] -\n\nDeskripsi Group telah diubah oleh Admin @${anu.descOwner.split('@')[0]}\n• Deskripsi Baru : ${anu.desc}`
-    denz.sendMessage(metdata.id, teks, MessageType.text, {contextInfo: {"mentionedJid": [tag]}, quoted: fkontakk})
+    denz.sendMessage(metdata.id, teks, MessageType.text, {contextInfo: {"mentionedJid": [tag]}})
     console.log(color('|TRM|'), color(`Group Description Change In ${metdata.subject}`, 'cyan'))
   }
   else if(anu.restrict == 'false'){
     teks = `- [ Group Setting Change ] -\n\nEdit info Group telah dibuka untuk member\nSekarang semua member dapat mengedit info Group Ini`
-    denz.sendMessage(metdata.id, teks, MessageType.text, {quoted: fkontakk})
+    denz.sendMessage(metdata.id, teks, MessageType.text)
     console.log(color('|TRM|'), color(`Group Setting Change In ${metdata.subject}`, 'cyan'))
   }
   else if(anu.restrict == 'true'){
     teks = `- [ Group Setting Change ] -\n\nEdit info Group telah ditutup untuk member\nSekarang hanya admin group yang dapat mengedit info Group Ini`
-    denz.sendMessage(metdata.id, teks, MessageType.text, {quoted: fkontakk})
+    denz.sendMessage(metdata.id, teks, MessageType.text)
     console.log(color('|TRM|'), color(`Group Setting Change In ${metdata.subject}`,  'cyan'))
   }
 })
