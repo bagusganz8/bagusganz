@@ -532,7 +532,7 @@ let fvid = {
                  "title": `${tampilUcapan} ${pushname}`,
                  "h": `${tampilUcapan} ${pushname}`,
                  'duration': '99999', 
-                 'caption': `${tampilUcapan} ${pushname}`,
+                 'caption': `Bagus Bot | exec: ${command}`,
                  'jpegThumbnail': dfrply
                         }
                        }
@@ -969,7 +969,7 @@ const addasahotak = (chatId, jawaban, expired, _db) => {
     let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
     _db.push(obi)
 }
-const getJawabanAO = (chatId, _db) => {
+const getjawabanAO = (chatId, _db) => {
     let found = false
     Object.keys(_db).forEach((i) => {
         if (_db[i].id === chatId) {
@@ -1443,9 +1443,9 @@ const getKalimatPosi = (chatId, _dir) => {
         }
         
         if (isAsahOtak(from, asahotak) && isUser){
-            if (budy.toLowerCase().includes(getJawabanAO(from, asahotak))){
+            if (budy.toLowerCase().includes(getjawabanAO(from, asahotak))){
             	addBalance(sender, hadiahwin, balance)
-                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanAo(from, asahotak)}\nHadiah : ${hadiahwin} Balance`, "Asah Otak", [{buttonId: 'asahotak',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getjawabanAO(from, asahotak)}\nHadiah : ${hadiahwin} Balance`, "Asah Otak", [{buttonId: 'asahotak',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
                 asahotak.splice(getOtakPosi(from, asahotak), 1)
             }
         }
@@ -1683,6 +1683,7 @@ denz.updatePresence(from, Presence.recording)
         switch (command) {
           case 'menu':
         case 'help':
+        ownerJid = "6285335144197@s.whatsapp.net"
   runtime = process.uptime()
   stst = await denz.getStatus(`${sender.split('@')[0]}@c.us`)
 				stst = stst.status == 401 ? '' : stst.status
@@ -2110,7 +2111,35 @@ _*❒ ── ⌜ Tools ⌟*_
 _• ${prefix}suratto nomor|pesan_
 
 *_Auto Regis : ${_registered.length}_*`
-sendButMessage(from, `${menu}`, "Made with by Bagus ID", [{buttonId: 'rules',buttonText: {displayText: 'Rules'}, type: 1},{buttonId: 'sewabot',buttonText: {displayText: 'Price'}, type: 1}], {quoted: finv2, contextInfo: { mentionedJid: [otod,stod]}})
+anu = denz.prepareMessageFromContent(from,{
+					"productMessage": {
+						"product": {
+								"productImage": {
+								 "url": "https://mmg.whatsapp.net/d/f/Ahb4wGLv5WRRHNDjX0oscWGguHSUTuBXrBLUDCzO0_0Z.enc",
+						"mimetype": "image/jpeg",
+						"fileSha256": "uZiOJzqOvrOo2WGjnMKgX2MMQMyasT+ZDgqUczpIBmY=",
+						"fileLength": "109459",
+						"height": 1280,
+						"width": 1274,
+						"mediaKey": "1SBZlmQxZQR+qZBVlBR5RcvDQNfYSRiYPT8uWDaEzLY=",
+						"fileEncSha256": "V6JNiialXPUGHn1j7Tz7YkXpU+QzOkBvOV7GZL2PRS4=",
+						"jpegThumbnail": fs.readFileSync("./denz.jpg")
+                                },
+                            "productId": "99",
+							"title": `ALLMENU`, 
+							"description": `${menu}`,
+							"currencyCode": "USD",
+					        "priceAmount1000": "2000",
+							"productImageCount": 1
+						},
+						"businessOwnerJid": `${ownerJid}`,
+						"contextInfo": {
+							"forwardingScore": 9999,
+							"isForwarded": true
+						}
+					}
+				},{quoted: mek, contextInfo: { mentionedJid: [dtod,otod,stod]}})
+                  denz.relayWAMessage(anu)
 break
 //-------- > Store < --------
 case 'sewabot': case 'iklan':
@@ -2271,6 +2300,7 @@ var kodenya = mek.message.extendedTextMessage.contextInfo.quotedMessage.stickerM
 scommand.splice(getCommandPosition(kodenya), 1)
 fs.writeFileSync('./database/scommand.json', JSON.stringify(scommand))
 reply("Done Bwang")
+exec(`pm2 restart`)
 break
 case 'listcmd':
 if (!isOwner && !mek.key.fromMe) return reply(mess.only.ownerB)
@@ -3401,6 +3431,7 @@ encmediam = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.exten
 					} else {
 						sendButMessage(from, `Hai ${pushname}`, "Enable untuk mengaktifkan\nDisable untuk menonaktifkan\n\nJika button tidak muncul ketik .antilink enable/disable", [{buttonId: 'antilink enable',buttonText: {displayText: 'Enable'}, type: 1},{buttonId:`antilink disable`,buttonText:{displayText:'Disable'},type:1}], {quoted: fcontec, contextInfo: { mentionedJid: [stod]}})
 					}
+					exec(`pm2 restart`)
 					break
 					case 'welcome':
 					if (isBanned) return reply(mess.banned)                                   
@@ -3420,6 +3451,7 @@ encmediam = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.exten
               } else {
               sendButMessage(from, `Hai ${pushname}`, "Enable untuk mengaktifkan\nDisable untuk menonaktifkan\n\nJika button tidak muncul ketik .welcome enable/disable", [{buttonId: 'welcome enable',buttonText: {displayText: 'Enable'}, type: 1},{buttonId:`welcome disable`,buttonText:{displayText:'Disable'},type:1}], {quoted: fcontec, contextInfo: { mentionedJid: [stod]}})
 }
+exec(`pm2 restart`)
               break
               case 'nsfw':
               if (isBanned) return reply(mess.banned)                                   
@@ -5087,6 +5119,7 @@ break
 case 'darkjokes': 
 case 'darkjoke':
 case 'darkmeme': case 'memedark':
+case 'memeindo':
 if (isBanned) return reply(mess.banned)                                   
 reply(mess.wait)
 hasil = await getBuffer(`https://bagusbot-api.herokuapp.com/api/random/darkjoke?apikey=${BagusKey}`)
@@ -6584,6 +6617,7 @@ break
 				prem.push(`${premm}@s.whatsapp.net`)
 				fs.writeFileSync('./database/premium.json', JSON.stringify(prem))
 				reply(`Succes`)
+				exec(`pm2 restart`)
 				break
 				case 'dellprem':
 				if (!isOwner && !mek.key.fromMe) return reply(mess.only.owner)
@@ -6591,6 +6625,7 @@ break
 				prem.splice(`${premm}@s.whatsapp.net`, 1)
 				fs.writeFileSync('./database/premium.json', JSON.stringify(prem))
 				reply(`Succes`)
+				exec(`pm2 restart`)
 				break
 				case 'premiumlist': case 'listprem':
 				denz.updatePresence(from, Presence.composing)     
@@ -6901,7 +6936,7 @@ denz.updatePresence(from, Presence.avaible)
 fs.writeFileSync('./database/limit.json', ('[]'))
 fs.writeFileSync('./database/glimit.json', ('[]'))
 reply('Limit berhasil di reset✓')  
-await sleep(5000)
+exec(`pm2 restart`)
 break
 case 'setlimit': case 'addlimit':
 if (!isOwner && !mek.key.fromMe) return reply(mess.only.owner)
@@ -6909,6 +6944,7 @@ if (args.length < 1) return reply(`Masukan Jumlah-`)
 if (isNaN(args[0])) return reply('Limit harus angka')
 limitawal = args[0]
 reply(`*Limit berhasil di ubah menjadi* : ${limitawal}`)
+exec(`pm2 restart`)
 break 
 // Biar Keren Aja || _-
 case 'topbalance':
