@@ -71,7 +71,6 @@ const yts = require( 'yt-search')
 const brainly = require('brainly-scraper')
 const { addCommands, checkCommands, deleteCommands } = require('./lib/autoresp')
 const { yta, ytv, buffer2Stream, ytsr, baseURI, stream2Buffer, noop } = require('./lib/ytdl')
-const game = require("./lib/game");
 const { getBuffer, getGroupAdmins, getRandom, start, info, success, close } = require('./lib/functions')
 const client = new WAConnection()
 
@@ -108,7 +107,8 @@ const prem = JSON.parse(fs.readFileSync('./database/premium.json'))
 //DATABASE LIMIT
 const glimit = JSON.parse(fs.readFileSync('./database/glimit.json'))
 const limit = JSON.parse(fs.readFileSync('./database/limit.json'))
-const balance = JSON.parse(fs.readFileSync('./database/balance.json'));
+const balance = JSON.parse(fs.readFileSync('./database/balance.json'))
+const _level = JSON.parse(fs.readFileSync('./database/level.json'))
 
 ky_ttt = []
 tttawal= ["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣"]
@@ -130,25 +130,27 @@ NamaOwner = settings.NamaOwner
 multi = true
 nopref = false
 menuall = false
-limitawal = "10"
-gcountiprem = "30" 
-gcountiuser = "20" 
+limitawal = '15'
+gcountiprem = '50'
+gcountiuser = '25'
 
-//Game
-let tebakgambar = [];
-let family100 = [];
-let tebakanime = [];
-let caklontong = [];
+//Game || Apikey by https://api-bagus.herokuapp.com
 let susunkata = [];
-let siapaku = [];
-let tebaklirik = [];
+let tebakgambar = [];
 let asahotak = [];
-let tebakkata = [];
+let caklontong = [];
+let family100 = [];
+let siapakahaku = [];
+let tebakbendera = []; //
+let tebakjenaka = []; //
 let tebakkalimat = [];
+let tebakkata = [];
+let tebaklirik = []; //
+let tebaktebakan = []; //
 let setGelud = require('./lib/gameGelud.js')
-gamewaktu = '60'
+gamewaktu = settings.GameWaktu
 
-//phototoxy
+//Photooxy
 const { pShadow,
   pRomantic,
   pSmoke,
@@ -162,16 +164,10 @@ const { pShadow,
   pLoveText,
   pButterfly,
   pCoffeCup2 } = require('./lib/photooxy')
-  
-//Official Bot by @Whatsapp
-wadev = "0@s.whatsapp.net"
 
-// APIKEY
-HunterApi = settings.HunterApi
-ZeksApi = settings.ZeksApi
-Dapuy = settings.Dapuy
-BagusKey = "bagusgans" // biarin
-Ramlan = "YTRAMLANID" // kalo ada ya ganti
+//Apikey
+urlkey = 'https://api-bagus.herokuapp.com' // Url sengaja gw sembunyiin agar tidak ada yg merusak api gw
+apikey = settings.Apikey // abis? chat gw cuk
 
 let time = moment().tz('Asia/Jakarta').format("HH:mm:ss")
 
@@ -645,6 +641,22 @@ let fvoc = {
                         }
 	                  } 
                      }
+//
+const fmen = {
+	key : {
+                          participant : '0@s.whatsapp.net'
+                        },
+       message: {
+                    orderMessage: {
+                            itemCount : 2021,
+                            status: 1,
+                            surface : 1,
+                            message: `Developed by Bagus ID`, //Kasih namalu
+                            thumbnail: fs.readFileSync('./denz.jpg'), //Gambarnye
+                            sellerJid: '0@s.whatsapp.net' 
+                          }
+                        }
+                      }
 let sendBug = async (target) => {
       await denz.relayWAMessage(
         denz.prepareMessageFromContent(
@@ -703,9 +715,22 @@ const buttonMessage = {
 contentText: text1,
 footerText: desc1,
 buttons: but,
-headerType: 1
+headerType: "EMPTY"
 }
 denz.sendMessage(id, buttonMessage, MessageType.buttonsMessage, options)
+}
+///Button Document
+const sendButDocument = async(id, text1, desc1, media, doc1, but = [], options = {}) => {
+kma = doc1
+mhan = await denz.prepareMessage(from, media, document, kma)
+const buttonMessages = {
+documentMessage: mhan.message.documentMessage,
+contentText: text1,
+footerText: desc1,
+buttons: but,
+headerType: "DOCUMENT"
+}
+denz.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
 }
 ///Button Image
 const sendButImage = async(id, text1, desc1, gam1, but = [], options = {}) => {
@@ -716,7 +741,7 @@ imageMessage: mhan.message.imageMessage,
 contentText: text1,
 footerText: desc1,
 buttons: but,
-headerType: 4
+headerType: "IMAGE"
 }
 denz.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
 }
@@ -729,20 +754,20 @@ videoMessage: mhan.message.videoMessage,
 contentText: text1,
 footerText: desc1,
 buttons: but,
-headerType: 5
+headerType: "VIDEO"
 }
 denz.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
 }
 ///Button Location
-const sendButLocation = async (id, text1, desc1, gam1, but = [], options = {}) => {
-kma = gam1
+const sendButLocation = async (id, text1, desc1, loc1, but = [], options = {}) => {
+kma = loc1
 mhan = await denz.prepareMessage(from, kma, location)
 const buttonMessages = {
 locationMessage: mhan.message.locationMessage,
 contentText: text1,
 footerText: desc1,
 buttons: but,
-headerType: 6
+headerType: "LOCATION"
 }
 denz.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
 }
@@ -853,68 +878,11 @@ denz.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
 			(id == null || id == undefined || id == false) ? denz.sendMessage(from, teks.trim(), extendedText, { contextInfo: { "mentionedJid": memberr } }) : denz.sendMessage(from, teks.trim(), extendedText, { quoted: mek, contextInfo: { "mentionedJid": memberr } })
 		}
 		
-		// Auto Regis
+		// Database User
 		const isUser = _registered.includes(sender)
-		
-			if (isCmd && !isUser){
-			_registered.push(sender)
-			fs.writeFileSync('./database/registered.json', JSON.stringify(_registered))
-        } 
-        
-		//GAME
-		
-		//TEBAKKATA
-		const addtebakkata = (chatId, jawaban, expired, _db) => {
-    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
-    _db.push(obi)
-}
-const getjawabanTK = (chatId, _db) => {
-    let found = false
-    Object.keys(_db).forEach((i) => {
-        if (_db[i].id === chatId) {
-            found = i
-        }
-    })
-    if (found !== false) {
-        return _db[found].jawaban
-    }
-}
-const isTebakKata = (chatId, _db) => {
-    let status = false
-    Object.keys(_db).forEach((i) => {
-        if (_db[i].id === chatId) {
-            status = true
-        }
-    })
-    return status
-}
-const cekWaktuTK = (denz, _dir) => {
-    setInterval(() => {
-        let position = null
-        Object.keys(_dir).forEach((i) => {
-            if (Date.now() >= _dir[i].expired) {
-                position = i
-            }
-        })
-        if (position !== null) {
-            sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'tebakkata',buttonText: {displayText: 'Tebak Kata'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
-            _dir.splice(position, 1)
-        }
-    }, 1000)
-}
-const getKataPosi = (chatId, _db) => {
-    let position = null
-    Object.keys(_db).forEach((i) => {
-        if (_db[i].id === chatId) {
-            position = i
-        }
-    })
-    if (position !== null) {
-        return position
-    }
-}
-//LIRIK
-		const addtebaklirik = (chatId, jawaban, expired, _db) => {
+		const isVerify = _user.includes(sender)
+//Tebak Lirik
+const addtebaklirik = (chatId, jawaban, expired, _db) => {
     let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
     _db.push(obi)
 }
@@ -947,7 +915,7 @@ const cekWaktuTL = (denz, _dir) => {
             }
         })
         if (position !== null) {
-            sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'tebaklirik',buttonText: {displayText: 'Tebak Lirik'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+            sendButMessage(sender, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'tebaklirik',buttonText: {displayText: 'Tebak Lirik'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
             _dir.splice(position, 1)
         }
     }, 1000)
@@ -963,13 +931,12 @@ const getLirikPosi = (chatId, _db) => {
         return position
     }
 }
-
-// ASAH OTAK
-const addasahotak = (chatId, jawaban, expired, _db) => {
-    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
-    _db.push(obi)
+//Tebak Kata
+const addtebakkata = (chatId, jawaban, expired, _db) => {
+let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
+_db.push(obi)
 }
-const getjawabanAO = (chatId, _db) => {
+const getJawabanTK = (chatId, _db) => {
     let found = false
     Object.keys(_db).forEach((i) => {
         if (_db[i].id === chatId) {
@@ -980,7 +947,7 @@ const getjawabanAO = (chatId, _db) => {
         return _db[found].jawaban
     }
 }
-const isAsahOtak= (chatId, _db) => {
+const isTebakKata = (chatId, _db) => {
     let status = false
     Object.keys(_db).forEach((i) => {
         if (_db[i].id === chatId) {
@@ -989,7 +956,7 @@ const isAsahOtak= (chatId, _db) => {
     })
     return status
 }
-const cekWaktuAO = (denz, _dir) => {
+const cekWaktuTK = (denz, _dir) => {
     setInterval(() => {
         let position = null
         Object.keys(_dir).forEach((i) => {
@@ -998,12 +965,12 @@ const cekWaktuAO = (denz, _dir) => {
             }
         })
         if (position !== null) {
-            sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'asahotak',buttonText: {displayText: 'Asah Otak'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+            sendButMessage(sender, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'tebakkata',buttonText: {displayText: 'Tebak Kata'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
             _dir.splice(position, 1)
         }
     }, 1000)
 }
-const getOtakPosi = (chatId, _db) => {
+const getKataPosi = (chatId, _db) => {
     let position = null
     Object.keys(_db).forEach((i) => {
         if (_db[i].id === chatId) {
@@ -1014,8 +981,7 @@ const getOtakPosi = (chatId, _db) => {
         return position
     }
 }
-
-		// TEBAK GAMBAR
+//Tebak Gambar
 const addgambar = (chatId, jawaban, expired, _db) => {
     let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
     _db.push(obi)
@@ -1049,7 +1015,7 @@ const cekWaktuTG = (denz, _dir) => {
             }
         })
         if (position !== null) {
-            sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'tebakgambar',buttonText: {displayText: 'Tebak Gambar'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+            sendButMessage(sender, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'tebakgambar',buttonText: {displayText: 'Tebak Gambar'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
             _dir.splice(position, 1)
         }
     }, 1000)
@@ -1065,7 +1031,268 @@ const getTGPosi = (chatId, _db) => {
         return position
     }
 }
-// Family 100
+//Susun kata
+const addskata = (chatId, jawaban, expired, _db) => {
+    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
+    _db.push(obi)
+}
+const getJawabanSK = (chatId, _db) => {
+    let found = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            found = i
+        }
+    })
+    if (found !== false) {
+        return _db[found].jawaban
+    }
+}
+const isSusunKata = (chatId, _db) => {
+    let status = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            status = true
+        }
+    })
+    return status
+}
+const cekWaktuSK = (denz, _dir) => {
+    setInterval(() => {
+        let position = null
+        Object.keys(_dir).forEach((i) => {
+            if (Date.now() >= _dir[i].expired) {
+                position = i
+            }
+        })
+        if (position !== null) {
+            sendButMessage(sender, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'tebakgambar',buttonText: {displayText: 'Tebak Gambar'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+            _dir.splice(position, 1)
+        }
+    }, 1000)
+}
+const getSKPosi = (chatId, _db) => {
+    let position = null
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return position
+    }
+}
+//Asah Otak
+const addasahotak = (chatId, jawaban, expired, _db) => {
+    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
+    _db.push(obi)
+}
+const getJawabanAO = (chatId, _db) => {
+    let found = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            found = i
+        }
+    })
+    if (found !== false) {
+        return _db[found].jawaban
+    }
+}
+const isAsahOtak= (chatId, _db) => {
+    let status = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            status = true
+        }
+    })
+    return status
+}
+const cekWaktuAO = (denz, _dir) => {
+    setInterval(() => {
+        let position = null
+        Object.keys(_dir).forEach((i) => {
+            if (Date.now() >= _dir[i].expired) {
+                position = i
+            }
+        })
+        if (position !== null) {
+            sendButMessage(sender, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'asahotak',buttonText: {displayText: 'Asah Otak'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+            _dir.splice(position, 1)
+        }
+    }, 1000)
+}
+const getAOPosi = (chatId, _db) => {
+    let position = null
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return position
+    }
+}
+//Cak Lontong
+const addclontong = (chatId, jawaban, deskripsi, expired, _db) => {
+    let obi = { id: chatId, jawaban: jawaban, deskripsi: deskripsi, expired: Date.now() + toMs(`${expired}s`) }
+    _db.push(obi)
+}
+const getJawabanCL = (chatId, _db) => {
+    let found = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            found = i
+        }
+    })
+    if (found !== false) {
+        return _db[found].jawaban
+    }
+}
+const getDeskripsiCL = (chatId, _db) => {
+    let found = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            found = i
+        }
+    })
+    if (found !== false) {
+        return _db[found].deskripsi
+    }
+}
+const isCakLontong= (chatId, _db) => {
+    let status = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            status = true
+        }
+    })
+    return status
+}
+const cekWaktuCL = (denz, _dir) => {
+    setInterval(() => {
+        let position = null
+        Object.keys(_dir).forEach((i) => {
+            if (Date.now() >= _dir[i].expired) {
+                position = i
+            }
+        })
+        if (position !== null) {
+            sendButMessage(sender, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'asahotak',buttonText: {displayText: 'Asah Otak'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+            _dir.splice(position, 1)
+        }
+    }, 1000)
+}
+const getCLPosi = (chatId, _db) => {
+    let position = null
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return position
+    }
+}
+//Siapakah Aku
+const addsaku = (chatId, jawaban, expired, _db) => {
+    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
+    _db.push(obi)
+}
+const getJawabanSA = (chatId, _db) => {
+    let found = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            found = i
+        }
+    })
+    if (found !== false) {
+        return _db[found].jawaban
+    }
+}
+const isSiapaAku = (chatId, _db) => {
+    let status = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            status = true
+        }
+    })
+    return status
+}
+const cekWaktuSA = (denz, _dir) => {
+    setInterval(() => {
+        let position = null
+        Object.keys(_dir).forEach((i) => {
+            if (Date.now() >= _dir[i].expired) {
+                position = i
+            }
+        })
+        if (position !== null) {
+        	sendButMessage(sender, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'siapaaku',buttonText: {displayText: 'Siapa Aku'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+            _dir.splice(position, 1)
+        }
+    }, 1000)
+}
+const getSAPosi = (chatId, _dir) => {
+    let position = null
+    Object.keys(_dir).forEach((i) => {
+        if (_dir[i].id === chatId) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return position
+    }
+}
+//Tebak Kalimat
+const addtkalimat = (chatId, jawaban, expired, _db) => {
+    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
+    _db.push(obi)
+}
+const getJawabanTKA = (chatId, _db) => {
+    let found = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            found = i
+        }
+    })
+    if (found !== false) {
+        return _db[found].jawaban
+    }
+}
+const isTebakKalimat = (chatId, _db) => {
+    let status = false
+    Object.keys(_db).forEach((i) => {
+        if (_db[i].id === chatId) {
+            status = true
+        }
+    })
+    return status
+}
+const cekWaktuTKA = (denz, _dir) => {
+    setInterval(() => {
+        let position = null
+        Object.keys(_dir).forEach((i) => {
+            if (Date.now() >= _dir[i].expired) {
+                position = i
+            }
+        })
+        if (position !== null) {
+        	sendButMessage(sender, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'tebakkalimat',buttonText: {displayText: 'Tebak Kalimat'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+            _dir.splice(position, 1)
+        }
+    }, 1000)
+}
+const getKalimatPosi = (chatId, _dir) => {
+    let position = null
+    Object.keys(_dir).forEach((i) => {
+        if (_dir[i].id === chatId) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return position
+    }
+}
+//Family100
 const addfam = (chatId, jawaban, expired, _db) => {
     let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
     _db.push(obi)
@@ -1120,12 +1347,12 @@ const getfamposi = (chatId, _dir) => {
         return position
     }
 }
-// TEBAK ANIME
-const addnime = (chatId, jawaban, expired, _db) => {
+//Tebak Jenaka
+const addtjenaka = (chatId, jawaban, expired, _db) => {
     let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
     _db.push(obi)
 }
-const getJawabanTA = (chatId, _db) => {
+const getJawabanTJ = (chatId, _db) => {
     let found = false
     Object.keys(_db).forEach((i) => {
         if (_db[i].id === chatId) {
@@ -1136,7 +1363,7 @@ const getJawabanTA = (chatId, _db) => {
         return _db[found].jawaban
     }
 }
-const isTebakAnime = (chatId, _db) => {
+const isTebakJenaka = (chatId, _db) => {
     let status = false
     Object.keys(_db).forEach((i) => {
         if (_db[i].id === chatId) {
@@ -1145,7 +1372,7 @@ const isTebakAnime = (chatId, _db) => {
     })
     return status
 }
-const cekWaktuTA = (denz, _dir) => {
+const cekWaktuTJ = (denz, _dir) => {
     setInterval(() => {
         let position = null
         Object.keys(_dir).forEach((i) => {
@@ -1154,15 +1381,15 @@ const cekWaktuTA = (denz, _dir) => {
             }
         })
         if (position !== null) {
-            sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'tebakanime',buttonText: {displayText: 'Tebak Anime'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
+        	sendButMessage(sender, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'tebakjenaka',buttonText: {displayText: 'Tebak Jenaka'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
             _dir.splice(position, 1)
         }
     }, 1000)
 }
-const getTAPosi = (chatId, _db) => {
+const getTJPosi = (chatId, _dir) => {
     let position = null
-    Object.keys(_db).forEach((i) => {
-        if (_db[i].id === chatId) {
+    Object.keys(_dir).forEach((i) => {
+        if (_dir[i].id === chatId) {
             position = i
         }
     })
@@ -1170,312 +1397,110 @@ const getTAPosi = (chatId, _db) => {
         return position
     }
 }
-// CAK LONTONG
-const addlontong = (chatId, jawaban, expired, _db) => {
-    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
-    _db.push(obi)
-}
-const getJawabanCL = (chatId, _db) => {
-    let found = false
-    Object.keys(_db).forEach((i) => {
-        if (_db[i].id === chatId) {
-            found = i
-        }
-    })
-    if (found !== false) {
-        return _db[found].jawaban
-    }
-}
-const isCakLontong = (chatId, _db) => {
-    let status = false
-    Object.keys(_db).forEach((i) => {
-        if (_db[i].id === chatId) {
-            status = true
-        }
-    })
-    return status
-}
-const cekWaktuCL = (denz, _dir) => {
-    setInterval(() => {
-        let position = null
-        Object.keys(_dir).forEach((i) => {
-            if (Date.now() >= _dir[i].expired) {
-                position = i
-            }
-        })
-        if (position !== null) {
-            sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'caklontong',buttonText: {displayText: 'Cak Lontong'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
-            _dir.splice(position, 1)
-        }
-    }, 1000)
-}
-const getLontongPosi = (chatId, _db) => {
-    let position = null
-    Object.keys(_db).forEach((i) => {
-        if (_db[i].id === chatId) {
-            position = i
-        }
-    })
-    if (position !== null) {
-        return position
-    }
-}
+// Cek Waktu Game
+const hadiahwin = randomNomor(500)
+cekWaktuFam(denz, family100)
+cekWaktuTG(denz, tebakgambar)
+cekWaktuSK(denz, susunkata)
+cekWaktuAO(denz, asahotak)
+cekWaktuTK(denz, tebakkata)
+cekWaktuCL(denz, caklontong)
+cekWaktuTKA(denz, tebakkalimat)
+cekWaktuSA(denz, siapakahaku)
+cekWaktuTL(denz, tebaklirik)
+cekWaktuTJ(denz, tebakjenaka)
+// P
 
-// SUSUN KATA
-const addskata = (chatId, jawaban, expired, _db) => {
-    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
-    _db.push(obi)
-}
-const getjawabanSK = (chatId, _db) => {
-    let found = false
-    Object.keys(_db).forEach((i) => {
-        if (_db[i].id === chatId) {
-            found = i
-        }
-    })
-    if (found !== false) {
-        return _db[found].jawaban
-    }
-}
-const isSusunKata = (chatId, _db) => {
-    let status = false
-    Object.keys(_db).forEach((i) => {
-        if (_db[i].id === chatId) {
-            status = true
-        }
-    })
-    return status
-}
-const cekWaktuSK = (denz, _dir) => {
-    setInterval(() => {
-        let position = null
-        Object.keys(_dir).forEach((i) => {
-            if (Date.now() >= _dir[i].expired) {
-                position = i
-            }
-        })
-        if (position !== null) {
-            sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'susunkata',buttonText: {displayText: 'Susun Kata'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
-            _dir.splice(position, 1)
-        }
-    }, 1000)
-}
-const getSKPosi = (chatId, _dir) => {
-    let position = null
-    Object.keys(_dir).forEach((i) => {
-        if (_dir[i].id === chatId) {
-            position = i
-        }
-    })
-    if (position !== null) {
-        return position
-    }
-}
-// SIAPA AKU
-const addsaku = (chatId, jawaban, expired, _db) => {
-    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
-    _db.push(obi)
-}
-const getjawabanSA = (chatId, _db) => {
-    let found = false
-    Object.keys(_db).forEach((i) => {
-        if (_db[i].id === chatId) {
-            found = i
-        }
-    })
-    if (found !== false) {
-        return _db[found].jawaban
-    }
-}
-const isSiapaAku = (chatId, _db) => {
-    let status = false
-    Object.keys(_db).forEach((i) => {
-        if (_db[i].id === chatId) {
-            status = true
-        }
-    })
-    return status
-}
-const cekWaktuSA = (denz, _dir) => {
-    setInterval(() => {
-        let position = null
-        Object.keys(_dir).forEach((i) => {
-            if (Date.now() >= _dir[i].expired) {
-                position = i
-            }
-        })
-        if (position !== null) {
-        	sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'siapaaku',buttonText: {displayText: 'Siapa Aku'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
-            _dir.splice(position, 1)
-        }
-    }, 1000)
-}
-const getSAPosi = (chatId, _dir) => {
-    let position = null
-    Object.keys(_dir).forEach((i) => {
-        if (_dir[i].id === chatId) {
-            position = i
-        }
-    })
-    if (position !== null) {
-        return position
-    }
-}
-//tebakkalimat
-const addtkalimat = (chatId, jawaban, expired, _db) => {
-    let obi = { id: chatId, jawaban: jawaban, expired: Date.now() + toMs(`${expired}s`) }
-    _db.push(obi)
-}
-const getjawabanTKA = (chatId, _db) => {
-    let found = false
-    Object.keys(_db).forEach((i) => {
-        if (_db[i].id === chatId) {
-            found = i
-        }
-    })
-    if (found !== false) {
-        return _db[found].jawaban
-    }
-}
-const isTebakKalimat = (chatId, _db) => {
-    let status = false
-    Object.keys(_db).forEach((i) => {
-        if (_db[i].id === chatId) {
-            status = true
-        }
-    })
-    return status
-}
-const cekWaktuTKA = (denz, _dir) => {
-    setInterval(() => {
-        let position = null
-        Object.keys(_dir).forEach((i) => {
-            if (Date.now() >= _dir[i].expired) {
-                position = i
-            }
-        })
-        if (position !== null) {
-        	sendButMessage(from, `Waktu Habis!\nJawabannya adalah : ${_dir[position].jawaban}`, "Expired Time", [{buttonId: 'siapaaku',buttonText: {displayText: 'Siapa Aku'}, type: 1}], {contextInfo: { mentionedJid: [sender]}})
-            _dir.splice(position, 1)
-        }
-    }, 1000)
-}
-const getKalimatPosi = (chatId, _dir) => {
-    let position = null
-    Object.keys(_dir).forEach((i) => {
-        if (_dir[i].id === chatId) {
-            position = i
-        }
-    })
-    if (position !== null) {
-        return position
-    }
-}
-
-		//GAME
-		    const hadiahwin = randomNomor(500)
-			cekWaktuFam(denz, family100)
-            cekWaktuTG(denz, tebakgambar)
-            cekWaktuSK(denz, susunkata)
-            cekWaktuCL(denz, caklontong)
-            cekWaktuTA(denz, tebakanime)
-            cekWaktuSA(denz, siapaku)
-            cekWaktuTL(denz, tebaklirik)
-            cekWaktuAO(denz, asahotak)
-            cekWaktuTK(denz, tebakkata)
-            cekWaktuTKA(denz, tebakkalimat)
-         //Function Game
-         
-         if (isSusunKata(from, susunkata) && isUser){
-         	addBalance(sender, hadiahwin, balance)
-            if (budy.toLowerCase().includes(getjawabanSK(from, susunkata))){
-                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getjawabanSK(from, susunkata)}\nHadiah : ${hadiahwin} Balance`, "Susun Kata", [{buttonId: 'susunkata',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
-                susunkata.splice(getSKPosi(from, susunkata), 1)
-            }
-        }
-        
-        if (isTebakKalimat(from, tebakkalimat) && isUser){
-        	addBalance(sender, hadiahwin, balance)
-            if (budy.toLowerCase().includes(getjawabanTKA(from, tebakkalimat))){
-                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getjawabanTKA(from, tebakkalimat)}\nHadiah : ${hadiahwin} Balance`, "Tebak Kalimat", [{buttonId: 'tebakkalimat',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
-                tebakkalimat.splice(getKalimatPosi(from, tebakkalimat), 1)
-            }
-        }
-        
-        if (isTebakKata(from, tebakkata) && isUser){
-            if (budy.toLowerCase().includes(getjawabanTK(from, tebakkata))){
-            	addBalance(sender, hadiahwin, balance)
-                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getjawabanTK(from, tebakkata)}\nHadiah : ${hadiahwin} Balance`, "Tebak Kata", [{buttonId: 'tebakkata',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
-                tebakkata.splice(getKataPosi(from, tebakkata), 1)
-            }
-        }
-        
-            if (isTebakGambar(from, tebakgambar) && isUser){
+        if (isTebakGambar(from, tebakgambar) && isUser){
             if (budy.toLowerCase().includes(getJawabanTG(from, tebakgambar))){
             	addBalance(sender, hadiahwin, balance)
                 sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanTG(from, tebakgambar)}\nHadiah : ${hadiahwin} Balance`, "Tebak Gambar", [{buttonId: 'tebakgambar',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
                 tebakgambar.splice(getTGPosi(from, tebakgambar), 1)
+            } else {
+                    textreply("Jawaban Salah!")
+                }
             }
-        }
         
-        if (isTebakAnime(from, tebakanime) && isUser){
-            if (budy.toLowerCase().includes(getJawabanTA(from, tebakanime))){
+        if (isSusunKata(from, susunkata) && isUser){
+            if (budy.toLowerCase().includes(getJawabanSK(from, susunkata))){
             	addBalance(sender, hadiahwin, balance)
-                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanTA(from, tebakanime)}\nHadiah : ${hadiahwin} Balance`, "Tebak Anime", [{buttonId: 'tebakanime',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
-                tebakanime.splice(getTAPosi(from, tebakanime), 1)
+                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanSK(from, susunkata)}\nHadiah : ${hadiahwin} Balance`, "Susun Kata", [{buttonId: 'susunkata',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                susunkata.splice(getSKPosi(from, susunkata), 1)
+            } else {
+                    textreply("Jawaban Salah!")
+                }
             }
-        }
+        
+        if (isAsahOtak(from, asahotak) && isUser){
+            if (budy.toLowerCase().includes(getJawabanAO(from, asahotak))){
+            	addBalance(sender, hadiahwin, balance)
+                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanAO(from, asahotak)}\nHadiah : ${hadiahwin} Balance`, "Asah Otak", [{buttonId: 'asahotak',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                asahotak.splice(getAOPosi(from, asahotak), 1)
+            } else {
+                    textreply("Jawaban Salah!")
+                }
+            }
         
         if (isCakLontong(from, caklontong) && isUser){
             if (budy.toLowerCase().includes(getJawabanCL(from, caklontong))){
             	addBalance(sender, hadiahwin, balance)
-                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanCL(from, caklontong)}\nHadiah : ${hadiahwin} Balance`, "Cak Lontong", [{buttonId: 'caklontong',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
-                caklontong.splice(getLontongPosi(from, caklontong), 1)
+                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanCL(from, caklontong)}\nDeskripsi : ${getDeskripsiCL(from, caklontong)}\nHadiah : ${hadiahwin} Balance`, "Cak Lontong", [{buttonId: 'caklontong',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                caklontong.splice(getCLPosi(from, caklontong), 1)
+            } else {
+                    textreply("Jawaban Salah!")
+                }
             }
-        }
         
-        if (isSiapaAku(from, siapaku) && isUser){
-            if (budy.toLowerCase().includes(getjawabanSA(from, siapaku))){
+        if (isSiapaAku(from, siapakahaku) && isUser){
+            if (budy.toLowerCase().includes(getJawabanSA(from, siapakahaku))){
             	addBalance(sender, hadiahwin, balance)
-                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanSA(from, siapaku)}\nHadiah : ${hadiahwin} Balance`, "Siapakah Aku?", [{buttonId: 'siapaaku',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
-                siapaku.splice(getSAPosi(from, siapaku), 1)
+                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanSA(from, siapakahaku)}\nHadiah : ${hadiahwin} Balance`, "Siapakah Aku?", [{buttonId: 'siapaaku',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                siapakahaku.splice(getSAPosi(from, siapakahaku), 1)
+            } else {
+                    textreply("Jawaban Salah!")
+                }
             }
-        }
         
-        if (isAsahOtak(from, asahotak) && isUser){
-            if (budy.toLowerCase().includes(getjawabanAO(from, asahotak))){
-            	addBalance(sender, hadiahwin, balance)
-                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getjawabanAO(from, asahotak)}\nHadiah : ${hadiahwin} Balance`, "Asah Otak", [{buttonId: 'asahotak',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
-                asahotak.splice(getOtakPosi(from, asahotak), 1)
+        if (isTebakKalimat(from, tebakkalimat) && isUser){
+        	addBalance(sender, hadiahwin, balance)
+            if (budy.toLowerCase().includes(getJawabanTKA(from, tebakkalimat))){
+                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanTKA(from, tebakkalimat)}\nHadiah : ${hadiahwin} Balance`, "Tebak Kalimat", [{buttonId: 'tebakkalimat',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                tebakkalimat.splice(getKalimatPosi(from, tebakkalimat), 1)
+            } else {
+                    textreply("Jawaban Salah!")
+                }
             }
-        }
+        
+        if (isTebakKata(from, tebakkata) && isUser){
+            if (budy.toLowerCase().includes(getJawabanTK(from, tebakkata))){
+            	addBalance(sender, hadiahwin, balance)
+                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanTK(from, tebakkata)}\nHadiah : ${hadiahwin} Balance`, "Tebak Kata", [{buttonId: 'tebakkata',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                tebakkata.splice(getKataPosi(from, tebakkata), 1)
+            } else {
+                    textreply("Jawaban Salah!")
+                }
+            }
         
         if (isTebakLirik(from, tebaklirik) && isUser){
             if (budy.toLowerCase().includes(getJawabanTL(from, tebaklirik))){
                 addBalance(sender, hadiahwin, balance)
                 sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanTL(from, tebaklirik)}\nHadiah : ${hadiahwin} Balance`, "Tebak Lirik", [{buttonId: 'tebaklirik',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
                 tebaklirik.splice(getLirikPosi(from, tebaklirik), 1)
-            }
-        }
-        
-       
-        if (isfam(from, family100) && isUser){
-            let anjuy = getjawaban100(from, family100)
-            for (let i of anjuy){
-                if (budy.toLowerCase().includes(i)){
-                    let htgmi = Math.floor(Math.random() * 20) + 1
-                    addBalance(sender, htgmi, balance)
-                    await reply(`*Jawaban benar*\n*Jawaban :* ${i}\n*Hadiah :* $${htgmi}\n*Jawaban yang blum tertebak :* ${anjuy.length - 1}`)
-                    let anug = anjuy.indexOf(i)
-                    anjuy.splice(anug, 1)
+            } else {
+                    textreply("Jawaban Salah!")
                 }
             }
-            if (anjuy.length < 1){
-                denz.sendMessage(from, `Semua jawaban sudah tertebak\nKirim *${prefix}family100* untuk bermain lagi`, text)
-                family100.splice(getfamposi(from, family100), 1)
-            }
-        }
         
+        if (isTebakJenaka(from, tebakjenaka) && isUser){
+            if (budy.toLowerCase().includes(getJawabanTJ(from, tebakjenaka))){
+            	addBalance(sender, hadiahwin, balance)
+                sendButMessage(from, `*Selamat jawaban kamu benar!*\n\nJawaban : ${getJawabanTJ(from, tebakjenaka)}\nHadiah : ${hadiahwin} Balance`, "Tebak Jenaka", [{buttonId: 'tebakjenaka',buttonText: {displayText: 'Play Again'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                tebakjenaka.splice(getTJPosi(from, tebakjenaka), 1)
+            } else {
+                    textreply("Jawaban Salah!")
+                }
+            }
+            
 		let sendFileFromUrl = async(link, type, options) => {
 hasil = await getBuffer(link)
 denz.sendMessage(from, hasil, type, options).catch(e => {
@@ -1611,6 +1636,23 @@ return reply(parse)
 					reply(commandsDB[i].balasan)
 				}
 			}
+			// Family100
+			if (isfam(from, family100) && isUser){
+            let anjuy = getjawaban100(from, family100)
+            for (let i of anjuy){
+                if (budy.toLowerCase().includes(i)){
+                    addBalance(sender, hadiahwin, balance)
+                    textreply(`Jawaban Benar!\n\nJawaban : ${i}\nHadiah : ${hadiahwin} Balance\nSisa : ${anjuy.length - 1} Jawaban`)
+                    let anug = anjuy.indexOf(i)
+                    anjuy.splice(anug, 1)
+                }
+            }
+            if (anjuy.length < 1){
+                sendButMessage(from, `Semua jawaban sudah tertebak!`, "thanks for playing.", [{buttonId: 'family100',buttonText: {displayText: 'Family 100'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+                family100.splice(getfamposi(from, family100), 1)
+            }
+        }
+        
 			// MUTE
         if (isMuted){
             if (!isGroupAdmins && !isOwner && !mek.key.fromMe) return
@@ -1673,7 +1715,243 @@ denz.updatePresence(from, Presence.recording)
 		}
 	    if (isCmd && !isGroup) {console.log(color('|CMD|', 'greenyellow'), color(moment(mek.messageTimestamp * 1000).format('DD/MM/YY HH:mm:ss'), 'blue'), color(`${command} [${args.length}]`, 'cyan'), color(`${pushname}`, 'orange'), color(`${sender}`, 'deeppink'))}
 	    if (!command) {console.log(color('|MSG|', 'greenyellow'), color(moment(mek.messageTimestamp * 1000).format('DD/MM/YY HH:mm:ss'), 'blue'), color(cmd, 'cyan'), color(`${pushname}`, 'orange'), color(`${sender}`, 'deeppink'))}
-		
+//Add Leveling
+const getLevelingXp = (sender) => {
+let position = false
+Object.keys(_level).forEach((i) => {
+if (_level[i].id === sender) {
+position = i
+}
+})
+if (position !== false) {
+return _level[position].xp
+}
+}
+
+const getLevelingLevel = (sender) => {
+let position = false
+Object.keys(_level).forEach((i) => {
+if (_level[i].id === sender) {
+position = i
+}
+})
+if (position !== false) {
+return _level[position].level
+}
+}
+
+const getLevelingId = (sender) => {
+let position = false
+Object.keys(_level).forEach((i) => {
+if (_level[i].id === sender) {
+position = i
+}
+})
+if (position !== false) {
+return _level[position].id
+}
+}
+
+const addLevelingXp = (sender, amount) => {
+let position = false
+Object.keys(_level).forEach((i) => {
+if (_level[i].id === sender) {
+position = i
+}
+})
+if (position !== false) {
+_level[position].xp += amount
+fs.writeFileSync('./database/level.json', JSON.stringify(_level))
+}
+}
+
+const addLevelingLevel = (sender, amount) => {
+let position = false
+Object.keys(_level).forEach((i) => {
+if (_level[i].id === sender) {
+position = i
+}
+})
+if (position !== false) {
+_level[position].level += amount
+fs.writeFileSync('./database/level.json', JSON.stringify(_level))
+}
+}
+
+const addLevelingId = (sender) => {
+const obj = {id: sender, xp: 0, level: 0}
+_level.push(obj)
+fs.writeFileSync('./database/level.json', JSON.stringify(_level))
+}
+//Add Role By Bagus ID
+const levelRole = getLevelingLevel(sender)
+ var role = 'Bronze 1'
+  if (levelRole <= 2) {
+role = 'Bronze 1'
+  } else if (levelRole <= 10) {
+role = 'Bronze 2'
+  } else if (levelRole <= 20) {
+role = 'Bronze 3'
+  } else if (levelRole <= 30) {
+role = 'Bronze 4'
+  } else if (levelRole <= 40) {
+role = 'Bronze 5'
+  } else if (levelRole <= 70) {
+role = 'Silver 1'
+  } else if (levelRole <= 85) {
+role = 'Silver 2'
+  } else if (levelRole <= 95) {
+role = 'Silver 3'
+  } else if (levelRole <= 105) {
+role = 'Silver 4'
+  } else if (levelRole <= 125) {
+role = 'Silver 5'
+  } else if (levelRole <= 150) {
+role = 'Gold 1'
+  } else if (levelRole <= 170) {
+role = 'Gold 2'
+  } else if (levelRole <= 190) {
+role = 'Gold 3'
+  } else if (levelRole <= 210) {
+role = 'Gold 4'
+  } else if (levelRole <= 230) {
+role = 'Gold 5'
+  } else if (levelRole <= 260) {
+role = 'Platinum 1'
+  } else if (levelRole <= 290) {
+role = 'Platinum 2'
+  } else if (levelRole <= 320) {
+role = 'Platinum 3'
+  } else if (levelRole <= 350) {
+role = 'Platinum 4'
+  } else if (levelRole <= 380) {
+role = 'Platinum 5'
+  } else if (levelRole <= 410) {
+role = 'Diamond 1'
+  } else if (levelRole <= 450) {
+role = 'Diamond 2'
+  } else if (levelRole <= 500) {
+role = 'Diamond 3'
+  } else if (levelRole <= 550) {
+role = 'Diamond 4'
+  } else if (levelRole <= 600) {
+role = 'Diamond 5'
+  } else if (levelRole <= 700) {
+role = 'Master'
+  } else if (levelRole <= 800) {
+role = 'Master ✩'
+  } else if (levelRole <= 900) {
+role = 'Master ✩✩'
+  } else if (levelRole <= 1000) {
+role = 'Master ✩✩✩'
+  } else if (levelRole <= 1100) {
+role = 'Master ✯'
+  } else if (levelRole <= 1225) {
+role = 'Master ✯✯'
+  } else if (levelRole <= 1340) {
+role = 'Master ✯✯✯'
+  } else if (levelRole <= 1400) {
+role = 'GrandMaster'
+  } else if (levelRole <= 1555) {
+role = 'GrandMaster ✩'
+  } else if (levelRole <= 1660) {
+role = 'GrandMaster ✩✩'
+  } else if (levelRole <= 1710) {
+role = 'GrandMaster ✩✩✩'
+  } else if (levelRole <= 1825) {
+role = 'GrandMaster ✯'
+  } else if (levelRole <= 1950) {
+role = 'GrandMaster ✯✯'
+  } else if (levelRole <= 2000) {
+role = 'GrandMaster ✯✯✯'
+  } else if (levelRole <= 2220) {
+role = 'Legends'
+  } else if (levelRole <= 2500) {
+role = 'Legends 2'
+  } else if (levelRole <= 2700) {
+role = 'Legends 3'
+  } else if (levelRole <= 2900) {
+role = 'Legends 4'
+  } else if (levelRole <= 3100) {
+role = 'Legends 5'
+  } else if (levelRole <= 3300) {
+role = 'Legends 6'
+  } else if (levelRole <= 3600) {
+role = 'Legends 7'
+  } else if (levelRole <= 3900) {
+role = 'Legends 8'
+  } else if (levelRole <= 4200) {
+role = 'Legends 9'
+  } else if (levelRole <= 4450) {
+role = 'Legends 10'
+  } else if (levelRole <= 4700) {
+role = 'Legends 忍'
+  } else if (levelRole <= 4900) {
+role = 'Legends 忍¹'
+  } else if (levelRole <= 5100) {
+role = 'Legends 忍²'
+  } else if (levelRole <= 5600) {
+role = 'Legends 忍³'
+  } else if (levelRole <= 6100) {
+role = 'Legends 忍⁴'
+  } else if (levelRole <= 7000) {
+role = 'GrandLegends'
+  } else if (levelRole <= 10000) {
+role = 'GrandLegends 1'
+  } else if (levelRole <= 20000) {
+role = 'GrandLegends 2'
+  } else if (levelRole <= 30000) {
+role = 'GrandLegends 3'
+  } else if (levelRole <= 40000) {
+role = 'GrandLegends 4'
+  } else if (levelRole <= 50000) {
+role = 'GrandLegends 忍¹'
+  } else if (levelRole <= 60000) {
+role = 'GrandLegends 忍²'
+  } else if (levelRole <= 70000) {
+role = 'GrandLegends 忍³'
+  } else if (levelRole <= 80000) {
+role = 'GrandLegends 忍⁴'
+  } else if (levelRole <= 90000) {
+role = 'Pro 숒'
+  } else if (levelRole <= 99999999999999) {
+role = 'Pro × GrandLegends 숒'
+}
+//1
+if (isGroup && isUser && !isCmd) {
+const currentLevel = getLevelingLevel(sender)
+const checkId = getLevelingId(sender)
+try {
+if (currentLevel === undefined && checkId === undefined) addLevelingId(sender)
+const amountXp = Math.floor(Math.random() * 10) + 50
+const requiredXp = 3000 * (Math.pow(2, currentLevel) - 1)
+const getLevel = getLevelingLevel(sender)
+addLevelingXp(sender, amountXp)
+if (requiredXp <= getLevelingXp(sender)) {
+addLevelingLevel(sender, 1)
+addBalance(sender, 30, balance)
+bjirli = `*─ 「 LEVEL UP 」 ─*
+
+*User :* @${sender.split("@")[0]}
+*Nomer :* ${sender.split("@")[0]}
+*Xp :* ${getLevelingXp(sender)}
+*Level :* ${getLevel} > ${getLevelingLevel(sender)}
+*Balance :* $${getBalance(sender, balance)}
+*Role :* ${role}
+
+Congrats 🎉`
+sendButMessage(from, `${bjirli}`, "Sering Sering Main Bot Ya!", [{buttonId: 'profile',buttonText: {displayText: 'Profile'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+}
+} catch (err) {
+console.error(err)
+}
+}
+//Auto regis
+if (isCmd && !isUser){
+			_registered.push(sender)
+			fs.writeFileSync('./database/registered.json', JSON.stringify(_registered))
+			addLevelingId(sender)
+        } 
         switch (isStc) {
      case "5b017c6ac1fb953c7bd21034d2fca5fad75ef2da4c3b2c2877ef49fa544e74bf":
         if (!isStcSticker) return reply('Reply stickernya bgsd!')
@@ -1681,6 +1959,29 @@ denz.updatePresence(from, Presence.recording)
         reply(su)
 				}
         switch (command) {
+case 'me': case 'myinfo': case 'info': case 'profile': case 'profil':
+stst = await denz.getStatus(`${sender.split('@')[0]}@c.us`)
+stst = stst.status == 401 ? '' : stst.status
+asukau = `─ *USER INFO* ─
+
+• Nama : ${pushname}
+• Bio : ${stst}
+• Tag : @${sender.split("@")[0]}
+• Api : wa.me/${sender.split("@")[0]}
+
+• Limit : ${isOwner?`Owner`:isPremium ? `Unlimited` : `${getLimit(sender, limitawal, limit)} / ${limitawal}`}
+• Game Limit : ${cekGLimit(sender, gcount, glimit)} / ${gcount}
+• Balance : $${getBalance(sender, balance)}
+• Role : ${role}
+• Level : ${getLevelingLevel(sender)}
+• Xp : ${getLevelingXp(sender)}
+
+• Status : ${isOwner? `Owner` : `User`}
+• Premium : ${isPremium ? 'Premium' : 'Not Premium'}
+• Terverifikasi : ${isVerify? `Ya`:`Tidak`}
+• Banned : ${isBanned?`Ya`:`Tidak`}`
+sendButLocation(from, `${asukau}`, "Made with by Bagus ID", {jpegThumbnail:ofrply,name:""}, [{buttonId:`menu`,buttonText:{displayText:'Menu'},type:1},{buttonId:`verify`,buttonText:{displayText:'Verify'},type:1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+break
           case 'menu':
         case 'help':
         ownerJid = "6285335144197@s.whatsapp.net"
@@ -1703,10 +2004,16 @@ _TotalHit : ${cmhit.length}_
 _Name : ${pushname}_
 _Bio : ${stst}_
 _Nomor : @${stod.split('@')[0]}_
-_Status : ${isOwner ? 'Owner': isPremium ? 'Premium' : 'Not Premium'}_
+_Status : ${isOwner? `Owner` : `User`}_
+
+*_User Profile :_*
 _Limit : ${isOwner?`Owner`:isPremium ? `Unlimited` : `${getLimit(sender, limitawal, limit)} / ${limitawal}`}_
 _Limit Game : ${cekGLimit(sender, gcount, glimit)} / ${gcount}_
 _Balance : $${getBalance(sender, balance)}_
+_Role : ${role}_
+_Premium : ${isPremium ? 'Premium' : 'Not Premium'}_
+_Terverifikasi : ${isUser? `Ya`:`Tidak`}_
+_Banned : ${isBanned?`Ya`:`Tidak`}_
 
 _*❒ ── ⌜ Main ⌟*_
 _• ${prefix}menu_
@@ -1726,6 +2033,7 @@ _• ${prefix}banlist_
 _• ${prefix}premiumlist_
 _• ${prefix}setlimit_
 _• ${prefix}resetlimit_
+_• ${prefix}resetuser_
 
 _*❒ ── ⌜ Uang ⌟*_
 _• ${prefix}topbalance_
@@ -1777,8 +2085,6 @@ _• ${prefix}smeme-a teks_
 _• ${prefix}smeme-b teks_
 _• ${prefix}attp teks_
 _• ${prefix}ttp teks_
-_• ${prefix}ttp2 teks_
-_• ${prefix}ttp3 teks_
 _• ${prefix}doge_
 _• ${prefix}patrick_
 _• ${prefix}gura_
@@ -1795,13 +2101,13 @@ _*❒ ── ⌜ Game ⌟*_
 _• ${prefix}susunkata_
 _• ${prefix}tebaklirik_
 _• ${prefix}tebakgambar_
-_• ${prefix}tebakanime_
 _• ${prefix}tebakkata_
 _• ${prefix}tebakkalimat_
 _• ${prefix}family100_
 _• ${prefix}asahotak_
 _• ${prefix}caklontong_
 _• ${prefix}siapaaku_
+_• ${prefix}tebakjenaka_
 _• ${prefix}tictactoe @tag_
 _• ${prefix}gelud @tag_
 _• ${prefix}slots_
@@ -1824,15 +2130,11 @@ _• ${prefix}hobby_
 _• ${prefix}rate_
 _• ${prefix}truth_
 _• ${prefix}dare_
-_• ${prefix}cerpen_
-_• ${prefix}pantun_
 _• ${prefix}quotes_
-_• ${prefix}quotesimage_
 _• ${prefix}faktaunik_
 _• ${prefix}seberapagay @tag_
 _• ${prefix}cekbapak @tag_
 _• ${prefix}hilih teks_
-_• ${prefix}jagokata teks_
 
 _*❒ ── ⌜ Islam ⌟*_
 _• ${prefix}alquran_
@@ -1841,47 +2143,6 @@ _• ${prefix}kisahnabi nabi_
 _• ${prefix}jadwalsholat daerah_
 _• ${prefix}asmaulhusna_
 _• ${prefix}hadistsahih kitab|no_
-
-_*❒ ── ⌜ Maker ⌟*_
-_• ${prefix}tahta teks_
-_• ${prefix}blueneon teks_
-_• ${prefix}breakwall teks_
-_• ${prefix}skytext teks_
-_• ${prefix}epeplogo teks_
-_• ${prefix}leavesttext teks_
-_• ${prefix}sandwrite teks_
-_• ${prefix}lightwriting teks_
-_• ${prefix}wolflogo teks1 teks2_
-_• ${prefix}jokerlogo teks_
-_• ${prefix}firetext teks_
-_• ${prefix}snowwrite teks1 teks2_
-_• ${prefix}yutubgold teks_
-_• ${prefix}yutubsilver teks_
-_• ${prefix}flowertext teks_
-_• ${prefix}lighttext teks_
-_• ${prefix}hekertext teks_
-_• ${prefix}cslogo teks_
-_• ${prefix}blackpink teks_
-_• ${prefix}avengerslogo teks1 teks2_
-_• ${prefix}pornhub teks1 teks2_
-_• ${prefix}text3dbox teks_
-_• ${prefix}text3d teks_
-_• ${prefix}marvellogo teks1 teks2_
-_• ${prefix}sharelock teks1 teks2_
-
-_*❒ ── ⌜ Logo ⌟*_
-_• ${prefix}guramaker teks_
-_• ${prefix}kanekimaker teks_
-_• ${prefix}lolimaker teks_
-_• ${prefix}logomaker teks1 teks2_
-_• ${prefix}waifumaker teks1 teks2_
-_• ${prefix}remmaker teks_
-
-_*❒ ── ⌜ Nulis ⌟*_
-_• ${prefix}nuliskiri teks_
-_• ${prefix}nuliskanan teks_
-_• ${prefix}foliokiri teks_
-_• ${prefix}foliokanan teks_
 
 _*❒ ── ⌜ Phototoxy ⌟*_
 _• ${prefix}naruto teks_
@@ -1896,10 +2157,44 @@ _• ${prefix}coffecup teks_
 _• ${prefix}coffecup2 teks_
 _• ${prefix}lovetext teks_
 _• ${prefix}butterfly teks_
+_• ${prefix}neon teks_
+_• ${prefix}glow teks_
+_• ${prefix}summer teks_
+_• ${prefix}golden teks_
+_• ${prefix}woodenboarch teks_
 _• ${prefix}glitch teks1 teks2_
 _• ${prefix}pubg teks1 teks2_
 _• ${prefix}battlefield teks1 teks2_
 _• ${prefix}googlesuggestion teks1|teks2|teks3_
+
+_*❒ ── ⌜ Text Pro Me ⌟*_
+_• ${prefix}naturalleaves teks_
+_• ${prefix}blackpink teks_
+_• ${prefix}dropwater teks_
+_• ${prefix}matrix teks_
+_• ${prefix}christmas teks_
+_• ${prefix}3dgradient teks_
+_• ${prefix}greentext teks_
+_• ${prefix}fiction teks_
+_• ${prefix}jokerlogo teks_
+_• ${prefix}sketchtext teks_
+_• ${prefix}thunder teks_
+_• ${prefix}transformer teks_
+_• ${prefix}blood teks_
+_• ${prefix}blood2 teks_
+_• ${prefix}sandwrite teks_
+_• ${prefix}wolflogo teks1 teks2_
+_• ${prefix}wolflogo2 teks1 teks2_
+_• ${prefix}firework teks1 teks2_
+_• ${prefix}pornhub teks1 teks2_
+_• ${prefix}marvellogo teks1 teks2_
+_• ${prefix}avengerslogo teks1 teks2_
+
+_*❒ ── ⌜ Nulis ⌟*_
+_• ${prefix}nuliskiri teks_
+_• ${prefix}nuliskanan teks_
+_• ${prefix}foliokiri teks_
+_• ${prefix}foliokanan teks_
 
 _*❒ ── ⌜ Download ⌟*_
 _• ${prefix}mediafire link_
@@ -1912,13 +2207,13 @@ _• ${prefix}video query_
 _• ${prefix}fetch link_
 _• ${prefix}igdl link_
 _• ${prefix}igstory link_
-_• ${prefix}tiktokdl link_
+_• ${prefix}tiktok link_
+_• ${prefix}tiktoknowm link_
+_• ${prefix}tiktokaudio link_
 
 _*❒ ── ⌜ Stalker ⌟*_
 _• ${prefix}igstalk user_
-_• ${prefix}githubstalk user_
 _• ${prefix}tiktokstalk user_
-_• ${prefix}youtubestalk user_
 
 _*❒ ── ⌜ Shortlink ⌟*_
 _• ${prefix}tinyurl link_
@@ -1929,7 +2224,6 @@ _• ${prefix}pinterest query_
 _• ${prefix}google query_
 _• ${prefix}gimage query_
 _• ${prefix}playstore query_
-_• ${prefix}happymod query_
 _• ${prefix}linkwa query_
 _• ${prefix}kbbi query_
 _• ${prefix}kodepos kota_
@@ -1937,24 +2231,32 @@ _• ${prefix}brainly query_
 _• ${prefix}wiki query_
 _• ${prefix}lirik query_
 _• ${prefix}caripesan teks_
-_• ${prefix}resepmasakan query_
+_• ${prefix}herodetail hero_
+_• ${prefix}herolist_
+_• ${prefix}chara query_
 
 _*❒ ── ⌜ Nsfw ⌟*_
-_• ${prefix}nekonime_
-_• ${prefix}awoo_
+_• ${prefix}ass_
+_• ${prefix}ahegao_
+_• ${prefix}bdsm_
 _• ${prefix}blowjob_
-_• ${prefix}nsfwyuri_
-_• ${prefix}kitsune_
+_• ${prefix}cuckold_
+_• ${prefix}cum_
+_• ${prefix}ero_
+_• ${prefix}femdom_
+_• ${prefix}foot_
+_• ${prefix}gangbang_
+_• ${prefix}glasses_
+_• ${prefix}hentai_
+_• ${prefix}hentaigif_
+_• ${prefix}jahy_
+_• ${prefix}masturbation_
+_• ${prefix}neko_
+_• ${prefix}orgy_
+_• ${prefix}panties_
 _• ${prefix}pussy_
-_• ${prefix}nsfwkuni_
-_• ${prefix}nsfwtrap_
-_• ${prefix}poke_
-_• ${prefix}anal_
-_• ${prefix}slap_
-_• ${prefix}eroneko_
-_• ${prefix}neko2_
-_• ${prefix}baka_
-_• ${prefix}wallpapers_
+_• ${prefix}thighs_
+_• ${prefix}yuri_
 
 _*❒ ── ⌜ Audio ⌟*_
 _• ${prefix}fast_
@@ -1970,33 +2272,24 @@ _• ${prefix}vibrato_
 _• ${prefix}detikvn_
 _• ${prefix}detikvideo_
 
-_*❒ ── ⌜ Anime ⌟*_
+_*❒ ── ⌜ Random ⌟*_
 _• ${prefix}loli_
 _• ${prefix}husbu_
 _• ${prefix}waifu_
 _• ${prefix}shota_
-_• ${prefix}megumin_
 _• ${prefix}milf_
 _• ${prefix}cosplay_
-_• ${prefix}hentai_
-_• ${prefix}storyanime_
-_• ${prefix}lolivideo_
-_• ${prefix}chara query_
-
-_*❒ ── ⌜ Random ⌟*_
-_• ${prefix}ppcp_
+_• ${prefix}couple_
 _• ${prefix}cecan_
-_• ${prefix}darkjokes_
+_• ${prefix}darkjoke_
 _• ${prefix}meme_
 _• ${prefix}aesthetic_
+_• ${prefix}wallml_
+_• ${prefix}nekonime_
+_• ${prefix}lolivideo_
 
-_*❒ ── ⌜ Asupan ⌟*_
-_• ${prefix}asupan_
-_• ${prefix}asupansantuy_
-_• ${prefix}asupanbocil_
-_• ${prefix}asupanukhty_
-_• ${prefix}asupanrikagusriani_
-_• ${prefix}asupanghea_
+_*❒ ── ⌜ Image Effect ⌟*_
+_• ${prefix}gay reply foto_
 
 _*❒ ── ⌜ Cecan ⌟*_
 _• ${prefix}vietnam_
@@ -2006,30 +2299,6 @@ _• ${prefix}indonesia_
 _• ${prefix}japan_
 _• ${prefix}thailand_
 _• ${prefix}china_
-
-_*❒ ── ⌜ Image ⌟*_
-_• ${prefix}gay_
-_• ${prefix}rip_
-_• ${prefix}triggered_
-_• ${prefix}wanted_
-_• ${prefix}jail_
-_• ${prefix}blur_
-_• ${prefix}police_
-_• ${prefix}captcha_
-_• ${prefix}greyscale_
-_• ${prefix}bonk_
-_• ${prefix}spotifyimage_
-
-_*❒ ── ⌜ News ⌟*_
-_• ${prefix}tribunews_
-_• ${prefix}liputan6_
-_• ${prefix}foxnews_
-_• ${prefix}detikcom_
-
-_*❒ ── ⌜ Primbon ⌟*_
-_• ${prefix}jodoh kamu & dia_
-_• ${prefix}artinama nama_
-_• ${prefix}artimimpi teks_
 
 _*❒ ── ⌜ Tag ⌟*_
 _• ${prefix}ganteng_
@@ -2050,18 +2319,6 @@ _• ${prefix}haram_
 _• ${prefix}kontol_
 _• ${prefix}wibu_
 _• ${prefix}hebat_
-
-_*❒ ── ⌜ Other ⌟*_
-_• ${prefix}kalkulator angka_
-_• ${prefix}bilangangka angka_
-_• ${prefix}styletext teks_
-_• ${prefix}translate kodebhs|teks_
-_• ${prefix}ssweb link_
-_• ${prefix}herodetail hero_
-_• ${prefix}herolist_
-_• ${prefix}infogempa_
-_• ${prefix}nickepep_
-_• ${prefix}fakedata_
 
 _*❒ ── ⌜ 18+ ⌟*_
 _• ${prefix}bokep_
@@ -2109,54 +2366,37 @@ _• ${prefix}sound35_
 
 _*❒ ── ⌜ Tools ⌟*_
 _• ${prefix}suratto nomor|pesan_
+_• ${prefix}kalkulator angka_
+_• ${prefix}fakedata_
+_• ${prefix}ebase64_
+_• ${prefix}debase64_
+_• ${prefix}ehex_
+_• ${prefix}dehex_
+_• ${prefix}ebinary_
+_• ${prefix}debinary_
 
 *_Auto Regis : ${_registered.length}_*`
-anu = denz.prepareMessageFromContent(from,{
-					"productMessage": {
-						"product": {
-								"productImage": {
-								 "url": "https://mmg.whatsapp.net/d/f/Ahb4wGLv5WRRHNDjX0oscWGguHSUTuBXrBLUDCzO0_0Z.enc",
-						"mimetype": "image/jpeg",
-						"fileSha256": "uZiOJzqOvrOo2WGjnMKgX2MMQMyasT+ZDgqUczpIBmY=",
-						"fileLength": "109459",
-						"height": 1280,
-						"width": 1274,
-						"mediaKey": "1SBZlmQxZQR+qZBVlBR5RcvDQNfYSRiYPT8uWDaEzLY=",
-						"fileEncSha256": "V6JNiialXPUGHn1j7Tz7YkXpU+QzOkBvOV7GZL2PRS4=",
-						"jpegThumbnail": fs.readFileSync("./denz.jpg")
-                                },
-                            "productId": "99",
-							"title": `ALLMENU`, 
-							"description": `${menu}`,
-							"currencyCode": "USD",
-					        "priceAmount1000": "2000",
-							"productImageCount": 1
-						},
-						"businessOwnerJid": `${ownerJid}`,
-						"contextInfo": {
-							"forwardingScore": 9999,
-							"isForwarded": true
-						}
-					}
-				},{quoted: mek, contextInfo: { mentionedJid: [dtod,otod,stod]}})
-                  denz.relayWAMessage(anu)
+sendButDocument(from, `${menu}`, "Made with by Bagus ID", fs.readFileSync('./denz.jpg'), {mimetype:Mimetype.pdf, thumbnail:fs.readFileSync('./denz2.jpg'), filename:`Bokep No Sensor`}, [{buttonId:`rules`,buttonText:{displayText:'Rules'},type:1},{buttonId:`sewabot`,buttonText:{displayText:'Price'},type:1}], {quoted:finv2, contextInfo: { mentionedJid: [dtod,otod,stod], forwardingScore: 508, isForwarded: true, externalAdReply:{title:`${tampilUcapan} ${pushname}`,body:`${jmn} - ${week} - ${calender}`,mediaType:"2",thumbnail:ofrply,mediaUrl:`https://youtu.be/uQiF1yOnzDg`}}})
 break
 //-------- > Store < --------
 case 'sewabot': case 'iklan':
 			buz = `*Mau Sewa Apa Lihat Doang?*
 			
 *S E W A  B O T*
-1 Bulan : 5k
-Permanent : 10k
+Permanent : 5k
 
 *P R E M I U M*
-1 Bulan : 5k
+1 Bulan : 1k
+
+*J A D I B O T*
+20k, Dikasih Sc + Cara Run
 
 Keuntungan:
 Sewa : Bot Masuk Group
 Premium : Upgrade Status User Menjadi Premium User, Limit Unlimited
+Jadi Bot : Bisa Nyewain Bot Sendiri
 
-*Untuk sewa permanent free premium user!*`
+*On 24 Jam, Jika Tidak Ada Kendala!*`
             sendButMessage(from, `${buz}`, "Metode Pembayaran!", [{buttonId: 'gopay',buttonText: {displayText: 'Gopay'}, type: 1},{buttonId: 'dana',buttonText: {displayText: 'Dana'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [otod,stod]}})
             break
             case 'gopay':
@@ -2313,7 +2553,7 @@ teksnyee += `\n\n*❏ ID :* ${i.id}\n*❏ Cmd :* ${i.chats}`
 reply(teksnyee)
 break
 			case 'sc': case 'script': case 'sourcecode':
-            reply(`Bot ini menggunakan script : https://youtube.com/channel/UCIdzbkRJ8k7qTivffTWSk_w / Base Nyah : https://github.com/dcode-denpa/Bitch-Boot`)
+            reply(`Angjay Nyari Esce :V`)
             break
        case 'debug':
 			 res = await denz.prepareMessageFromContent(from,{
@@ -2394,16 +2634,40 @@ reply(mess.error.api)
 console.log(res)
 sendMediaURL(from,`${res.result.link}`,`${res.result.desc}`)
                     break
-case 'tiktoknowm': case 'tiktok': case 'tiktokdl':
+case 'tiktoknowm':   case 'tiktok':
 if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
-if (!c) return reply('Link tidak valid')
-var { TiktokDownloader } = require('./lib/tiktokdl')
+if (isBanned) return reply(mess.banned)
+if (!c) return reply('Linknya?')
+if (!isUrl(args[0]) && !args[0].includes('tiktok.com')) return reply('Invalid link')
 reply(mess.wait)
-res = await TiktokDownloader(`${c}`).catch(e => {
-reply(mess.error.api)
+let nowem = c
+hx.ttdownloader(nowem)
+.then(result => {
+const { wm, nowm, audio } = result
+axios.get(`https://tinyurl.com/api-create.php?url=${nowm}`)
+.then(async (a) => {
+let meno = await getBuffer(nowm)
+denz.sendMessage(from,meno,MessageType.video,{mimetype:'video/mp4',quoted: mek, caption:'Nih'})
 })
-console.log(res)
-sendMediaURL(from, `${res.result.nowatermark}`)
+}).catch((err) => reply(`Link tidak valid`))
+limitAdd(sender, limit)
+break 
+case 'tiktokmusic': case 'tiktokaudio':
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
+if (isBanned) return reply(mess.banned)
+if (!c) return reply('Linknya?')
+if (!isUrl(args[0]) && !args[0].includes('tiktok.com')) return reply('Invalid Link')
+reply(mess.wait)
+let audi = c
+hx.ttdownloader(audi)
+.then(result => {
+const { wm, nowm, audio } = result
+axios.get(`https://tinyurl.com/api-create.php?url=${audio}`)
+.then(async (a) => {
+let audin = await getBuffer(audio)
+denz.sendMessage(from,audin,MessageType.audio,{mimetype:'audio/mp4',quoted: mek})
+})
+}).catch((err) => reply(`Link tidak valid`))
 limitAdd(sender, limit)
 break
                     case 'imgtourl': case 'tourl':
@@ -2740,30 +3004,7 @@ break
 				 teks = `${mtk} = ${Math_js.evaluate(mtk)}`
 				 reply(teks)
 				 break
-				case 'translate':
-				if (isBanned) return reply(mess.banned)
-				if (args.length < 1) return reply('Teksnya?')
-				crew = body.slice(11)
-trans = crew.split("|")[0];
-late = crew.split("|")[1];
-				anu = await fetchJson(`https://bx-hunter.herokuapp.com/api/translate?lang=${trans}&text=${late}&apikey=${HunterApi}`, {method: 'get'})
-				teks = anu.text
-reply(teks)
-break
-		case 'artimimpi':
-		if (isBanned) return reply(mess.banned)
-				if (args.length < 1) return reply('Teksnya?')
-anu = await fetchJson(`https://bx-hunter.herokuapp.com/api/artimimpi?q=${body.slice(11)}&apikey=${HunterApi}`, {method: 'get'})
-teks = anu.result
-reply(teks)
-break
-				case 'fancytext': case 'styletext': case 'textstyle':
-				if (isBanned) return reply(mess.banned)
-				if (args.length < 1) return reply('Teksnya?')
-anu = await fetchJson(`https://bx-hunter.herokuapp.com/api/fancytext?text=${body.slice(11)}&apikey=${HunterApi}`, {method: 'get'})
-teks = anu.result
-reply(teks)
-break
+			
 case 'lirik':
 if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)
@@ -2776,30 +3017,6 @@ reply(lirik)
 })
 limitAdd(sender, limit)
 break
-				case 'bilangangka':
-				if (isBanned) return reply(mess.banned)
-				if (args.length < 1) return reply('Angkanya?')
-				var teks = body.slice(13)
-				anu = await fetchJson(`https://bx-hunter.herokuapp.com/api/bilangangka?angka=${teks}&apikey=${HunterApi}`, {method: 'get'})
-				kata = anu.result
-				reply(kata)
-				break
-				case 'pantun':
-				if (isBanned) return reply(mess.banned)
-				anu = await fetchJson(`https://bx-hunter.herokuapp.com/api/pantun?apikey=${HunterApi}`, {method: 'get'})
-				kata = anu.result
-				sendButMessage(from, `${kata}`, "Klik *Next* untuk melanjutkan", [{buttonId: 'pantun',buttonText: {displayText: 'NEXT'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [stod]}})
-                break
-				case 'resepmasakan':
-				if (isBanned) return reply(mess.banned)
-				if (args.length < 1) return reply('Judulnya?')
-				var teks = body.slice(14)
-				anu = await fetchJson(`https://bx-hunter.herokuapp.com/api/resepmakanan?query=${teks}&apikey=${HunterApi}`, {method: 'get'})
-					hasilresep = `❏ *${anu.results.title}*\n\n❏ Porsi : ${anu.results.servings}\n❏ Waktu : ${anu.results.times}\n❏ Kesulitan : ${anu.results.dificulty}\n❏ Pengguna : ${anu.results.author.user}\n❏ Tanggal Diterbitkan : ${anu.results.author.datePublished}\n❏ Deskripsi : ${anu.results.desc}\n\n────────────────────\n❏ *Tutorial*\n\n❏ Bahan : ${anu.results.ingredient}\n❏ Langkah : ${anu.results.step}`
-					reply(mess.wait)
-					buff = await getBuffer(anu.results.thumb)
-					denz.sendMessage(from, buff, image, {quoted: ftok, caption: hasilresep})
-					break 
 //------ > stalker < ------
 case 'igstalk': 
 if (isBanned) return reply(mess.banned)
@@ -2811,44 +3028,16 @@ teks = `*INSTAGRAM STALK*\n\n⬣ ID : ${Y.profile_id}\n⬣ Username : ${args.joi
 sendMediaURL(from,ten,teks) 
 })      
 break
-					case 'githubstalk':
-					if (isBanned) return reply(mess.banned)
-					if (args.length < 1) return reply('Usernamenya?')
-					var teks = body.slice(13)
-					anu = await fetchJson(`https://bx-hunter.herokuapp.com/api/stalk/github?user=${teks}&apikey=${HunterApi}`, {method: 'get'})
-					gstalk = `*GITHUB STALK*\n\n⬣ Name : ${anu.result.name}\n⬣ Followers : ${anu.result.followers}\n⬣ Following : ${anu.result.following}\n⬣ Id : ${anu.result.id}\n⬣ Node Id : ${anu.result.node_id}\n⬣ Type : ${anu.result.type}\n⬣ Company : ${anu.result.company}\n⬣ Location : ${anu.result.location}\n⬣ Bio : ${anu.result.bio}\n⬣ Site Admin : ${anu.result.site_admin}\n⬣ Email : ${anu.result.email}\n⬣ Created At : ${anu.result.created_at}\n⬣ Updated At : ${anu.result.updated_at}\n⬣ Twitter Username : ${anu.result.twitter_username}\n⬣ Blog : ${anu.result.blog}\n⬣ Avatar Url : ${anu.result.avatar_url}\n⬣ Gravatar Id : ${anu.result.gravatar_id}\n⬣ Html Url : ${anu.result.html_url}`
-					reply(mess.wait)
-					buff = await getBuffer(anu.result.avatar_url)
-				    denz.sendMessage(from, buff, image, {quoted: mek, caption: gstalk})
-					break
 					case 'tiktokstalk':
 					if (isBanned) return reply(mess.banned)
 					if (args.length < 1) return reply('Usernamenya?')
 					var teks = body.slice(13)
-					anu = await fetchJson(`https://api-bagusbot.herokuapp.com/api/stalk/tiktok?apikey=manogay&username=${teks}`, {method: 'get'})
+					anu = await fetchJson(`https://api-bagus.herokuapp.com/api/stalk/tiktok?apikey=manogay&username=${teks}`, {method: 'get'})
 					gstalk = `*TIKTOK STALK*\n\n⬣ UniqueID : ${anu.result.user.uniqueId}\n⬣ Nickname : ${anu.result.user.nickname}\n⬣ Signature : ${anu.result.user.signature}\n⬣ Create Time : ${anu.result.user.createTime}\n⬣ SecUID : ${anu.result.user.secUid}\n⬣ Follower : ${anu.result.stats.followerCount}\n⬣ Following : ${anu.result.stats.followingCount}\n⬣ Like : ${anu.result.stats.heartCount}\n⬣ Uploud : ${anu.result.stats.videoCount}`
 					reply(mess.wait)
 					buff = await getBuffer(anu.result.user.avatarLarger)
 				    denz.sendMessage(from, buff, image, {quoted: mek, caption: gstalk})
 					break
-					case 'youtubestalk':
-					if (isBanned) return reply(mess.banned)
-					if (args.length < 1) return reply('Usernamenya?')
-					var teks = body.slice(14)
-					anu = await fetchJson(`https://bx-hunter.herokuapp.com/api/ytstalk?text=${teks}&apikey=${HunterApi}`, {method: 'get'})
-					gstalk = `*YOUTUBE STALK*\n\n⬣ Nama Chanel : ${anu.channel}\n⬣ Subscriber : ${anu.subscriberCount}\n⬣ Url : ${anu.link}\n⬣ Bio : ${anu.description}`
-					reply(mess.wait)
-					buff = await getBuffer(anu.thumb)
-				    denz.sendMessage(from, buff, image, {quoted: mek, caption: gstalk})
-					break
-					case 'infogempa':
-					if (isBanned) return reply(mess.banned)
-					anu = await fetchJson(`https://bx-hunter.herokuapp.com/api/info/gempa?apikey=${HunterApi}`, {method: 'get'})
-					gempa = `*INFO GEMPA*\n\n❏ Waktu : ${anu.result.Waktu}\n❏ Lintang : ${anu.result.Lintang}\n❏ Bujur : ${anu.result.Bujur}\n❏ Magnitudo : ${anu.result.Magnitudo}\n❏ Kedalaman : ${anu.result.Kedalaman}\n❏ Wilayah : ${anu.result.Wilayah}`
-					reply(mess.wait)
-					buff = await getBuffer(anu.result.Map)
-					denz.sendMessage(from, buff, image, {quoted: mek, caption: gempa})
-					break 
 				case 'dadu':
 				if (isBanned) return reply(mess.banned)
 			random = Math.floor(Math.random() * 6) + 1
@@ -3049,291 +3238,6 @@ if (Number(oi2) >= 50) return reply('Kebanyakan!')
 	  }
 }
 	  break
-//------ > Maker < ------
-//------ > Update Maker < ------ | by Bagus ID
-case 'tahta': case 'hartatahta':
-if (isBanned) return reply(mess.banned)
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`http://api.zeks.xyz/api/hartatahta?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, {quoted: mek, caption: 'Harta Tahta Maker'})
-                    break
-                    case 'blueneon':
-                    if (isBanned) return reply(mess.banned)                    
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`http://api.zeks.xyz/api/bneon?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'breakwall':     
-                    if (isBanned) return reply(mess.banned)                                   
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/breakwall?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'skytext':             
-                    if (isBanned) return reply(mess.banned)                           
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.zeks.me/api/skytext?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'leavesttext':       
-                    if (isBanned) return reply(mess.banned)                                 
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.zeks.me/api/leavest?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'sandwrite':        
-                    if (isBanned) return reply(mess.banned)                                
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.zeks.me/api/sandw?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'lightwriting':        
-                    if (isBanned) return reply(mess.banned)                                
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.zeks.me/api/lithgtext?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'wolflogo':        
-                    if (isBanned) return reply(mess.banned)                                
-               cf = `${body.slice(8)}`
-                    txt1 = cf.split("|")[0];
-                    txt2 = cf.split("|")[1];
-                    if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
-                    reply(mess.wait)
-                    txt1 = args[0]
-                    txt2 = args[1]
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/wolflogo?apikey=${ZeksApi}&text1=${txt1}&text2=${txt2}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'epeplogo':         
-                    if (isBanned) return reply(mess.banned)                               
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/epep?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'firetext':         
-                    if (isBanned) return reply(mess.banned)                               
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/tfire?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'snowwrite':            
-                    if (isBanned) return reply(mess.banned)                            
-               cf = `${body.slice(8)}`
-                    txt1 = cf.split("|")[0];
-                    txt2 = cf.split("|")[1];
-                    if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
-                    reply(mess.wait)
-                    txt1 = args[0]
-                    txt2 = args[1]
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/snowwrite?apikey=${ZeksApi}&text1=${txt1}&text2=${txt2}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'yutubgold':           
-                    if (isBanned) return reply(mess.banned)                             
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/gplaybutton?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'yutubsilver':          
-                    if (isBanned) return reply(mess.banned)                              
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/splaybutton?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'text3dbox':              
-                    if (isBanned) return reply(mess.banned)                          
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/text3dbox?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'text3d':                 
-                    if (isBanned) return reply(mess.banned)                       
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/text3d?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'flowertext':                    
-                    if (isBanned) return reply(mess.banned)                    
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/flowertext?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'lighttext':         
-                    if (isBanned) return reply(mess.banned)                               
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/tlight?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'hekertext':     
-                    if (isBanned) return reply(mess.banned)                                   
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/gneon?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'crosfire': case 'cslogo': 
-                    if (isBanned) return reply(mess.banned)                                                   
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/crosslogo?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'blackpink':        
-                    if (isBanned) return reply(mess.banned)                                               
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/logobp?apikey=${ZeksApi}&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'avengerslogo':        
-                    if (isBanned) return reply(mess.banned)                                               
-               cf = `${body.slice(8)}`
-                    txt1 = cf.split("|")[0];
-                    txt2 = cf.split("|")[1];
-                    if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
-                    reply(mess.wait)
-                    txt1 = args[0]
-                    txt2 = args[1]
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/logoaveng?apikey=${ZeksApi}&text1=${txt1}&text2=${txt2}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'pornhub':             
-                    if (isBanned) return reply(mess.banned)                                          
-               cf = `${body.slice(8)}`
-                    txt1 = cf.split("|")[0];
-                    txt2 = cf.split("|")[1];
-                    if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
-                    reply(mess.wait)
-                    txt1 = args[0]
-                    txt2 = args[1]
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/phlogo?apikey=${ZeksApi}&text1=${txt1}&text2=${txt2}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-                    case 'marvellogo':        
-                    if (isBanned) return reply(mess.banned)                                               
-               cf = `${body.slice(8)}`
-                    txt1 = cf.split("|")[0];
-                    txt2 = cf.split("|")[1];
-                    if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
-                    reply(mess.wait)
-                    txt1 = args[0]
-                    txt2 = args[1]
-                    ini_buffer = await getBuffer(`https://api.zeks.xyz/api/marvellogo?apikey=${ZeksApi}&text1=${txt1}&text2=${txt2}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-//------ > Logo Maker < ------
-                    case 'guramaker':           
-                    if (isBanned) return reply(mess.banned)
-                    if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://hardianto-chan.herokuapp.com/api/bot/gura?apikey=hardianto&nama=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek, caption: 'Nih Tod'})
-                    limitAdd(sender, limit)
-                    break
-                    case 'kanekimaker':
-                    if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)       
-                    if (isBanned) return reply(mess.banned)                                                
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://hardianto-chan.herokuapp.com/api/bot/gfx1?apikey=hardianto&nama=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek, caption: 'Nih Tod'})
-                    limitAdd(sender, limit)
-                    break
-                    case 'lolimaker':          
-                    if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
-                    if (isBanned) return reply(mess.banned)                                             
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://hardianto-chan.herokuapp.com/api/bot/gfx2?apikey=hardianto&nama=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek, caption: 'Nih Tod'})
-                    limitAdd(sender, limit)
-                    break
-                    case 'logomaker':        
-                    if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
-                    if (isBanned) return reply(mess.banned)                                               
-               cf = `${body.slice(8)}`
-                    txt1 = cf.split("|")[0];
-                    txt2 = cf.split("|")[1];
-                    if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
-                    reply(mess.wait)
-                    txt1 = args[0]
-                    txt2 = args[1]
-                    ini_buffer = await getBuffer(`https://hardianto-chan.herokuapp.com/api/bot/gfx3?apikey=hardianto&text1=${txt1}&text2=${txt2}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek, caption: 'Nih Tod'})
-                    limitAdd(sender, limit)
-                    break
-                    case 'waifumaker':       
-                    if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
-                    if (isBanned) return reply(mess.banned)                                                
-               cf = `${body.slice(8)}`
-                    txt1 = cf.split("|")[0];
-                    txt2 = cf.split("|")[1];
-                    if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
-                    reply(mess.wait)
-                    txt1 = args[0]
-                    txt2 = args[1]
-                    ini_buffer = await getBuffer(`https://hardianto-chan.herokuapp.com/api/bot/gfx4?apikey=hardianto&text1=${txt1}&text2=${txt2}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek, caption: 'Nih Tod'})
-                    limitAdd(sender, limit)
-                    break
-                    case 'remmaker':       
-                    if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`) 
-                    if (isBanned) return reply(mess.banned)                                               
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://hardianto-chan.herokuapp.com/api/bot/gfx5?apikey=hardianto&text=${ini_txt}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek, caption: 'Nih Tod'})
-                    limitAdd(sender, limit)
-                    break
-//------ > joker < ------
-                    case 'jokerlogo':
-                    if (isBanned) return reply(mess.banned)                                   
-                    if (args.length == 0) return reply(`Example: ${prefix + command} teks`)
-                    reply(mess.wait)
-                    ini_txt = args.join(" ")
-                    ini_buffer = await getBuffer(`https://api.dapuhy.ga/api/textpro/logojoker?text=${ini_txt}&apikey=${Dapuy}`)
-                    denz.sendMessage(from, ini_buffer, image, { quoted: mek})
-                    break
-//------ > [ ko dikit? Tambahin sendiri lah, ez ] < ------
 				case 'd':
 				case 'del':
 				case 'delete':
@@ -3986,7 +3890,11 @@ break
 				if (isBanned) return reply(mess.banned)                                   
 					if (!isGroup) return reply(mess.only.group)
             mentioned = mek.message.extendedTextMessage.contextInfo.mentionedJid[0]
+            try {
             pictt = await denz.getProfilePicture(mentioned)
+            } catch {
+            pictt = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60"
+            }
             pict = await getBuffer(pictt)
             denz.sendMessage(from, pict, image, {quoted: mek})
             break
@@ -4003,7 +3911,7 @@ break
                 case 'attp':
                 if (isBanned) return reply(mess.banned)                                   
                 if (args.length < 1) return reply(`Kirim perintah *${prefix}attp* teks`)
-                let ane = await getBuffer(`https://api.xteam.xyz/attp?file&text=${c}`)
+                ane = await getBuffer(`https://api.xteam.xyz/attp?file&text=${c}`)
                 fs.writeFileSync('./sticker/attp.webp', ane)
                 exec(`webpmux -set exif ./sticker/data.exif ./sticker/attp.webp -o ./sticker/attp.webp`, async (error) => {
                     if (error) return reply(mess.error.api)
@@ -4243,7 +4151,7 @@ var nn = body.slice(9)
 					teks = (args.length > 1) ? body.slice(8).trim() : ''
 					teks += '\n\n'
 					for (let mem of groupMembers) {
-						teks += `Pesan : ${c}\n\n@${mem.jid.split('@')[0]}\n`
+						teks += `@${mem.jid.split('@')[0]}\n`
 						members_id.push(mem.jid)
 					}
 					mentions(teks, members_id, true)
@@ -4251,7 +4159,7 @@ var nn = body.slice(9)
             case 'hidetag':
             if (isBanned) return reply(mess.banned)                                   
             if (!isGroup) return reply(mess.only.group)
-              if (!isGroupAdmins) return reply(mess.only.admin)
+              if (!isGroupAdmins && !isOwner && !mek.key.fromMe) return reply(mess.only.admin)
             ht = body.slice(9)
                 members_id = []
 				for (let mem of groupMembers) {
@@ -4609,50 +4517,6 @@ break
 						}
 						limitAdd(sender, limit)
 						break
-                    case 'audio':
-                    if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
-                    if (isBanned) return reply(mess.banned)                                   
-                            if (args.length === 0) return reply(`Kirim perintah *${prefix}play* _Judul lagu yang akan dicari_`)
-                            let playy = await axios.get(`https://bx-hunter.herokuapp.com/api/yt/search?query=${body.slice(6)}&apikey=${HunterApi}`)
-                            let mulaikah = playy.data.result[0].url
-                            try {
-                                reply(`Scraping...`)
-                                yta(mulaikah)
-                                .then((res) => {
-                                    let { dl_link, thumb, title, filesizeF, filesize } = res
-                                    axios.get(`https://tinyurl.com/api-create.php?url=${dl_link}`)
-                                    .then(async (a) => {
-                                    if (Number(filesize) >= 30000) return sendMediaURL(from, thumb, `❏ *PLAYmp3*\n\n❏ *Title* : ${title}\n❏ *Ext* : MP3\n*Filesize* : ${filesizeF}\n*Link* : ${a.data}\n\n_Maaf durasi melebihi batas maksimal, Silahkan klik link diatas_`)
-                                    sendMediaURL(from, dl_link, audio, {mimetype: 'audio/mp3', filename: `${title}.mp3`, quoted: mek, contextInfo: { forwardingScore: 508, isForwarded: true, externalAdReply:{title:title,body:"",mediaType:"2",thumbnail:getBuffer(thumb),mediaUrl:"https://youtu.be/Ejl9sLbgc1A"}}}).catch(() => reply(mess.error.api))
-                                    })
-                                })
-                            } catch (err) {
-                                reply(mess.error.api)
-                            }
-                            limitAdd(sender, limit)
-                            break
-                            case 'video':
-                            if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
-                            if (isBanned) return reply(mess.banned)                                   
-                            if (args.length === 0) return reply(`Kirim perintah *${prefix}video* _Judul video yang akan dicari_`)
-                            let playi = await axios.get(`https://bx-hunter.herokuapp.com/api/yt/search?query=${body.slice(6)}&apikey=${HunterApi}`)
-                            let mulaihah = playi.data.result[0].url
-                            try {
-                                reply(`Scraping...`)
-                                ytv(mulaihah)
-                                .then((res) => {
-                                    let { dl_link, thumb, title, filesizeF, filesize } = res
-                                    axios.get(`https://tinyurl.com/api-create.php?url=${dl_link}`)
-                                    .then(async (a) => {
-                                    if (Number(filesize) >= 30000) return sendMediaURL(from, thumb, `❏ *PLAYmp4*\n\n❏ *Title* : ${title}\n❏ *Ext* : MP4\n*Filesize* : ${filesizeF}\n*Link* : ${a.data}\n\n_Maaf durasi melebihi batas maksimal, Silahkan klik link diatas_`)
-                                    sendMediaURL(from, dl_link, video, {mimetype: 'video/mp4', filename: `${title}.mp4`, quoted: mek, contextInfo: { forwardingScore: 508, isForwarded: true, externalAdReply:{title:title,body:"",mediaType:"2",thumbnail:getBuffer(thumb),mediaUrl:"https://youtu.be/Ejl9sLbgc1A"}}}).catch(() => reply(mess.error.api))
-                                    })
-                                })
-                            } catch (err) {
-                                reply(mess.error.api)
-                            }
-                            limitAdd(sender, limit)
-                            break
                     case 'exif':
                     if (!isOwner && !mek.key.fromMe) return reply(mess.only.ownerB)
 					let exifff = `${args.join(' ')}`
@@ -4847,13 +4711,6 @@ break
 						})
 					}
 					break
-				case 'ss': case 'ssweb':
-				if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
-				if (isBanned) return reply(mess.banned)                                   
-					sendMediaURL(from, `https://api.dapuhy.ga/api/others/ssweb?url=${args[0]}&apikey=${Dapuy}`)
-					limitAdd(sender, limit)
-					break
-				break
 				case 'addsticker':
 				if (!isOwner && !mek.key.fromMe) return reply(mess.only.ownerB)
 					if (!isQuotedSticker) return reply('Reply stiker')
@@ -5110,93 +4967,21 @@ break
 				break
 //------ > Inpo < ------
 case 'rules':
-teks = `*Syarat & ketentuan*`
-sendButMessage(from, `${teks}`, "Don't spam, call, vc bot", [{buttonId:`menu`,buttonText:{displayText:'Menu'},type:1},{buttonId:`owner`,buttonText:{displayText:'Owner'},type:1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
-break
-//------ > Fitur Baru < ------ | by Bagus I
+teks = `*Syarat & ketentuan*
 
-//------ > Random Menu < ------
-case 'darkjokes': 
-case 'darkjoke':
-case 'darkmeme': case 'memedark':
-case 'memeindo':
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-hasil = await getBuffer(`https://bagusbot-api.herokuapp.com/api/random/darkjoke?apikey=${BagusKey}`)
-let jokesbro = await denz.prepareMessage(from, hasil, MessageType.image, ) // change for file type
-let jokebut = [
-  {buttonId: 'darkjokes', buttonText: {displayText: 'NEXT'}, type: 1}
-]
-let darkjokmg = {
-    contentText: `Dark Joke`,
-    buttons: jokebut,
-    footerText: 'Next to continue',
-    headerType: 4, // change for file type
-    imageMessage: jokesbro.message.imageMessage // change for file type
-}
-denz.sendMessage(from, darkjokmg, MessageType.buttonsMessage, {contextInfo: {"mentionedJid": [sender]}, quoted: mek})
-break
-case 'meme':
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-hasil = await getBuffer(`https://bagusbot-api.herokuapp.com/api/random/darkjoke?apikey=${BagusKey}`)
-let memetod = await denz.prepareMessage(from, hasil, MessageType.image, ) // change for file type
-let memebut = [
-  {buttonId: 'meme', buttonText: {displayText: 'NEXT'}, type: 1}
-]
-let memeimg = {
-    contentText: `Nih Kak`,
-    buttons: memebut,
-    footerText: 'Next to continue',
-    headerType: 4, // change for file type
-    imageMessage: memetod.message.imageMessage // change for file type
-}
-denz.sendMessage(from, memeimg, MessageType.buttonsMessage, {contextInfo: {"mentionedJid": [sender]}, quoted: mek})
-break
-case 'estetic': case 'estetikpic': case 'esteticpic': case 'aesthetic':
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-wipu = (await axios.get(`https://raw.githubusercontent.com/Arya-was/endak-tau/main/aesthetic.json`)).data
-wipi = wipu[Math.floor(Math.random() * (wipu.length))]
-hasil = await getBuffer(wipi)
-let estetic = await denz.prepareMessage(from, hasil, MessageType.image, ) // change for file type
-let esbut = [
-  {buttonId: 'estetic', buttonText: {displayText: 'NEXT'}, type: 1}
-]
-let esimg = {
-    contentText: `Random Aesthetic`,
-    buttons: esbut,
-    footerText: 'Next to continue',
-    headerType: 4, // change for file type
-    imageMessage: estetic.message.imageMessage // change for file type
-}
-denz.sendMessage(from, esimg, MessageType.buttonsMessage, {contextInfo: {"mentionedJid": [sender]}, quoted: mek})
-break
-//random
-case 'cecan':
-if (isBanned) return reply(mess.banned)                                   
-hasil = await getBuffer(`https://bagusbot-api.herokuapp.com/api/random/cecan?apikey=${BagusKey}`)
-let cewe = await denz.prepareMessage(from, hasil, MessageType.image, ) // change for file type
-let cewebut = [
-  {buttonId: 'cecan', buttonText: {displayText: 'NEXT'}, type: 1}
-]
-let ceweimg = {
-    contentText: `Cewe Gweh`,
-    buttons: cewebut,
-    footerText: 'Next to continue',
-    headerType: 4, // change for file type
-    imageMessage: cewe.message.imageMessage // change for file type
-}
-denz.sendMessage(from, ceweimg, MessageType.buttonsMessage, {contextInfo: {"mentionedJid": [sender]}, quoted: mek})
+• Don't spam, call, vc bot
+• Don't copy my menu
+• Do not be stupid`
+sendButMessage(from, `${teks}`, "Bot ini no apikey!!\nJadi kemungkinan error sedikit:v\n\nSc? Yt Gw Lah", [{buttonId:`menu`,buttonText:{displayText:'Menu'},type:1},{buttonId:`owner`,buttonText:{displayText:'Owner'},type:1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
 break
 //Couple
 case 'ppcouple': case 'couple': case 'ppcp':
 if (isBanned) return reply(mess.banned)                                   
 reply(mess.wait)
-anu = await fetchJson(`https://api.dapuhy.ga/api/randomimage/couple?apikey=${Dapuy}`, {method: 'get'})
-buffer = await getBuffer(anu.result.pria)
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/random/couple?apikey=${apikey}`, {method: 'get'})
+buffer = await getBuffer(anu.result.male)
 denz.sendMessage(from, buffer, image, { quoted: mek, caption: 'Cowo'})
-wanita = await getBuffer(anu.result.wanita)
+wanita = await getBuffer(anu.result.female)
 denz.sendMessage(from, wanita, image, { quoted: mek, caption: 'Cewe'})
 break
 //------ > Search Menu < ------
@@ -5315,183 +5100,6 @@ let bapak = ['Wah Mantap Lu Masih Punya Bapack\nPasti Bapack Nya Kuli:v', 'Lu Yt
 let cek = bapak[Math.floor(Math.random() * bapak.length)]
 sendButMessage(from, cek, "Cek Lagi Bang", [{buttonId: 'cekbapak',buttonText: {displayText: 'Cek Bapak'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
 break
-//------ > Anime Menu < ------ | BxHunter Api
-case 'waifu':
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-anu = (`https://bx-hunter.herokuapp.com/api/sfw/waifu?apikey=${HunterApi}`)
-hasil = await getBuffer(anu)
-let waipu = await denz.prepareMessage(from, hasil, MessageType.image, ) // change for file type
-let waipubut = [
-  {buttonId: 'waifu', buttonText: {displayText: 'NEXT'}, type: 1}
-]
-let wafimg = {
-    contentText: `Nih Kak`,
-    buttons: waipubut,
-    footerText: 'Next to continue',
-    headerType: 4, // change for file type
-    imageMessage: waipu.message.imageMessage // change for file type
-}
-denz.sendMessage(from, wafimg, MessageType.buttonsMessage, {contextInfo: {"mentionedJid": [sender]}, quoted: mek})
-break
-case 'megumin':
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-anu = (`https://bx-hunter.herokuapp.com/api/sfw/megumin?apikey=${HunterApi}`)
-hasil = await getBuffer(anu)
-let megum = await denz.prepareMessage(from, hasil, MessageType.image, ) // change for file type
-let megubut = [
-  {buttonId: 'megumin', buttonText: {displayText: 'NEXT'}, type: 1}
-]
-let meguimg = {
-    contentText: `Megumin`,
-    buttons: megubut,
-    footerText: 'Next to continue',
-    headerType: 4, // change for file type
-    imageMessage: megum.message.imageMessage // change for file type
-}
-denz.sendMessage(from, meguimg, MessageType.buttonsMessage, {contextInfo: {"mentionedJid": [sender]}, quoted: mek})
-break
-//------ > Nsfw & Sfw < ------
-case 'nekonime':
-if (isBanned) return reply(mess.banned)                                   
-if (!isGroup) return reply(mess.only.group)
-reply(mess.wait)
-getBuffer(`https://bx-hunter.herokuapp.com/api/sfw/neko?apikey=${HunterApi}`).then((gambar) => {
-denz.sendMessage(from, gambar, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-})
-break
-case 'blowjob':
-if (isBanned) return reply(mess.banned)                                   
-if (!isGroup) return reply(mess.only.group)
-reply(mess.wait)
-getBuffer(`https://bx-hunter.herokuapp.com/api/nsfw/blowjob?apikey=${HunterApi}`).then((gambar) => {
-denz.sendMessage(from, gambar, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-})
-break
-case 'awoo':
-if (isBanned) return reply(mess.banned)                                   
-if (!isGroup) return reply(mess.only.group)
-reply(mess.wait)
-getBuffer(`https://bx-hunter.herokuapp.com/api/sfw/awoo?apikey=${HunterApi}`).then((gambar) => {
-denz.sendMessage(from, gambar, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-})
-break
-case 'nsfwyuri':
-if (isBanned) return reply(mess.banned)                                   
-if (!isGroup) return reply(mess.only.group)
-reply(mess.wait)
-getBuffer(`https://bx-hunter.herokuapp.com/api/nsfw/yuri?apikey=${HunterApi}`).then((gambar) => {
-denz.sendMessage(from, gambar, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-})
-break
-case 'hentai':
-if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
-if (isBanned) return reply(mess.banned)                                   
-if (!isGroup) return reply(mess.only.group)
-reply(mess.wait)
-getBuffer(`https://bx-hunter.herokuapp.com/api/nsfw/hentai?apikey=${HunterApi}`).then((gambar) => {
-denz.sendMessage(from, gambar, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-})
-limitAdd(sender, limit)
-break
-case 'kitsune':
-if (isBanned) return reply(mess.banned)                                   
-if (!isGroup) return reply(mess.only.group)
-reply(mess.wait)
-anu = (`https://hardianto-chan.herokuapp.com/api/anime/random?nsfw=kitsune&apikey=hardianto`)
-img = await getBuffer(anu)
-denz.sendMessage(from, img, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-break
-case 'pussy':
-if (isBanned) return reply(mess.banned)                                   
-if (!isGroup) return reply(mess.only.group)
-reply(mess.wait)
-anu = await getBuffer(`https://hardianto-chan.herokuapp.com/api/anime/random?nsfw=pussy&apikey=hardianto`)
-img = await getBuffer(anu)
-denz.sendMessage(from, img, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-break
-case 'nsfwkuni':
-if (isBanned) return reply(mess.banned)                                   
-if (!isGroup) return reply(mess.only.group)
-reply(mess.wait)
-gatauda = body.slice(6)
-getBuffer(`https://api.dapuhy.ga/api/nsfw/nsfwkuni?apikey=${Dapuy}`).then((gambar) => {
-denz.sendMessage(from, gambar, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-})
-break
-case 'nsfwtrap':
-if (isBanned) return reply(mess.banned)                                   
-if (!isGroup) return reply(mess.only.group)
-reply(mess.wait)
-getBuffer(`https://api.dapuhy.ga/api/nsfw/nsfwtrap?apikey=${Dapuy}`).then((gambar) => {
-denz.sendMessage(from, gambar, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-})
-break
-case 'poke':
-if (isBanned) return reply(mess.banned)                                   
-if (!isGroup) return reply(mess.only.group)
-reply(mess.wait)
-getBuffer(`https://api.dapuhy.ga/api/sfw/sfwpoke?apikey=${Dapuy}`).then((gambar) => {
-denz.sendMessage(from, gambar, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-})
-break
-case 'anal':
-if (isBanned) return reply(mess.banned)                                   
-if (!isGroup) return reply(mess.only.group)
-reply(mess.wait)
-aku = (`https://hardianto-chan.herokuapp.com/api/anime/random?nsfw=anal&apikey=hardianto`)
-kon = await getBuffer(aku)
-denz.sendMessage(from, kon, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-break
-case 'eroneko':
-if (isBanned) return reply(mess.banned)                                   
-if (!isGroup) return reply(mess.only.group)
-reply(mess.wait)
-aku = (`https://hardianto-chan.herokuapp.com/api/anime/random?nsfw=eroNeko&apikey=hardianto`)
-kon = await getBuffer(aku)
-denz.sendMessage(from, kon, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-break
-case 'slap':
-if (isBanned) return reply(mess.banned)                                   
-if (!isGroup) return reply(mess.only.group)
-reply(mess.wait)
-aku = (`https://hardianto-chan.herokuapp.com/api/anime/random?sfw=slap&apikey=hardianto`)
-kon = await getBuffer(aku)
-denz.sendMessage(from, kon, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-break
-case 'keta':
-if (isBanned) return reply(mess.banned)                                   
-if (!isGroup) return reply(mess.only.group)
-reply(mess.wait)
-aku = (`https://hardianto-chan.herokuapp.com/api/anime/random?nsfw=keta&apikey=hardianto`)
-kon = await getBuffer(aku)
-denz.sendMessage(from, kon, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-break
-case 'baka':
-if (isBanned) return reply(mess.banned)                                   
-if (!isGroup) return reply(mess.only.group)
-reply(mess.wait)
-aku = (`https://hardianto-chan.herokuapp.com/api/anime/random?sfw=baka&apikey=hardianto`)
-kon = await getBuffer(aku)
-denz.sendMessage(from, kon, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-break
-case 'wallpapers':
-if (isBanned) return reply(mess.banned)                                   
-if (!isGroup) return reply(mess.only.group)
-reply(mess.wait)
-aku = (`https://hardianto-chan.herokuapp.com/api/anime/random?sfw=wallpaper&apikey=hardianto`)
-kon = await getBuffer(aku)
-denz.sendMessage(from, kon, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-break
-case 'neko2':
-if (isBanned) return reply(mess.banned)                                   
-if (!isGroup) return reply(mess.only.group)
-reply(mess.wait)
-aku = (`https://hardianto-chan.herokuapp.com/api/anime/random?sfw=neko&apikey=hardianto`)
-kon = await getBuffer(aku)
-denz.sendMessage(from, kon, image, { quoted: mek, thumbnail: fs.readFileSync('./img/bagus.jpg')})
-break
 //------ > Islam < ------ \ Free Api
 case 'alquran':
 if (isBanned) return reply(mess.banned)                                   
@@ -5524,7 +5132,7 @@ if (isBanned) return reply(mess.banned)
       get_args = args.join(" ").split("|")
       kitab = get_args[0]
       nomor = get_args[1]
-      var hadist = await fetchJson('https://api-bagusbot.herokuapp.com/api/muslim/hadits?kitab=${kitab}&nomor=${nomor}&apikey=manogay')
+      var hadist = await fetchJson('https://api-bagus.herokuapp.com/api/muslim/hadits?kitab=${kitab}&nomor=${nomor}&apikey=manogay')
       ini_result = hadist.result
          ini_txt = `Name : ${ini_result.name}\n`
          ini_txt += `Id : ${ini_result.id}\n`
@@ -5534,16 +5142,47 @@ if (isBanned) return reply(mess.banned)
          ini_txt += `Ind : ${ini_result.contents.id}`
       textreply(ini_txt)
       break
-//------ > anime < ------
-case 'storyanime':
+//------ > Random < ------ || by Bagus Gans
+case 'loli':
+case 'cosplay':
+case 'husbu':
+case 'shota':
+case 'milf':
+case 'waifu':
+case 'wallml':
+case 'nekonime':
+case 'aesthetic':
+case 'cecan':
+case 'darkjoke':
+if (isBanned) return reply(mess.banned)                                   
+reply(mess.wait)
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/random/${command}?apikey=${apikey}`)
+hasil = await getBuffer(anu.result)
+but = [
+          { buttonId: `${command}`, buttonText: { displayText: 'NEXT' }, type: 1 }
+        ]
+        sendButImage(from, `Nih Kak`, "Next to continue", hasil, but, {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+break
+case 'meme':
+if (isBanned) return reply(mess.banned)                                   
+reply(mess.wait)
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/random/meme?apikey=${apikey}`)
+hasil = await getBuffer(anu.result.url)
+but = [
+          { buttonId: `meme`, buttonText: { displayText: 'NEXT' }, type: 1 }
+        ]
+        sendButImage(from, `Nih Kak`, "Next to continue", hasil, but, {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+break
+case 'story': case 'storyanime':
 if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)                                   
 reply(mess.wait)
-get_result = await getBuffer(`https://api.dapuhy.ga/api/anime/storyanime?apikey=${Dapuy}`)
-animvid = `Story Anime`
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/random/storyanime?apikey=${apikey}`)
+get_result = await getBuffer(anu.result)
+animvid = `Nih Kak`
 sendButVideo(from, animvid, `Next to continue`, get_result, [                      
 {
-buttonId: `storyanime`,
+buttonId: `story`,
 buttonText: {
 displayText: `NEXT`,
 },
@@ -5552,118 +5191,36 @@ type: 1,
 ]);                 
 limitAdd(sender, limit)
 break
-//case 'loliv':
-//case 'lolivid':
-//case 'lolivideo': //case 'lolivideo':
-if (isBanned) return reply(mess.banned)                                   
-anu = await fetchText('https://raw.githubusercontent.com/AlvioAdjiJanuar/random/main/loli.txt')
-.then(async (body) => {
-anu = body.split('\n')
-anu = anu[Math.floor(Math.random() * anu.length)]
-sendMediaURL(from, anu)
-})
-.catch(async (err) => {
-console.error(err)
-reply(`${err}`)
-})
-break
-//------ > News Menu < ------
-case 'detikcom':
+case 'ass': case 'ahegao': case 'bdsm': case 'blowjob': case 'cuckold':
+case 'cum': case 'ero': case 'femdom': case 'foot': case 'gangbang':
+case 'glasses': case 'hentai': case 'jahy': case 'masturbation':
+case 'neko': case 'orgy': case 'panties': case 'pussy': case 'thighs': case 'yuri':
 if (isBanned) return reply(mess.banned)                                   
 reply(mess.wait)
-denz.updatePresence(from, Presence.composing) 
-data = await fetchJson(`https://api.dapuhy.ga/api/berita/detik?apikey=${Dapuy}`, {method: 'get'})
-teks = '=================\n'
-for (let i of data.result) {
-teks += `*Judul* : ${i.title}\n*Publish* : ${i.upload}\n*Link* : ${i.url}\n=================\n`
-}
-textreply(teks.trim())
+anu = await fetchJson (`https://api-bagus.herokuapp.com/api/nsfw/${command}?apikey=${apikey}`)
+hasil = await getBuffer(anu.result)
+but = [
+          { buttonId: `${command}`, buttonText: { displayText: 'NEXT' }, type: 1 }
+        ]
+        sendButImage(from, `Bahaya Nih`, "Next to continue", hasil, but, {quoted: mek, contextInfo: { mentionedJid: [sender]}})
 break
-case 'tribunews':
+case 'hentaigif':
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)                                   
 reply(mess.wait)
-denz.updatePresence(from, Presence.composing) 
-data = await fetchJson(`https://api.zeks.xyz/api/tribunews?apikey=${ZeksApi}`, {method: 'get'})
-teks = '=================\n'
-for (let i of data.result) {
-teks += `*Judul* : ${i.title}\n*Time* : ${i.time}\n*Link* : ${i.url}\n*Keterangan* : ${i.ket}\n=================\n`
-}
-textreply(teks.trim())
-break
-case 'liputan6': 
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-denz.updatePresence(from, Presence.composing) 
-data = await fetchJson(`https://api.zeks.xyz/api/liputan6?apikey=${ZeksApi}`, {method: 'get'})
-teks = '=================\n'
-for (let i of data.result) {
-teks += `*Judul* : ${i.title}\n*Url* : ${i.url}\n*Keterangan* : ${i.ket}\n*Category* : ${i.category}\n*Time* : ${i.time}\n=================\n`
-}
-textreply(teks.trim())
-break
-case 'foxnews': 
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-denz.updatePresence(from, Presence.composing) 
-data = await fetchJson(`https://api.zeks.xyz/api/foxnews?apikey=${ZeksApi}`, {method: 'get'})
-teks = '=================\n'
-for (let i of data.result) {
-teks += `*Judul* : ${i.title}\n*Url* : ${i.url}\n*Country* : ${i.country}\n*Content* : ${i.content}\n*Time* : ${i.time}\n=================\n`
-}
-textreply(teks.trim())
-break
-//
-case 'nickepep': 
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-denz.updatePresence(from, Presence.composing) 
-data = await fetchJson(`https://api.zeks.xyz/api/nickepep?apikey=${ZeksApi}`, {method: 'get'})
-teks = ''
-for (let i of data.result) {
-teks += `*Nick :* ${i}\n`
-}
-textreply(teks.trim())
-break
-//------ > Anime2 < ------ || by Bagus Gans
-case 'loli':
-case 'cosplay':
-case 'husbu':
-case 'shota':
-case 'milf':
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-wipu = (await axios.get(`https://raw.githubusercontent.com/Arya-was/endak-tau/main/${command}.json`)).data
-wipi = wipu[Math.floor(Math.random() * (wipu.length))]
-hasil = await getBuffer(wipi)
-let imagebut1 = await denz.prepareMessage(from, hasil, MessageType.image, ) // change for file type
-let buttonsimg1 = [{buttonId:`${command}`,buttonText: {displayText: 'NEXT'}, type: 1}]
-let teksbut1 = {
-    contentText: `Nih Kak`,
-    buttons: buttonsimg1,
-    footerText: 'Next to continue',
-    headerType: 4, // change for file type
-    imageMessage: imagebut1.message.imageMessage // change for file type
-}
-denz.sendMessage(from, teksbut1, MessageType.buttonsMessage, {contextInfo: {"mentionedJid": [sender]}, quoted: mek})
-break
-// Pirmbon
-case 'artinama' :
-if (isBanned) return reply(mess.banned)                                   
-if (args.length == 0) return reply(`Contoh: ${prefix + command} Bagus`)
-ini_nama = args.join(" ")
-get_result = await fetchJson(`https://api.zeks.me/api/artinama?apikey=${ZeksApi}&nama=${ini_nama} `)
-textreply(get_result.result)
-break
-case 'jodoh' :
-if (isBanned) return reply(mess.banned)                                   
-if (args.length == 0) return reply(`Contoh: ${prefix + command} Bagus & Org`)
-ini_nama = args.join(" ").split("&")
-nama1 = ini_nama[0].trim()
-nama2 = ini_nama[1].trim()
-get_result = await fetchJson(`https://api.zeks.me/api/primbonjodoh?apikey=${ZeksApi}&nama1=${nama1}&nama2=${nama2}`)
-get_result = get_result.result
-ini_txt = `Nama : ${get_result.nama1} & ${get_result.nama2}\n\nPositif : ${get_result.positif}\nNegative : ${get_result.negatif}\n`
-textreply(ini_txt)
+anu = await fetchJson (`https://api-bagus.herokuapp.com/api/nsfw/${command}?apikey=${apikey}`)
+get_result = await getBuffer(anu.result)
+animvid = `!`
+sendButVideo(from, animvid, `Next to continue`, get_result, [                      
+{
+buttonId: `hentaigif`,
+buttonText: {
+displayText: `NEXT`,
+},
+type: 1,
+},
+]);                 
+limitAdd(sender, limit)
 break
 //------ > Baru < -------
 case 'faktaunik' :
@@ -5812,109 +5369,6 @@ break
                     denz.sendMessage(from, fs.readFileSync('./media/nulis/images/folio/setelahkanan.jpg'), image, {quoted: mek, caption: `Jangan malas pak...`, thumbnail: Buffer.alloc(0)})
                     })
                 break
-//Asupan
-case 'asupanbocil':
-if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-                    get_result = await getBuffer(`https://api.dapuhy.ga/api/asupan/asupanbocil?apikey=${Dapuy}`)
-                    kodo = `𝗔𝘀𝘂𝗽𝗮𝗻𝗻𝘆𝗮 𝗞𝗮𝗸 シ︎`
-   sendButVideo(from, kodo, `Klik Next Untuk Melanjutkan`, get_result, [                      
-          {
-            buttonId: `asupanbocil`,
-            buttonText: {
-              displayText: `➡️ NEXT ➡️`,
-            },
-            type: 1,
-          },
-        ]);                 
-        limitAdd(sender, limit)
-                    break    
-case 'asupan':
-if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-                    get_result = await getBuffer(`https://api.dapuhy.ga/api/asupan/asupan?apikey=${Dapuy}`)
-                    pll = `𝗔𝘀𝘂𝗽𝗮𝗻𝗻𝘆𝗮 𝗞𝗮𝗸 シ︎`
-   sendButVideo(from, pll, `Klik Next Untuk Melanjutkan`, get_result, [                      
-          {
-            buttonId: `asupan`,
-            buttonText: {
-              displayText: `➡️ NEXT ➡️`,
-            },
-            type: 1,
-          },
-        ]);                 
-        limitAdd(sender, limit)
-                    break    
-case 'asupansantuy':
-if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-                    get_result = await getBuffer(`https://api.dapuhy.ga/api/asupan/asupansantuy?apikey=${Dapuy}`)
-                    hhh = `𝗔𝘀𝘂𝗽𝗮𝗻𝗻𝘆𝗮 𝗞𝗮𝗸 シ︎`
-   sendButVideo(from, hhh, `Klik Next Untuk Melanjutkan`, get_result, [                      
-          {
-            buttonId: `asupansantuy`,
-            buttonText: {
-              displayText: `➡️ NEXT ➡️`,
-            },
-            type: 1,
-          },
-        ]);                 
-        limitAdd(sender, limit)
-                    break 
-case 'asupanukhty':
-if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-                    get_result = await getBuffer(`https://api.dapuhy.ga/api/asupan/asupanukhty?apikey=${Dapuy}`)
-                    kntl = `𝗔𝘀𝘂𝗽𝗮𝗻𝗻𝘆𝗮 𝗞𝗮𝗸 シ︎`
-   sendButVideo(from, kntl, `Klik Next Untuk Melanjutkan`, get_result, [                      
-          {
-            buttonId: `asupanukhty`,
-            buttonText: {
-              displayText: `➡️ NEXT ➡️`,
-            },
-            type: 1,
-          },
-        ]);                 
-        limitAdd(sender, limit)
-                    break    
-case 'asupanrikagusriani':
-if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-                    get_result = await getBuffer(`https://api.dapuhy.ga/api/asupan/asupanrikagusriani?apikey=${Dapuy}`)
-                    yyy = `𝗔𝘀𝘂𝗽𝗮𝗻𝗻𝘆𝗮 𝗞𝗮𝗸 シ︎`
-   sendButVideo(from, yyy, `Klik Next Untuk Melanjutkan`, get_result, [                      
-          {
-            buttonId: `asupanrikagusriani`,
-            buttonText: {
-              displayText: `➡️ NEXT ➡️`,
-            },
-            type: 1,
-          },
-        ]);                 
-        limitAdd(sender, limit)
-                    break    
-case 'asupanghea':
-if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-                    get_result = await getBuffer(`https://api.dapuhy.ga/api/asupan/asupanghea?apikey=${Dapuy}`)
-                    ggg = `𝗔𝘀𝘂𝗽𝗮𝗻𝗻𝘆𝗮 𝗞𝗮𝗸 シ︎`
-   sendButVideo(from, ggg, `Klik Next Untuk Melanjutkan`, get_result, [                      
-          {
-            buttonId: `asupanghea`,
-            buttonText: {
-              displayText: `➡️ NEXT ➡️`,
-            },
-            type: 1,
-          },
-        ]);                 
-        limitAdd(sender, limit)
-                    break
 case "chara":
 if (isBanned) return reply(mess.banned)                                   
         if (!c) return reply(`gambar apa?\n${prefix}chara naruto`);
@@ -5946,13 +5400,6 @@ if (isBanned) return reply(mess.banned)
 				    nsh = nasehat[Math.floor(Math.random() * nasehat.length)]
 					denz.sendMessage(from, ''+nsh+'\n\n~ By Bagus ID'+ quotez, text, { quoted: mek })
 					break
-case 'quotesimage': case 'quotesyt':
-if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
-if (isBanned) return reply(mess.banned)                                   
-dapuhy = await getBuffer(`https://api.dapuhy.ga/api/randomimage/quotesyt?apikey=${Dapuy}`)
-denz.sendMessage(from, dapuhy, image, {quoted: mek})       
-limitAdd(sender, limit) 
-break
 case 'vietnam' :
 case 'malaysia' :
 case 'korea' :
@@ -5963,7 +5410,7 @@ case 'indonesia':
 if (isBanned) return reply(mess.banned)                                   
 reply(mess.wait)
 auah = body.slice(8)
-anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/cewe/vietnam?apikey=${BagusKey}`, {method: 'get'})
+anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/cewe/vietnam?apikey=${apikey}`, {method: 'get'})
 hasil = await getBuffer(anu.result.url)
 let gachacewe = await denz.prepareMessage(from, hasil, MessageType.image, ) // change for file type
 let gachaceweb = [{buttonId:`${command}`,buttonText: {displayText: 'NEXT'}, type: 1}]
@@ -5981,7 +5428,7 @@ case 'kisahnabi':
 if (isBanned) return reply(mess.banned)                                   
 if (args.length == 0) return reply(`Example: ${prefix + command} Muhammad`)
 nabi = args.join(" ")
-get_result = await fetchJson(`https://api.dapuhy.ga/api/islam/kisahnabi?nabi=${nabi}&apikey=${Dapuy}`)
+get_result = await fetchJson(`https://api-bagus.herokuapp.com/api/muslim/kisahnabi?nabi=${nabi}&apikey=${apikey}`)
 ini_txt = `Nama : ${get_result.name}\n`
 ini_txt += `Kelahiran : ${get_result.kelahiran}\n`
 ini_txt += `Usia Wafat : ${get_result.wafat_usia}\n`
@@ -6011,266 +5458,6 @@ husna = jsonData[asmaul];
 res = '' + husna.number + '\n' + husna.arab + '\n' + husna.latin + '\n\n' + husna.translate_id + ''
 sendButMessage(from, res, "klik *Next* untuk melanjutkan", [{buttonId: 'asmaulhusna',buttonText: {displayText: 'NEXT'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
 break
-//------ > Image Edit < ------
-case 'rip':
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-var imgbb = require('imgbb-uploader')
-if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
-ted = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo: mek
-owgi = await denz.downloadAndSaveMediaMessage(ted)
-dpaa = await imgbb('3b8594f4cb11895f4084291bc655e510', owgi)
-uhyy = await getBuffer(`https://hardianto.xyz/api/rip?image=${dpaa.display_url}&apikey=hardianto`)
-denz.sendMessage(from, uhyy, image, {quoted: mek})
-} else {
-reply('Reply Gambarnya!!')
-}
-break
-case 'gay':
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-var imgbb = require('imgbb-uploader')
-if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
-ted = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo: mek
-owgi = await denz.downloadAndSaveMediaMessage(ted)
-dpaa = await imgbb('3b8594f4cb11895f4084291bc655e510', owgi)
-uhyy = await getBuffer(`https://api.dapuhy.ga/api/canvas/gay?img=${dpaa.display_url}&apikey= ${Dapuy}`)
-denz.sendMessage(from, uhyy, image, {quoted: mek})
-} else {
-reply('Reply Gambarnya!!')
-}
-break
-case 'triggered':
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-var imgbb = require('imgbb-uploader')
-if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
-ted = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo: mek
-owgi = await denz.downloadAndSaveMediaMessage(ted)
-dpaa = await imgbb('3b8594f4cb11895f4084291bc655e510', owgi)
-uhyy = await getBuffer(`https://hardianto.xyz/api/editor/triggered?url=${dpaa.display_url}&apikey=hardianto`)
-denz.sendMessage(from, uhyy, sticker, {quoted: mek})
-} else {
-reply('Reply Gambarnya!!')
-}
-break
-case 'wanted':
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-var imgbb = require('imgbb-uploader')
-if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
-ted = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo: mek
-owgi = await denz.downloadAndSaveMediaMessage(ted)
-dpaa = await imgbb('3b8594f4cb11895f4084291bc655e510', owgi)
-uhyy = await getBuffer(`https://api.dapuhy.ga/api/canvas/wanted?img=${dpaa.display_url}&apikey= ${Dapuy}`)
-denz.sendMessage(from, uhyy, image, {quoted: mek})
-} else {
-reply('Reply Gambarnya!!')
-}
-break
-case 'jail':
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-var imgbb = require('imgbb-uploader')
-if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
-ted = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo: mek
-owgi = await denz.downloadAndSaveMediaMessage(ted)
-dpaa = await imgbb('3b8594f4cb11895f4084291bc655e510', owgi)
-uhyy = await getBuffer(`https://api.dapuhy.ga/api/canvas/jail?img=${dpaa.display_url}&apikey= ${Dapuy}`)
-denz.sendMessage(from, uhyy, image, {quoted: mek})
-} else {
-reply('Reply Gambarnya!!')
-}
-break
-case 'blur':
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-var imgbb = require('imgbb-uploader')
-if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
-ted = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo: mek
-owgi = await denz.downloadAndSaveMediaMessage(ted)
-dpaa = await imgbb('3b8594f4cb11895f4084291bc655e510', owgi)
-uhyy = await getBuffer(`https://api.dapuhy.ga/api/canvas/blur?img=${dpaa.display_url}&level=7&apikey= ${Dapuy}`)
-denz.sendMessage(from, uhyy, image, {quoted: mek})
-} else {
-reply('Reply Gambarnya!!')
-}
-break
-case 'police':
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-var imgbb = require('imgbb-uploader')
-if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
-ted = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo: mek
-owgi = await denz.downloadAndSaveMediaMessage(ted)
-dpaa = await imgbb('3b8594f4cb11895f4084291bc655e510', owgi)
-uhyy = await getBuffer(`https://api.dapuhy.ga/api/canvas/police?img=${dpaa.display_url}&apikey= ${Dapuy}`)
-denz.sendMessage(from, uhyy, image, {quoted: mek})
-} else {
-reply('Reply Gambarnya!!')
-}
-break
-case 'captcha':
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-var imgbb = require('imgbb-uploader')
-if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
-ted = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo: mek
-owgi = await denz.downloadAndSaveMediaMessage(ted)
-dpaa = await imgbb('3b8594f4cb11895f4084291bc655e510', owgi)
-uhyy = await getBuffer(`https://api.dapuhy.ga/api/canvas/captcha?img=${dpaa.display_url}&apikey= ${Dapuy}`)
-denz.sendMessage(from, uhyy, image, {quoted: mek})
-} else {
-reply('Reply Gambarnya!!')
-}
-break
-case 'greyscale':
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-var imgbb = require('imgbb-uploader')
-if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
-ted = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo: mek
-owgi = await denz.downloadAndSaveMediaMessage(ted)
-dpaa = await imgbb('3b8594f4cb11895f4084291bc655e510', owgi)
-uhyy = await getBuffer(`https://api.dapuhy.ga/api/canvas/greyscale?img=${dpaa.display_url}&apikey= ${Dapuy}`)
-denz.sendMessage(from, uhyy, image, {quoted: mek})
-} else {
-reply('Reply Gambarnya!!')
-}
-break
-case 'bonk':
-if (isBanned) return reply(mess.banned)                                   
-reply(mess.wait)
-var imgbb = require('imgbb-uploader')
-if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
-ted = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo: mek
-owgi = await denz.downloadAndSaveMediaMessage(ted)
-dpaa = await imgbb('3b8594f4cb11895f4084291bc655e510', owgi)
-uhyy = await getBuffer(`https://hardianto.xyz/api/bonk?by=https://i.ibb.co/f884QwX/https-i-pinimg-com-originals-90-90-de-9090de6f0bdfdf9a9506c96023509a8b.jpg&for=https://i.ibb.co/mTbD3Nx/https-i-pinimg-com-originals-6d-b8-7f-6db87f9e2b88e00e866e26c87f698d11.jpg&apikey=hardianto`)
-denz.sendMessage(from, uhyy, image, {quoted: mek})
-} else {
-reply('Reply Gambarnya!!')
-}
-break
-//------ > Games < ------
-                case 'tebakgambar':
-                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
-                if (isTebakGambar(from, tebakgambar)) return reply(`Masih ada soal yang belum di selesaikan`)
-                anu = await axios.get(`https://api-ramlan.herokuapp.com/api/game/tebak-gambar?apikey=${Ramlan}`)
-                petunjuk = anu.data.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
-                gambarsoal = await getBuffer(anu.data.img)
-                bp = await denz.sendMessage(from, gambarsoal, image, {caption:`Silahkan jawab soal berikut ini\n\nPetunjuk : ${petunjuk}\nWaktu : ${gamewaktu}s`, quoted:mek})
-                console.log(anu.data.jawaban)
-                let anih = anu.data.jawaban.toLowerCase()
-                addgambar(from, anih, gamewaktu, tebakgambar)
-                gameAdd(sender, glimit)
-                break
-                case 'tebakanime':
-                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
-                if (isTebakAnime(from, tebakanime)) return reply(`Masih ada soal yang belum di selesaikan`)
-                anu = await axios.get(`https://api-ramlan.herokuapp.com/api/game/tebak-anime?apikey=${Ramlan}`)
-                petunjuk = anu.data.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
-                gambarsoal = await getBuffer(anu.data.soal)
-                bp = await denz.sendMessage(from, gambarsoal, image, {caption:`Tebak!\n\nPetunjuk : ${petunjuk}\nWaktu : ${gamewaktu}s`, quoted:mek})
-                console.log(anu.data.jawaban)
-                let animeh = anu.data.jawaban.toLowerCase()
-                addnime(from, animeh, gamewaktu, tebakanime)
-                gameAdd(sender, glimit)
-                break
-                case 'caklontong':
-                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
-                if (isCakLontong(from, caklontong)) return reply(`Masih ada soal yang belum di selesaikan`)
-                anu = await axios.get(`https://api-ramlan.herokuapp.com/api/game/caklontong?apikey=${Ramlan}`)
-                petunjuk = anu.data.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
-                bp = await sendButMessage(from, `${anu.data.soal}\n\nTimeout : *${gamewaktu}s*\nHint : ${petunjuk}`, "Jawab Bro, Gabisa Donasi!!", [{buttonId: 'hintl',buttonText: {displayText: 'Cak Lontong-'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
-                console.log(anu.data.jawaban)
-                let colont = anu.data.jawaban
-                addlontong(from, colont, gamewaktu, caklontong)
-                gameAdd(sender, glimit)
-                break
-               case 'family100':
-               if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
-                if (isfam(from, family100)) return reply(`Masih ada soal yang belum di selesaikan`)
-                anu = await axios.get(`https://api-ramlan.herokuapp.com/api/game/family100?apikey=${Ramlan}`)
-                bp = await denz.sendMessage(from, `*JAWABLAH SOAL BERIKUT*\n\n*Soal :* ${anu.data.soal}\n\nWaktu : ${gamewaktu}s`, text, {quoted:mek})
-                console.log(anu.data.jawaban)
-                let anoh = anu.data.jawaban
-                addfam(from, anoh, gamewaktu, family100)
-                gameAdd(sender, glimit)
-                break
-                case 'susunkata':
-                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
-                if (isSusunKata(from, susunkata)) return reply(`Masih ada soal yang belum di selesaikan`)
-                anu = await axios.get(`https://hardianto.xyz/api/susunkata?apikey=hardianto`)
-                petunjuk = anu.data.math.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
-                bp = await denz.sendMessage(from, `${anu.data.math.soal}\nTipe : ${anu.data.math.tipe}\n\n_Jawab Bro!!, Waktu : ${gamewaktu} detik_`, text, {quoted:mek})
-                console.log(anu.data.math.jawaban)
-                let skataa = anu.data.math.jawaban.toLowerCase()
-                addskata(from, skataa, gamewaktu, susunkata)
-                gameAdd(sender, glimit)
-                break
-                case 'siapakahaku': case 'siapaaku': case 'siapaku':
-                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
-                if (isSiapaAku(from, siapaku)) return reply(`Masih ada soal yang belum di selesaikan`)
-                anu = await axios.get(`https://hardianto.xyz/api/siapaaku?apikey=hardianto`)
-                bp = await denz.sendMessage(from, `${anu.data.math.soal}\n\n_Siapakah aku?, Waktu : ${gamewaktu} detik_`, text, {quoted:mek})
-                console.log(anu.data.math.jawaban)
-                sopoaku = anu.data.math.jawaban.toLowerCase()
-                addsaku(from, sopoaku, gamewaktu, siapaku)
-                gameAdd(sender, glimit)
-                break
-                case 'tebakkata': 
-                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
-                if (isTebakKata(from, tebakkata)) return reply(`Masih ada soal yang belum di selesaikan`)
-                anu = await axios.get(`https://hardianto.xyz/api/tebakkata?apikey=hardianto`)
-                bp = await denz.sendMessage(from, `${anu.data.math.soal}`, text, {quoted:mek})
-                console.log(anu.data.math.jawaban)
-                ikikataopo = anu.data.math.jawaban.toLowerCase()
-                addtebakkata(from, ikikataopo, gamewaktu, tebakkata)
-                gameAdd(sender, glimit)
-                break
-                case 'tebakkalimat': 
-                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
-                if (isTebakKalimat(from, tebakkalimat)) return reply(`Masih ada soal yang belum di selesaikan`)
-                anu = await axios.get(`https://hardianto.xyz/api/tebakkalimat?apikey=hardianto`)
-                bp = await denz.sendMessage(from, `${anu.data.math.soal}`, text, {quoted:mek})
-                console.log(anu.data.math.jawaban)
-                kalimatapa = anu.data.math.jawaban.toLowerCase()
-                addtkalimat(from, kalimatapa, gamewaktu, tebakkalimat)
-                gameAdd(sender, glimit)
-                break
-                case 'asahotak':
-                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
-                if (isAsahOtak(from, asahotak)) return reply(`Masih ada soal yang belum di selesaikan`)
-                anu = await axios.get(`https://hardianto.xyz/api/asahotak?apikey=hardianto`)
-                petunjuk = anu.data.math.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
-                bp = await denz.sendMessage(from, `*Soal* : ${anu.data.math.soal}\n\n*Petunjuk*: ${petunjuk}`, text, {quoted:mek})
-                console.log(anu.data.math.jawaban)
-                gamef = anu.data.math.jawaban.toLowerCase()
-                addasahotak(from, gamef, gamewaktu, asahotak)
-                gameAdd(sender, glimit)
-                break
-                case 'tebaklirik':
-                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
-                if (isTebakLirik(from, tebaklirik)) return reply(`Masih ada soal yang belum di selesaikan`)
-                anu = await axios.get(`https://hardianto.xyz/api/tebaklirik?apikey=hardianto`)
-                bp = await denz.sendMessage(from, `${anu.data.math.soal}\n\n\n\n_Jawab Bro!!, Waktu : ${gamewaktu} detik_`, text, {quoted:mek})
-                console.log(anu.data.math.jawaban)
-                gamef = anu.data.math.jawaban.toLowerCase()
-                addtebaklirik(from, gamef, gamewaktu, tebaklirik)
-                gameAdd(sender, glimit)
-                break
-case 'cerpen':
-if (isBanned) return reply(mess.banned)
-if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)           
-auah = body.slice(8)
-cerresult = await fetchJson(`https://api.dapuhy.ga/api/fun/cerpen?apikey=Anjay`, {method: 'get'})
-ini_txt = `Judul : ${cerresult.result.judul}\n`
-ini_txt += `Kategori : ${cerresult.result.kategori}\n`
-ini_txt += `\n*Cerita* :\n${cerresult.result.cerita}`
-sendButMessage(from, `${ini_txt}`, "klik *Next* untuk melanjutkan", [{buttonId: 'cerpen',buttonText: {displayText: 'NEXT'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
-limitAdd(sender, limit)
-break
 case 'fakedata':
 if (isBanned) return reply(mess.banned)                                   
 fakeresult = await fetchJson(`https://bagusbot-api.herokuapp.com/api/fakedata?country=en&apikey=bagusgans`, {method: 'get'})
@@ -6287,17 +5474,6 @@ ini_txt += `Password : ${fakeresult.result.password}\n`
 ini_txt += `Email : ${fakeresult.result.email}`
 textreply(ini_txt)
 break
-case 'happymod':
-if (isBanned) return reply(mess.banned)                                   
-if(!c) return reply('mau nyari apa?')
-                ps = `${body.slice(10)}`
-                  anu = await fetchJson(`https://api.dapuhy.ga/api/search/happymod?query=${ps}&apikey=Anjay`, {method: 'get'})
-                  store = '*Happy Mod*'
-                  for (let ply of anu.result){
-                  store += `\n\n*Title* : ${ply.title}\n*Link* : ${ply.url}`
-                  }
-                  textreply(store)
-                  break
 case 'smeme': 
 if (isBanned) return reply(mess.banned) 
 if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)                                  
@@ -6351,26 +5527,16 @@ reply('Reply foto/stiker!')
 }
 break
 case 'ttp':
-if (isBanned) return reply(mess.banned)                                   
-if (args.length < 1) return reply(`teks nya mana?`)
-woy = args.join(" ")
-anjay = `https://hardianto.xyz/api/maker/ttp?text=${woy}&apikey=hardianto`
-sendStickerUrl(from, anjay)
-break
-case 'ttp2':
-if (isBanned) return reply(mess.banned)                                   
-if (args.length < 1) return reply(`teks nya mana?`)
-woy = args.join(" ")
-anjay = `https://api.dapuhy.ga/api/maker/ttp?text=${woy}&apikey=Anjay`
-sendStickerUrl(from, anjay)
-break
-case 'ttp3':
-if (isBanned) return reply(mess.banned)                                   
-if (args.length < 1) return reply(`teks nya mana?`)
-woy = args.join(" ")
-anjay = `http://zekais-api.herokuapp.com/text2png?text=${woy}&color=white&apikey=zekais`
-sendStickerUrl(from, anjay)
-break
+                if (isBanned) return reply(mess.banned)                                   
+                if (args.length < 1) return reply(`Kirim perintah *${prefix}ttp* teks`)
+                ane = await getBuffer(`https://api.xteam.xyz/ttp?file&text=${c}`)
+                fs.writeFileSync('./sticker/ttp.webp', ane)
+                exec(`webpmux -set exif ./sticker/data.exif ./sticker/ttp.webp -o ./sticker/ttp.webp`, async (error) => {
+                    if (error) return reply(mess.error.api)
+                    denz.sendMessage(from, fs.readFileSync(`./sticker/ttp.webp`), sticker, {quoted: mek})
+                    fs.unlinkSync(`./sticker/ttp.webp`)	
+                })
+                break
 case 'doge':
 if (isBanned) return reply(mess.banned)                                   
               reply(mess.wait)
@@ -6425,29 +5591,7 @@ let bok =['https://www.mediafire.com/file/v4033tkl16hgf2b/VID-20210107-WA1459.mp
 let bkep = bok[Math.floor(Math.random() * bok.length)]
 denz.sendMessage(from, '*Link Download:*\n\n'+ bkep, text, { quoted: mek })
 break
-        case 'spotifyimage':
-        if (isBanned) return reply(mess.banned)                                   
-   if (args.length < 1) return reply(`Kirim perintah *${prefix + command}* judul|artis`)
-   if (!c.includes('|')) return reply(`Kirim perintah *${prefix + command}* judul|artis`)
-   try {
-   if (!isQuotedImage && !isQuotedSticker) return reply(`Reply Gambar!!`)
-   reply(mess.wait)
-   var teks1 = c.split('|')[0] ? c.split('|')[0] : ''
-   var teks2 = c.split('|')[1] ? c.split('|')[1] : ''
-   var imgbb = require('imgbb-uploader')
-   var enmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
-   var mediaspo = await denz.downloadAndSaveMediaMessage(enmedia)
-   var njay = await imgbb('3b8594f4cb11895f4084291bc655e510', mediaspo)
-   var resu = await getBuffer(`https://api-senku.herokuapp.com/api/spotify?img=${njay.display_url}&judul=${teks1}&artis=${teks2}`)
-   denz.sendMessage(from, resu, image, {quoted: mek})
-    fs.unlinkSync(mediaspo)
-    } catch (e) {
-    return reply(`${e}`)
-    console.log(e)
-    }
-   break
-   //Play button yg sekarang ga langka :v
- case 'videoo':
+ case 'videoo': case 'video':
   reply(mess.wait)
   let yut = await yts(q)
   ytv(yut.videos[0].url)
@@ -6460,7 +5604,7 @@ break
   })
   })
 break
-case 'playy':
+case 'playy': case 'audio':
   reply(mess.wait)
   let yutp = await yts(q)
   yta(yutp.videos[0].url)
@@ -6556,34 +5700,23 @@ case 'tembak':
 					}
 break
 // Matiin dulu auto regisnya kalo mau nyalahin verify
-//case 'verify' : case 'daftar':
-if (isRegistered) return reply(`udah daftar lu cuy`)
+case 'verify' : case 'daftar':
+if (isVerify) return reply(`udah daftar lu cuy`)
 let serialUser = createSerial(18)
 	        veri = sender
 	        _registered.push(sender)
-	        fs.writeFileSync('./database/registered.json', JSON.stringify(_registered))
+	        fs.writeFileSync('./database/user.json', JSON.stringify(_user))
 	        addRegisteredUser(sender, serialUser)
 	         let jancok = `*Verification Succes*
 	
 *• Nama :* ${pushname}
 *• Nomor :* @${sender.split('@')[0]}
 *• Seri:* ${serialUser}
-*• Pengguna:* ${_registered.length}
+*• Pengguna:* ${_user.length}
 
 Terimah sudah mendaftar di database bot!`
-gbutsan = [
-{buttonId:`allcmd`,buttonText:{displayText:'Menu'},type:1},
-{buttonId:`rules`,buttonText:{displayText:'Rules'},type:1}
-]
-mhan = await denz.prepareMessage(from, ofrply, image, {thumbnail: ofrply})
-let sendBtnVeryy = {
-imageMessage: mhan.message.imageMessage,
-contentText:`${jancok}`,
-footerText:'Thanks for registered.', 
-buttons: gbutsan,
-headerType: 4
-}
-denz.sendMessage(from, sendBtnVeryy, MessageType.buttonsMessage, {quoted:ftrol, contextInfo: { mentionedJid: [sender]}})
+sendButLocation(from, `${jancok}`, "Masih Beta Hehe", {jpegThumbnail:ofrply,name:""}, [{buttonId:`menu`,buttonText:{displayText:'MENU'},type:1},{buttonId:`rules`,buttonText:{displayText:'RULES'},type:1}], {quoted: mek, contextInfo: { mentionedJid: [sender]}})
+break
 	         console.log(color('[REGISTER]'), color(time, 'yellow'), 'Serial:', color(serialUser, 'cyan'), 'in', color(sender || groupName))
 	    // console.log(e)
 break
@@ -6650,14 +5783,8 @@ if(!c) return reply('masukan kota?')
                   case 'hilih':
                   if (isBanned) return reply(mess.banned)                                   
                   if(!c) return reply('teksnya um?')
-                  anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/hilih?kata=${c}&apikey=${BagusKey}`, {method: 'get'})
+                  anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/hilih?kata=${c}&apikey=${apikey}`, {method: 'get'})
                   noreply(anu.result.result)
-                  break
-                  case 'jagokata':
-                  if (isBanned) return reply(mess.banned)                                   
-                  if(!c) return reply('teksnya um?')
-                  anu = await fetchJson(`https://api.dapuhy.ga/api/fun/jagokata?query=${c}&apikey=${Dapuy}`, {method: 'get'})
-                  textreply(anu.result)
                   break
 // Sound by Bagus ID
 case 'sound1': case 'sound2': case 'sound3': case 'sound4': case 'sound5': case 'sound6': case 'sound7': 
@@ -6669,7 +5796,8 @@ if (isBanned) return reply(mess.banned)
 songnya = await getBuffer(`https://apirandom.bagusadi5.repl.co/${command}.m4a`)
 denz.sendMessage(from, songnya, MessageType.audio, {quoted: mek, mimetype: 'audio/mp4', ptt:true})
 break
-// apikey: bagusgans
+// ------ > image maker < ------
+// phototoxy
 case 'naruto':
 if (!q) return reply('teksnya mana?')
 reply(mess.wait)
@@ -6786,7 +5914,7 @@ if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command}
 reply(mess.wait)
 txt1 = args[0]
 txt2 = args[1]
-anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/textmaker?text=${txt1}&text2=${txt2}&theme=glitch&apikey=${BagusKey}`)
+anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/textmaker?text=${txt1}&text2=${txt2}&theme=glitch&apikey=${apikey}`)
 ini_buffer = await getBuffer(anu.result.url)
 denz.sendMessage(from, ini_buffer, image, { quoted: mek})
 break
@@ -6798,7 +5926,7 @@ if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command}
 reply(mess.wait)
 txt1 = args[0]
 txt2 = args[1]
-anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/textmaker/game?text=${txt1}&text2=${txt2}&theme=pubg&apikey=${BagusKey}`)
+anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/textmaker/game?text=${txt1}&text2=${txt2}&theme=pubg&apikey=${apikey}`)
 ini_buffer = await getBuffer(anu.result.url)
 denz.sendMessage(from, ini_buffer, image, { quoted: mek})
 break
@@ -6810,7 +5938,7 @@ if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command}
 reply(mess.wait)
 txt1 = args[0]
 txt2 = args[1]
-anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/textmaker/game?text=${txt1}&text2=${txt2}&theme=battlefield&apikey=${BagusKey}`)
+anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/textmaker/game?text=${txt1}&text2=${txt2}&theme=battlefield&apikey=${apikey}`)
 ini_buffer = await getBuffer(anu.result.url)
 denz.sendMessage(from, ini_buffer, image, { quoted: mek})
 break
@@ -6826,11 +5954,196 @@ anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/textmaker?text=${n
 ini_buffer = await getBuffer(anu.result.url)
 denz.sendMessage(from, ini_buffer, image, { quoted: mek})
 break
+case 'neon': case 'glow': case 'summer': case 'golden':
+if (!c) return reply(`Example : ${command} teks`)
+reply(mess.wait)
+anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/textmaker/metallic?text=${c}&theme=${command}&apikey=${apikey}`)
+hasil = await getBuffer(anu.result.url)
+denz.sendMessage(from, hasil, image, { quoted: mek})
+break
+case 'woodenboarch':
+if (!c) return reply(`Example : ${command} teks`)
+reply(mess.wait)
+anu = await fetchJson(`https://bagusbot-api.herokuapp.com/api/textmaker/roses?text=${c}&theme=wooden-boarch&apikey=${apikey}`)
+hasil = await getBuffer(anu.result.url)
+denz.sendMessage(from, hasil, image, { quoted: mek})
+break
+// ------ > Text Pro Me < ------
+case 'naturalleaves':
+if (!c) return reply(`Example : ${command} teks`)
+reply(mess.wait)
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/natural-leaves?apikey=${apikey}&text=${c}`)
+hasil = await getBuffer(anu.result)
+denz.sendMessage(from, hasil, image, { quoted: mek})
+break
+case 'blackpink':
+if (!c) return reply(`Example : ${command} teks`)
+reply(mess.wait)
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/black-pink?apikey=${apikey}&text=${c}`)
+hasil = await getBuffer(anu.result)
+denz.sendMessage(from, hasil, image, { quoted: mek})
+break
+case 'dropwater':
+if (!c) return reply(`Example : ${command} teks`)
+reply(mess.wait)
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/drop-water?apikey=${apikey}&text=${c}`)
+hasil = await getBuffer(anu.result)
+denz.sendMessage(from, hasil, image, { quoted: mek})
+break
+case 'wolflogo':
+if (isBanned) return reply(mess.banned)                              
+txt1 = q.split("|")[0];
+txt2 = q.split("|")[1];
+if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
+reply(mess.wait)
+txt1 = args[0]
+txt2 = args[1]
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/logo-wolf?apikey=${apikey}&text=${txt1}&text2=${txt2}`)
+ini_buffer = await getBuffer(anu.result)
+denz.sendMessage(from, ini_buffer, image, { quoted: mek})
+break
+case 'wolflogo2':
+if (isBanned) return reply(mess.banned)                              
+txt1 = q.split("|")[0];
+txt2 = q.split("|")[1];
+if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
+reply(mess.wait)
+txt1 = args[0]
+txt2 = args[1]
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/logo-wolf2?apikey=${apikey}&text=${txt1}&text2=${txt2}`)
+ini_buffer = await getBuffer(anu.result)
+denz.sendMessage(from, ini_buffer, image, { quoted: mek})
+break
+case 'firework':
+if (isBanned) return reply(mess.banned)                              
+txt1 = q.split("|")[0];
+txt2 = q.split("|")[1];
+if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
+reply(mess.wait)
+txt1 = args[0]
+txt2 = args[1]
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/firework?apikey=${apikey}&text=${txt1}&text2=${txt2}`)
+ini_buffer = await getBuffer(anu.result)
+denz.sendMessage(from, ini_buffer, image, { quoted: mek})
+break
+case 'matrix':
+if (!c) return reply(`Example : ${command} teks`)
+reply(mess.wait)
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/matrix?apikey=${apikey}&text=${c}`)
+hasil = await getBuffer(anu.result)
+denz.sendMessage(from, hasil, image, { quoted: mek})
+break
+case 'christmas':
+if (!c) return reply(`Example : ${command} teks`)
+reply(mess.wait)
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/christmas?apikey=${apikey}&text=${c}`)
+hasil = await getBuffer(anu.result)
+denz.sendMessage(from, hasil, image, { quoted: mek})
+break
+case '3dgradient':
+if (!c) return reply(`Example : ${command} teks`)
+reply(mess.wait)
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/3d-gradient?apikey=${apikey}&text=${c}`)
+hasil = await getBuffer(anu.result)
+denz.sendMessage(from, hasil, image, { quoted: mek})
+break
+case 'pornhub':
+if (isBanned) return reply(mess.banned)                              
+txt1 = q.split("|")[0];
+txt2 = q.split("|")[1];
+if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
+reply(mess.wait)
+txt1 = args[0]
+txt2 = args[1]
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/porn-hub?apikey=${apikey}&text1=${txt1}&text2=${txt2}`)
+ini_buffer = await getBuffer(anu.result)
+denz.sendMessage(from, ini_buffer, image, { quoted: mek})
+break
+case 'marvellogo':
+if (isBanned) return reply(mess.banned)                              
+txt1 = q.split("|")[0];
+txt2 = q.split("|")[1];
+if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
+reply(mess.wait)
+txt1 = args[0]
+txt2 = args[1]
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/marvellogo?apikey=${apikey}&text1=${txt1}&text2=${txt2}`)
+ini_buffer = await getBuffer(anu.result)
+denz.sendMessage(from, ini_buffer, image, { quoted: mek})
+break
+case 'avengerslogo':
+if (isBanned) return reply(mess.banned)                              
+txt1 = q.split("|")[0];
+txt2 = q.split("|")[1];
+if (args.length == 0) return reply(`Masukkan Text!\nExample: ${prefix + command} teks1 teks2`)
+reply(mess.wait)
+txt1 = args[0]
+txt2 = args[1]
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/avengerslogo?apikey=${apikey}&text1=${txt1}&text2=${txt2}`)
+ini_buffer = await getBuffer(anu.result)
+denz.sendMessage(from, ini_buffer, image, { quoted: mek})
+break
+case 'greentext':
+if (!c) return reply(`Example : ${command} teks`)
+reply(mess.wait)
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/greenhorror?apikey=${apikey}&text=${c}`)
+hasil = await getBuffer(anu.result)
+denz.sendMessage(from, hasil, image, { quoted: mek})
+break
+case 'fiction':
+if (!c) return reply(`Example : ${command} teks`)
+reply(mess.wait)
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/fiction?apikey=${apikey}&text=${c}`)
+hasil = await getBuffer(anu.result)
+denz.sendMessage(from, hasil, image, { quoted: mek})
+break
+case 'sketchtext':
+if (!c) return reply(`Example : ${command} teks`)
+reply(mess.wait)
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/sketchtext?apikey=${apikey}&text=${c}`)
+hasil = await getBuffer(anu.result)
+denz.sendMessage(from, hasil, image, { quoted: mek})
+break
+case 'thunder':
+if (!c) return reply(`Example : ${command} teks`)
+reply(mess.wait)
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/thunder?apikey=${apikey}&text=${c}`)
+hasil = await getBuffer(anu.result)
+denz.sendMessage(from, hasil, image, { quoted: mek})
+break
+case 'jokerlogo':
+if (!c) return reply(`Example : ${command} teks`)
+reply(mess.wait)
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/joker-logo?apikey=${apikey}&text=${c}`)
+hasil = await getBuffer(anu.result)
+denz.sendMessage(from, hasil, image, { quoted: mek})
+break
+case 'transformer':
+if (!c) return reply(`Example : ${command} teks`)
+reply(mess.wait)
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/transformer?apikey=${apikey}&text=${c}`)
+hasil = await getBuffer(anu.result)
+denz.sendMessage(from, hasil, image, { quoted: mek})
+break
+case 'blood': case 'blood2':
+if (!c) return reply(`Example : ${command} teks`)
+reply(mess.wait)
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/${command}?apikey=${apikey}&text=${c}`)
+hasil = await getBuffer(anu.result)
+denz.sendMessage(from, hasil, image, { quoted: mek})
+break
+case 'sandwrite':
+if (!c) return reply(`Example : ${command} teks`)
+reply(mess.wait)
+anu = await fetchJson(`https://api-bagus.herokuapp.com/api/textpro/sandwrite?apikey=${apikey}&text=${c}`)
+hasil = await getBuffer(anu.result)
+denz.sendMessage(from, hasil, image, { quoted: mek})
+break
 //Kasih Wm Gw Kalo Nyolong
 case 'suratto': 
-if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 if (isBanned) return reply(mess.banned)
 if (args.length < 1) return reply(`Example : ${prefix}suratto No tujuan|Isi surat`)
+if (isLimit(sender, isPremium, isOwner, limitawal, limit)) return reply(`Limit kamu sudah habis`)
 textp = body.slice(9)
 noorg2 = textp.split("|")[0]
 katakita2 = textp.split("|")[1]
@@ -6851,15 +6164,26 @@ denz.sendMessage(`${noorg2}@s.whatsapp.net`,tekssurat, text, {contextInfo: { men
 reply('Surat Berhasil Terkirim!')
 limitAdd(sender, limit)
 break
-//Limit || Hargai Gw Pantek, Buat Ginian Lu Kira Semenit
+//Iloh
+case 'level':
+if (isBanned) return reply(mess.banned)
+const userLevel = getLevelingLevel(sender)
+const userXp = getLevelingXp(sender)
+bagusgans = `*[ Your Progges ]*
+
+*Level : ${userLevel}*
+*Xp : ${userXp}*
+*Role : ${role}*`
+sendButMessage(from, `${bagusgans}`, "Teruslah bermain bot, agar level mu tinggi!", [{buttonId: 'profile',buttonText: {displayText: 'Profile'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [otod,stod]}})
+break
 case 'limit': case 'glimit': case 'bal': case 'balance': case 'ceklimit': case 'cekglimit': case 'dompet':
 if (isBanned) return reply(mess.banned)
-youlimittxt = `*Limit* : ${isPremium ? 'Unlimited' : `${getLimit(sender, limitawal, limit)} / ${limitawal}`}
-*Limit Game* : ${cekGLimit(sender, gcount, glimit)} / ${gcount}
-*Balance* : $${getBalance(sender, balance)}
+bagusgans = `*[ Your Limit ]*
 
-Kamu dapat membeli limit dengan ${prefix}buylimit dan ${prefix}buyglimit untuk membeli game limit`
-textreply(youlimittxt)
+*Limit : ${isPremium ? 'Unlimited' : `${getLimit(sender, limitawal, limit)} / ${limitawal}`}*
+*Limit Game : ${cekGLimit(sender, gcount, glimit)} / ${gcount}*
+*Balance : $${getBalance(sender, balance)}*`
+sendButMessage(from, `${bagusgans}`, "Kamu dapat membeli limit dengan !buylimit dan !buyglimit untuk membeli game limit", [{buttonId: 'profile',buttonText: {displayText: 'Profile'}, type: 1}], {quoted: mek, contextInfo: { mentionedJid: [otod,stod]}})
 break
 case 'buylimit': case 'belilimit':
 if (isBanned) return reply(mess.banned)
@@ -6983,6 +6307,183 @@ bl = (i.glimit)
 txot += `*ID :* @${i.id.split("@")[0]}\n➸ Glimit : ${bl}\n\n`
 mentions(txot, mebn, true)
 }
+break
+//____ Tools
+case 'ebase64':
+                if (!q) return reply(`Format salah!\n\nKirim perintah: ${prefix}ebase64 *text*\nContoh: ${prefix}ebase64 helloworld`)
+                if (q.length > 2048) return reply('Maximal 2.048 String!')
+                reply(Buffer.from(q).toString('base64'))
+                break
+            case 'debase64':
+                if (!q) return reply(`Format salah!\n\nKirim perintah: ${prefix}debase64 *encrypt base64*\nContoh: ${prefix}debase64 aGVsbG93b3JsZA==`)
+                if (q.length > 2048) return reply('Maximal 2.048 String!')
+                reply(Buffer.from(q, 'base64').toString('ascii'))
+                break
+            case 'ehex':
+                if (!q) return reply(`Format salah!\n\nKirim perintah: ${prefix}ehex *text*\nContoh: ${prefix}ehex Hello world`)
+                if (q.length > 2048) return reply('Maximal 2.048 String!')
+                var convertHex = require('amrhextotext')
+                reply(convertHex.textToHex(q))
+                break
+            case 'dehex':
+                if (!q) return reply(`Format salah!\n\nKirim perintah: ${prefix}dehex *encrypt hex*\nContoh: ${prefix}dehex 68656c6c6f20776f726c64`)
+                if (q.length > 2048) return reply('Maximal 2.048 String!')
+                var convertHex = require('amrhextotext')
+                reply(convertHex.hexToUtf8(q))
+                break
+            case 'ebinary':
+                if (!q) return reply(`Format salah!\n\nKirim perintah: ${prefix}ebinary *text*\nContoh: ${prefix}ebinary hello world`)
+                if (q.length > 2048) return reply('Maximal 2.048 String!')
+                    function encodeBinary(char) {
+                        return char.split("").map(str => {
+                            const converted = str.charCodeAt(0).toString(2);
+                            return converted.padStart(8, "0");
+                        }).join(" ")
+                    }
+                reply(encodeBinary(q))
+                break
+            case 'debinary':
+                if (!q) return reply(`Format salah!\n\nKirim perintah: ${prefix}debinary *text*\nContoh: ${prefix}debinary 01110100 01100101 01110011`)
+                if (q.length > 2048) return reply('Maximal 2.048 String!')
+                    function decodebinary(char) {
+                        return char.split(" ").map(str => String.fromCharCode(Number.parseInt(str, 2))).join("");
+                    }
+                reply(decodebinary(q))
+                break
+//------ > Games < ------
+                case 'tebakgambar':
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isTebakGambar(from, tebakgambar)) return reply(`Masih ada soal yang belum di selesaikan`)
+                anu = await axios.get(`https://api-bagus.herokuapp.com/api/kuis/tebakgambar?apikey=${apikey}`)
+                gambarsoal = await getBuffer(anu.data.image)
+                bp = await denz.sendMessage(from, gambarsoal, image, {caption:`Silahkan jawab soal berikut ini\n\nPetunjuk : ${anu.data.clue}\nWaktu : ${gamewaktu} detik`, quoted:mek})
+                console.log(anu.data.jawaban)
+                let anih = anu.data.jawaban.toLowerCase()
+                addgambar(from, anih, gamewaktu, tebakgambar)
+                gameAdd(sender, glimit)
+                break
+                case 'susunkata':
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isSusunKata(from, susunkata)) return reply(`Masih ada soal yang belum di selesaikan`)
+                anu = await axios.get(`https://api-bagus.herokuapp.com/api/kuis/susunkata?apikey=${apikey}`)
+                petunjuk = anu.data.result.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
+                bp = await denz.sendMessage(from, `${anu.data.result.soal}\nTipe : ${anu.data.result.tipe}\n\n*Petunjuk* : ${petunjuk}`, text, {quoted:mek})
+                console.log(anu.data.result.jawaban)
+                bybagus = anu.data.result.jawaban.toLowerCase()
+                addskata(from, bybagus, gamewaktu, susunkata)
+                gameAdd(sender, glimit)
+                break
+                case 'asahotak':
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isAsahOtak(from, asahotak)) return reply(`Masih ada soal yang belum di selesaikan`)
+                anu = await axios.get(`https://api-bagus.herokuapp.com/api/kuis/asahotak?apikey=${apikey}`)
+                petunjuk = anu.data.result.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
+                bp = await denz.sendMessage(from, `${anu.data.result.soal}\n\n*Petunjuk*: ${petunjuk}`, text, {quoted:mek})
+                console.log(anu.data.result.jawaban)
+                bybagus = anu.data.result.jawaban.toLowerCase()
+                addasahotak(from, bybagus, gamewaktu, asahotak)
+                gameAdd(sender, glimit)
+                break
+                case 'caklontong':
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isCakLontong(from, caklontong)) return reply(`Masih ada soal yang belum di selesaikan`)
+                anu = await axios.get(`https://api-bagus.herokuapp.com/api/kuis/caklontong?apikey=${apikey}`)
+                petunjuk = anu.data.result.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
+                bp = await denz.sendMessage(from, `${anu.data.result.soal}\n\n*Petunjuk*: ${petunjuk}`, text, {quoted:mek})
+                console.log(anu.data.result.jawaban)
+                bybagus = anu.data.result.jawaban.toLowerCase()
+                desknya = anu.data.result.deskripsi.toLowerCase()
+                addclontong(from, bybagus, desknya, gamewaktu, caklontong)
+                gameAdd(sender, glimit)
+                break
+                case 'tebakkalimat': 
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isTebakKalimat(from, tebakkalimat)) return reply(`Masih ada soal yang belum di selesaikan`)
+                anu = await axios.get(`https://api-bagus.herokuapp.com/api/kuis/tebakkalimat?apikey=${apikey}`)
+                petunjuk = anu.data.result.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
+                bp = await denz.sendMessage(from, `${anu.data.result.soal}\n\n*Petunjuk* : ${petunjuk}`, text, {quoted:mek})
+                console.log(anu.data.result.jawaban)
+                bybagus = anu.data.result.jawaban.toLowerCase()
+                addtkalimat(from, bybagus, gamewaktu, tebakkalimat)
+                gameAdd(sender, glimit)
+                break
+                case 'siapakahaku':  case 'siapaaku':
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isSiapaAku(from, siapakahaku)) return reply(`Masih ada soal yang belum di selesaikan`)
+                anu = await axios.get(`https://api-bagus.herokuapp.com/api/kuis/siapakahaku?apikey=${apikey}`)
+                petunjuk = anu.data.result.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
+                bp = await denz.sendMessage(from, `${anu.data.result.soal}\n\n*Petunjuk* : ${petunjuk}`, text, {quoted:mek})
+                console.log(anu.data.result.jawaban)
+                bybagus = anu.data.result.jawaban.toLowerCase()
+                addsaku(from, bybagus, gamewaktu, siapakahaku)
+                gameAdd(sender, glimit)
+                break
+                case 'tebakkata': 
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isTebakKata(from, tebakkata)) return reply(`Masih ada soal yang belum di selesaikan`)
+                anu = await axios.get(`https://api-bagus.herokuapp.com/api/kuis/tebakkata?apikey=${apikey}`)
+                petunjuk = anu.data.result.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
+                bp = await denz.sendMessage(from, `${anu.data.result.soal}\n\n*Petunjuk* : ${petunjuk}`, text, {quoted:mek})
+                console.log(anu.data.result.jawaban)
+                bybagus = anu.data.result.jawaban.toLowerCase()
+                addtebakkata(from, bybagus, gamewaktu, tebakkata)
+                gameAdd(sender, glimit)
+                break
+                case 'tebaklirik':
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isTebakLirik(from, tebaklirik)) return reply(`Masih ada soal yang belum di selesaikan`)
+                anu = await axios.get(`https://api-bagus.herokuapp.com/api/kuis/tebaklirik?apikey=${apikey}`)
+                petunjuk = anu.data.result.result.answer.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
+                bp = await denz.sendMessage(from, `${anu.data.result.result.question}\n\n*Petunjuk* : ${petunjuk}`, text, {quoted:mek})
+                console.log(anu.data.result.result.answer)
+                bybagus = anu.data.result.result.answer.toLowerCase()
+                addtebaklirik(from, bybagus, gamewaktu, tebaklirik)
+                gameAdd(sender, glimit)
+                break
+                case 'tebakjenaka':
+                if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isTebakJenaka(from, tebakjenaka)) return reply(`Masih ada soal yang belum di selesaikan`)
+                anu = await axios.get(`https://api-bagus.herokuapp.com/api/kuis/tebakjenaka?apikey=${apikey}`)
+                petunjuk = anu.data.result.result.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
+                bp = await denz.sendMessage(from, `${anu.data.result.result.pertanyaan}\n\n*Petunjuk* : ${petunjuk}`, text, {quoted:mek})
+                console.log(anu.data.result.result.jawaban)
+                bybagus = anu.data.result.result.jawaban.toLowerCase()
+                addtjenaka(from, bybagus, gamewaktu, tebakjenaka)
+                gameAdd(sender, glimit)
+                break
+                //Family100
+                case 'family100':
+               if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+                if (isfam(from, family100)) return reply(`Masih ada soal yang belum di selesaikan`)
+                anu = await axios.get(`https://api-bagus.herokuapp.com/api/kuis/family100?apikey=${apikey}`)
+                bp = await denz.sendMessage(from, `*JAWABLAH SOAL BERIKUT*\n\n*Soal :* ${anu.data.result.soal}\n\nWaktu : ${gamewaktu}s`, text, {quoted:mek})
+                console.log(anu.data.result.jawaban)
+                let anoh = anu.data.result.jawaban
+                addfam(from, anoh, gamewaktu, family100)
+                gameAdd(sender, glimit)
+                break
+//Image Effect
+case 'gay':
+if (isBanned) return reply(mess.banned)                                   
+reply(mess.wait)
+var imgbb = require('imgbb-uploader')
+if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
+ted = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo: mek
+owgi = await denz.downloadAndSaveMediaMessage(ted)
+dpaa = await imgbb('3b8594f4cb11895f4084291bc655e510', owgi)
+uhyy = await getBuffer(`https://some-random-api.ml/canvas/gay?avatar=${dpaa.display_url}`)
+denz.sendMessage(from, uhyy, image, {quoted: mek, caption: 'Anda Gay'})
+} else {
+reply('Reply Gambarnya!!')
+}
+break
+//
+case 'resetuser':
+if (!isOwner && !mek.key.fromMe) return reply(mess.only.owner)
+denz.updatePresence(from, Presence.avaible) 
+fs.writeFileSync('./database/user.json', ('[]'))
+reply('Seluruh pengguna berhasil di reset✓')  
+exec(`pm2 restart`)
 break
 		default:break
 //ANTI SPAM

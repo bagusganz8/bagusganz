@@ -242,12 +242,12 @@ console.log(color('|TRM|'), color(`Demote Admin ${num.split('@')[0]} In ${mdata.
 		const metdata = await denz.groupMetadata(anu.jid)
     	const fkontakk = { key: { fromMe: false, participant: `0@s.whatsapp.net`, ...(anu.jid ? { remoteJid: '0@s.whatsapp.net' } : {})}, message: { "contactMessage":{"displayName": ``,"vcard":`BEGIN:VCARD\nVERSION:3.0\nN:2;denz;;;\nFN:denz\nitem1.TEL;waid=6282252509320:6282252509320\nitem1.X-ABLabel:Mobile\nEND:VCARD` }}}
     if(anu.announce == 'false'){
-    teks = `- [ Group Opened ] -\n\nGroup telah dibuka oleh admin\nSekarang semua member bisa mengirim pesan`
+    teks = `- [ Group Opened ] -\n\n_Group telah dibuka oleh admin_\n_Sekarang semua member bisa mengirim pesan_`
     denz.sendMessage(metdata.id, teks, MessageType.text)
     console.log(color('|TRM|'), color(`Group Opened In ${metdata.subject}`, 'cyan'))
   } 
   else if(anu.announce == 'true'){
-    teks = `- [ Group Closed ] -\n\nGroup telah ditutup oleh admin\nSekarang hanya admin yang dapat mengirim pesan`
+    teks = `- [ Group Closed ] -\n\n_Group telah ditutup oleh admin_\n_Sekarang hanya admin yang dapat mengirim pesan_`
     denz.sendMessage(metdata.id, teks, MessageType.text)
     console.log(color('|TRM|'), color(`Group Closed In ${metdata.subject}`,  'cyan'))
   }
@@ -258,12 +258,12 @@ console.log(color('|TRM|'), color(`Demote Admin ${num.split('@')[0]} In ${mdata.
     console.log(color('|TRM|'), color(`Group Description Change In ${metdata.subject}`, 'cyan'))
   }
   else if(anu.restrict == 'false'){
-    teks = `- [ Group Setting Change ] -\n\nEdit info Group telah dibuka untuk member\nSekarang semua member dapat mengedit info Group Ini`
+    teks = `- [ Group Setting Change ] -\n\n_Edit info Group telah dibuka untuk member_\n_Sekarang semua member dapat mengedit info Group Ini_`
     denz.sendMessage(metdata.id, teks, MessageType.text)
     console.log(color('|TRM|'), color(`Group Setting Change In ${metdata.subject}`, 'cyan'))
   }
   else if(anu.restrict == 'true'){
-    teks = `- [ Group Setting Change ] -\n\nEdit info Group telah ditutup untuk member\nSekarang hanya admin group yang dapat mengedit info Group Ini`
+    teks = `- [ Group Setting Change ] -\n\n_Edit info Group telah ditutup untuk member_\n_Sekarang hanya admin group yang dapat mengedit info Group Ini_`
     denz.sendMessage(metdata.id, teks, MessageType.text)
     console.log(color('|TRM|'), color(`Group Setting Change In ${metdata.subject}`,  'cyan'))
   }
