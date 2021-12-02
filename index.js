@@ -75,38 +75,7 @@ exec(`cd /sdcard/download && play *mp3`)
 			ppimg = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
 			}
 			const ofrply = await getBuffer(ppimg)
-			const finvwel = {
-	"key": {
-		"fromMe": false,
-		"participant": "0@s.whatsapp.net",
-		"remoteJid": "0@s.whatsapp.net"
-	},
-	"message": {
-		"groupInviteMessage": {
-			"groupJid": "6288213840883-1616169743@g.us",
-			"inviteCode": `Bagus`,
-			"groupName": `Bot`, 
-            "caption": `Welcome`, 
-            'jpegThumbnail': ofrply
-		}
-	}
-}
-const finvlev = {
-	"key": {
-		"fromMe": false,
-		"participant": "0@s.whatsapp.net",
-		"remoteJid": "0@s.whatsapp.net"
-	},
-	"message": {
-		"groupInviteMessage": {
-			"groupJid": "6288213840883-1616169743@g.us",
-			"inviteCode": `Bagus`,
-			"groupName": `Bot`, 
-            "caption": `Leaving`, 
-            'jpegThumbnail': ofrply
-		}
-	}
-}
+
 const sendButLocation = async (id, text1, desc1, gam1, but = [], options = {}) => {
 kma = gam1
 mhan = await denz.prepareMessage(from, kma, location)
@@ -154,6 +123,23 @@ try {
 			console.log(anu)
 			if (anu.action == 'add') {
 			fkontakk = { key: { fromMe: false, participant: `0@s.whatsapp.net`, ...(anu.jid ? { remoteJid: '6283136505591-1604595598@g.us' } : {})}, message: { "contactMessage":{"displayName": `${mdata.subject}`,"vcard":`BEGIN:VCARD\nVERSION:3.0\nN:2;denz;;;\nFN:denz\nitem1.TEL;waid=6282252509320:6282252509320\nitem1.X-ABLabel:Mobile\nEND:VCARD` }}}
+			//Fakebya
+			const finvwel = {
+	"key": {
+		"fromMe": false,
+		"participant": "0@s.whatsapp.net",
+		"remoteJid": "0@s.whatsapp.net"
+	},
+	"message": {
+		"groupInviteMessage": {
+			"groupJid": "6288213840883-1616169743@g.us",
+			"inviteCode": `Bagus`,
+			"groupName": `Bot`, 
+            "caption": `${num.split('@')[0]} Join`, 
+            'jpegThumbnail': ofrply
+		}
+	}
+}
 		    num = anu.participants[0]
 			try {
         ppimg = await denz.getProfilePicture(mem);
@@ -166,14 +152,14 @@ try {
                 } catch {
                 pp_grup = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60'
             }
-			teks = `*Halo* @${num.split('@')[0]}\nSelamat datang di group *${mdata.subject}*
-			
-Nama:
-Umur:
-Gender:
-Askot:
+			teks = `\`\`\`Welcome @${num.split('@')[0]}\`\`\`
 
-Pahami rules grup ya kak!`
+\`\`\`Nama :\`\`\`
+\`\`\`Umur :\`\`\`
+\`\`\`Gender :\`\`\`
+\`\`\`Askot :\`\`\`
+
+\`\`\`Paham rules grup ya kak!\`\`\``
 			let buff = await getBuffer(`http://hadi-api.herokuapp.com/api/card/welcome?nama=${anu_user}&descriminator=${memeg}&memcount=${memeg}&gcname=${encodeURI(mdata.subject)}&pp=${ppimg}&bg=https://i.postimg.cc/rFkw8MpX/IMG-20210807-151325.jpg`)
 			const welbutton = await denz.prepareMessage(mdata.id, buff, MessageType.image, ) // change for file type
 const buttonssss = [
@@ -182,7 +168,7 @@ const buttonssss = [
 const buttonWel = {
     contentText: teks,
     buttons: buttonssss,
-    footerText: 'Semoga Betah ~',
+    footerText: `Welcome In - ${mdata.subject}`,
     headerType: 4, // change for file type
     imageMessage: welbutton.message.imageMessage // change for file type
 }
@@ -193,6 +179,23 @@ denz.sendMessage(mdata.id, buttonWel, MessageType.buttonsMessage, {contextInfo: 
 			mdata = await denz.groupMetadata(anu.jid)
                 memeg = mdata.participants.length
             	num = anu.participants[0]
+            //Fakenya
+            const finvlev = {
+	"key": {
+		"fromMe": false,
+		"participant": "0@s.whatsapp.net",
+		"remoteJid": "0@s.whatsapp.net"
+	},
+	"message": {
+		"groupInviteMessage": {
+			"groupJid": "6288213840883-1616169743@g.us",
+			"inviteCode": `Bagus`,
+			"groupName": `Bot`, 
+            "caption": `${num.split('@')[0]} Out`, 
+            'jpegThumbnail': ofrply
+		}
+	}
+}
                 let w = denz.contacts[num] || { notify: num.replace(/@.+/, '') }
                 anu_user = w.vname || w.notify || num.split('@')[0]
 			try {
@@ -207,7 +210,8 @@ denz.sendMessage(mdata.id, buttonWel, MessageType.buttonsMessage, {contextInfo: 
                 pp_grup = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60'
             }
 			let buff = await getBuffer(`http://hadi-api.herokuapp.com/api/card/goodbye?nama=${anu_user}&descriminator=${memeg}&memcount=${memeg}&gcname=${encodeURI(mdata.subject)}&pp=${ppimg}&bg=https://i.postimg.cc/rFkw8MpX/IMG-20210807-151325.jpg`)
-			out =`*Selamat tinggal* @${num.split('@')[0]}\nSemoga tenang di alam sana!`
+			out =`\`\`\`Sayonara @${num.split('@')[0]}\`\`\`
+\`\`\`Semoga tenang di alam sana!\`\`\``
             const lefbutton = await denz.prepareMessage(mdata.id, buff, MessageType.image, ) // change for file type
 const buttonsss = [
   {buttonId: 'leavegc', buttonText: {displayText: 'Byee'}, type: 1}
@@ -215,7 +219,7 @@ const buttonsss = [
 const buttonLef = {
     contentText: out,
     buttons: buttonsss,
-    footerText: 'Gosah Balik Lu Ajg !',
+    footerText: `Leaving From - ${mdata.subject}`,
     headerType: 4, // change for file type
     imageMessage: lefbutton.message.imageMessage // change for file type
 }
